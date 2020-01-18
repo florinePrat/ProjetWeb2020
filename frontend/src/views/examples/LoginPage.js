@@ -62,7 +62,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
         API.signup(this.state.email, this.state.firstName, this.state.password).then(res => {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
-          window.location = "/"
+          window.location = "/ProfilePage"
         }, error => {
           console.log(error);
           this.setState({error:'erreur inconnu'});
@@ -82,7 +82,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           console.log(login.data.token);
           localStorage.setItem('token', login.data.token);
           localStorage.setItem('firstName', login.data.firstName);
-          window.location = "/";
+          window.location = "./profile-page";
 
         } else {
           if (login.response) {
@@ -95,8 +95,6 @@ import {FormGroup, FormControl}  from "react-bootstrap";
       }
     };
     handleChange = event => {
-      console.log("coucou : " ,event.target.id);
-      console.log("coucou : " ,event.target.value);
       this.setState({
         [event.target.id]: event.target.value
       });

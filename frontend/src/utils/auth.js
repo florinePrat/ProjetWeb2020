@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {basicHeaders} from './headers';
 
-const burl = "http://localhost:3000";
+const burl = "http://localhost:3000/api/auth";
 // this is the request for authentification
 export default {
     login : async (email,password) => {

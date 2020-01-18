@@ -4,8 +4,11 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
+    console.log("je suis rentrée dans signup");
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
+            console.log(req.body.email,"mail");
+            console.log(req.body.firstName,"name");
             const user = new User({
                 email: req.body.email,
                 firstName: req.body.firstName,
@@ -36,7 +39,8 @@ exports.login = (req, res, next) => {
                             'RANDOM_TOKEN_SECRET',
                             {expiresIn: '24h'}
                         )
-                    });
+
+                    });console.log("utilisateur connceté ! ")
                 })
                 .catch(error => res.status(500).json({ error }))
         })
