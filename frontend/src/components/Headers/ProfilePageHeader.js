@@ -1,9 +1,8 @@
 import React from "react";
-import axios from 'axios';
-import {tokenHeaders} from '../../utils/headers';
 // reactstrap components
 import { Container } from "reactstrap";
-const burl = "http://localhost:3000/api/user";
+import {Nav} from "react-bootstrap";
+import auth from "../../utils/auth";
 
 // core components
 let pageHeader= React.createRef();
@@ -14,25 +13,19 @@ class ProfilePageHeader extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      firstName: ""
-    }
+      isAuth : auth.isAuth(),
+      firstName:localStorage.getItem("firstName"),
+    };
+    console.log("test",localStorage);
+    this.logout.bind(this);
   }
 
 
-  componentDidMount() {
-
-    axios.get(burl + '/api/user/getUserTasks',{
-      headers: tokenHeaders
-    } )
-        .then(res => {
-          const name = res.data.firstName;
-          console.log(name);
-          this.setState({ name });
-
-        }, function(data){
-          console.log(data);
-        })
-  }
+  logout = event => {
+    console.log("logout called");
+    auth.logout();
+    window.location= '/login-page';
+  };
 
   render(){
   return (
@@ -65,6 +58,9 @@ class ProfilePageHeader extends React.Component{
             <div className="social-description">
               <h2>48</h2>
               <p>Bookmarks</p>
+            </div>
+            <div className="social-description">
+              <Nav.Link onClick={this.logout} >Logout</Nav.Link>
             </div>
           </div>
         </Container>
