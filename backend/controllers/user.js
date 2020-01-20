@@ -7,15 +7,20 @@ exports.signup = (req, res, next) => {
     console.log("je suis rentrée dans signup");
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            console.log(req.body.email,"mail");
-            console.log(req.body.firstName,"name");
             const user = new User({
                 email: req.body.email,
                 firstName: req.body.firstName,
                 password: hash
             });
             user.save()
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                .then(() => res.status(201).json({
+                    firstName: user.firstName,
+                    token: jwt.sign(
+                        {userId: user._id},
+                        'RANDOM_TOKEN_SECRET',
+                        {expiresIn: '24h'}
+                    ),
+                    message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
@@ -34,6 +39,7 @@ exports.login = (req, res, next) => {
                     }
                     res.status(200).json({
                         userId: user._id,
+                        firstName: user.firstName,
                         token: jwt.sign(
                             {userId: user._id},
                             'RANDOM_TOKEN_SECRET',
@@ -47,17 +53,4 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.getUserTasks = (req, res, next) => {
-    User.findOne({ email: req.body.email})
-        .then(user => {
-            if (!user){
-                return res.status(401).json({ message: 'Utilisateur non trouvé !' })
-            }
-                    res.status(200).json({
-                        userId: user._id,
-                        firstName: user.firstName,
-                    });console.log("Informations récupérés ! ")
-                })
-                .catch(error => res.status(500).json({ error }))
-        .catch(error => res.status(500).json({ error }));
-};
+

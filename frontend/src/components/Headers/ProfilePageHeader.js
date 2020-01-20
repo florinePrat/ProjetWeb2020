@@ -43,7 +43,7 @@ class ProfilePageHeader extends React.Component{
         />
         <Container>
           <div className="photo-container">
-            <img alt="..." src={require("assets/img/ryan.jpg")}/>
+            <img alt="..." src={require("assets/img/user.png")}/>
           </div>
           <h3 className="title">{this.state.firstName}</h3>
           <div className="content">

@@ -56,8 +56,10 @@ import {FormGroup, FormControl}  from "react-bootstrap";
         this.setState({error: "mot de passe vide"});
       } else {
         API.signup(this.state.email, this.state.firstName, this.state.password).then(res => {
+          console.log(res.data.firstName);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
+          console.log("signup",localStorage);
           window.location = "/profile-page"
         }, error => {
           console.log(error);
@@ -76,8 +78,10 @@ import {FormGroup, FormControl}  from "react-bootstrap";
         const login = await API.login(this.state.email, this.state.password);
         if (login.status === 200) {
           console.log(login.data.token);
+          console.log(login.data.firstName);
           localStorage.setItem('token', login.data.token);
           localStorage.setItem('firstName', login.data.firstName);
+          console.log("login",localStorage);
           window.location = "./profile-page";
 
         } else {
