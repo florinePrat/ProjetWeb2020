@@ -9,10 +9,6 @@ import {
   CardBody,
   CardFooter,
   Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Col
 } from "reactstrap";
@@ -62,7 +58,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
         API.signup(this.state.email, this.state.firstName, this.state.password).then(res => {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
-          window.location = "/ProfilePage"
+          window.location = "/profile-page"
         }, error => {
           console.log(error);
           this.setState({error:'erreur inconnu'});

@@ -57,12 +57,7 @@ class Register extends React.Component {
       return;
     }
 
-    const user = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      captcha: this.state.captcha
-    };
+
   };
 
 

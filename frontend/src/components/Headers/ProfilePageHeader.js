@@ -1,26 +1,40 @@
 import React from "react";
-
+import axios from 'axios';
+import {tokenHeaders} from '../../utils/headers';
 // reactstrap components
 import { Container } from "reactstrap";
+const burl = "http://localhost:3000/api/user";
 
 // core components
+let pageHeader= React.createRef();
+class ProfilePageHeader extends React.Component{
 
-function ProfilePageHeader() {
-  let pageHeader = React.createRef();
 
-  React.useEffect(() => {
-    if (window.innerWidth > 991) {
-      const updateScroll = () => {
-        let windowScrollTop = window.pageYOffset / 3;
-        pageHeader.current.style.transform =
-          "translate3d(0," + windowScrollTop + "px,0)";
-      };
-      window.addEventListener("scroll", updateScroll);
-      return function cleanup() {
-        window.removeEventListener("scroll", updateScroll);
-      };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: ""
     }
-  });
+  }
+
+
+  componentDidMount() {
+
+    axios.get(burl + '/api/user/getUserTasks',{
+      headers: tokenHeaders
+    } )
+        .then(res => {
+          const name = res.data.firstName;
+          console.log(name);
+          this.setState({ name });
+
+        }, function(data){
+          console.log(data);
+        })
+  }
+
+  render(){
   return (
     <>
       <div
@@ -33,13 +47,12 @@ function ProfilePageHeader() {
             backgroundImage: "url(" + require("assets/img/bg5.jpg") + ")"
           }}
           ref={pageHeader}
-        ></div>
+        />
         <Container>
           <div className="photo-container">
-            <img alt="..." src={require("assets/img/ryan.jpg")}></img>
+            <img alt="..." src={require("assets/img/ryan.jpg")}/>
           </div>
-          <h3 className="title">Ryan Scheinder</h3>
-          <p className="category">Photographer</p>
+          <h3 className="title">{this.state.firstName}</h3>
           <div className="content">
             <div className="social-description">
               <h2>26</h2>
@@ -58,6 +71,7 @@ function ProfilePageHeader() {
       </div>
     </>
   );
+}
 }
 
 export default ProfilePageHeader;
