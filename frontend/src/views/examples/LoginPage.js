@@ -62,8 +62,8 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           console.log("signup",localStorage);
           window.location = "/profile-page"
         }, error => {
-          console.log(error);
-          this.setState({error:'erreur inconnu'});
+          console.log(error.response.data.error);
+          this.setState({error:error.response.data.error});
         })
       }
     };
