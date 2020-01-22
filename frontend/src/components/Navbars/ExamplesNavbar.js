@@ -16,6 +16,8 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 
+
+
 function ExamplesNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
@@ -120,12 +122,12 @@ function ExamplesNavbar() {
             <Nav navbar>
               <NavItem>
                 <NavLink to="/index" tag={Link}>
-                  Back to Kit
+                  Accueil
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/creativetimofficial/now-ui-kit-react/issues?ref=creativetim">
-                  Have an issue?
+                <NavLink href="/profile-page">
+                  Profil
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -135,10 +137,10 @@ function ExamplesNavbar() {
                   id="twitter-tooltip"
                 >
                   <i className="fab fa-twitter"/>
-                  <p className="d-lg-none d-xl-none">Twitter</p>
+                  <p className="d-lg-none d-xl-none">Mes salles</p>
                 </NavLink>
                 <UncontrolledTooltip target="#twitter-tooltip">
-                  Follow us on Twitter
+                  Gérer mes salles
                 </UncontrolledTooltip>
               </NavItem>
               <NavItem>
@@ -148,25 +150,13 @@ function ExamplesNavbar() {
                   id="facebook-tooltip"
                 >
                   <i className="fab fa-facebook-square"/>
-                  <p className="d-lg-none d-xl-none">Facebook</p>
+                  <p className="d-lg-none d-xl-none">Mes reservations</p>
                 </NavLink>
                 <UncontrolledTooltip target="#facebook-tooltip">
-                  Like us on Facebook
+                  Gérer mes reservations
                 </UncontrolledTooltip>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
-                  target="_blank"
-                  id="instagram-tooltip"
-                >
-                  <i className="fab fa-instagram"/>
-                  <p className="d-lg-none d-xl-none">Instagram</p>
-                </NavLink>
-                <UncontrolledTooltip target="#instagram-tooltip">
-                  Follow us on Instagram
-                </UncontrolledTooltip>
-              </NavItem>
+
             </Nav>
           </Collapse>
         </Container>

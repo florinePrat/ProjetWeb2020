@@ -15,26 +15,26 @@ function DefaultFooter() {
             <ul>
               <li>
                 <a
-                  href="https://www.creative-tim.com?ref=nukr-default-footer"
-                  target="_blank"
+                    href="https://www.creative-tim.com?ref=nukr-transparent-footer"
+                    target="_blank"
                 >
-                  Creative Tim
+                  Accueil
                 </a>
               </li>
               <li>
                 <a
-                  href="http://presentation.creative-tim.com?ref=nukr-default-footer"
-                  target="_blank"
+                    href="http://presentation.creative-tim.com?ref=nukr-transparent-footer"
+                    target="_blank"
                 >
-                  About Us
+                  En savoir plus
                 </a>
               </li>
               <li>
                 <a
-                  href="http://blog.creative-tim.com?ref=nukr-default-footer"
-                  target="_blank"
+                    href="http://blog.creative-tim.com?ref=nukr-transparent-footer"
+                    target="_blank"
                 >
-                  Blog
+                  Rechercher une salle
                 </a>
               </li>
             </ul>
@@ -42,17 +42,17 @@ function DefaultFooter() {
           <div className="copyright" id="copyright">
             © {new Date().getFullYear()}, Designed by{" "}
             <a
-              href="https://www.invisionapp.com?ref=nukr-default-footer"
-              target="_blank"
+                href="https://www.invisionapp.com?ref=nukr-transparent-footer"
+                target="_blank"
             >
               Invision
             </a>
             . Coded by{" "}
             <a
-              href="https://www.creative-tim.com?ref=nukr-default-footer"
-              target="_blank"
+                href="https://www.creative-tim.com?ref=nukr-transparent-footer"
+                target="_blank"
             >
-              Creative Tim
+              Locat'me
             </a>
             .
           </div>

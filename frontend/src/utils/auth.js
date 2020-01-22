@@ -5,7 +5,7 @@ const burl = "http://localhost:3000/api/auth";
 // this is the request for authentification
 export default {
     login : async (email,password) => {
-        return axios.post(burl + '/login', {
+        return await axios.post(burl + '/login', {
             'email': email,
             'password': password
         }, {

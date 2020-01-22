@@ -60,7 +60,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
           console.log("signup",localStorage);
-          window.location = "/profile-page"
+          window.location = "./profile-page"
         }, error => {
           console.log(error.response.data.error);
           this.setState({error:error.response.data.error});
@@ -74,23 +74,23 @@ import {FormGroup, FormControl}  from "react-bootstrap";
       } else if (this.state.password.length === 0) {
         this.setState({error: "mot de passe vide"});
       } else {
-
-        const login = await API.login(this.state.email, this.state.password);
-        if (login.status === 200) {
-          console.log(login.data.token);
-          console.log(login.data.firstName);
-          localStorage.setItem('token', login.data.token);
-          localStorage.setItem('firstName', login.data.firstName);
-          console.log("login",localStorage);
+        try {
+          const res = await API.login(this.state.email, this.state.password);
+          console.log("token" , res.data.token);
+          console.log(res.data.firstName);
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('firstName', res.data.firstName);
+          console.log("res",localStorage);
           window.location = "./profile-page";
 
-        } else {
-          if (login.response) {
-            console.log(login.response.data.error);
-            this.setState({error: login.response.data.error});
-          } else {
-            console.log(login);
-          }
+        }
+        catch(res) {
+          console.log('ici :',res);
+          if (res.response) {
+            console.log('erreur: ',res.response);
+            this.setState({error: res.response.data.error});
+        }
+
         }
       }
     };
@@ -121,12 +121,12 @@ import {FormGroup, FormControl}  from "react-bootstrap";
                           <div className="logo-container">
                             <img
                                 alt="..."
-                                src={require("assets/img/now-logo.png")}
+                                src={require("assets/img/eye.png")}
                             />
                           </div>
                         </CardHeader>
                         <CardBody>
-                          <h1> Connexion </h1>
+                          <h2> Connexion </h2>
                           {this.state.error ?
                             <Alert color="danger">
                               {this.state.error}
@@ -213,12 +213,12 @@ import {FormGroup, FormControl}  from "react-bootstrap";
                           <div className="logo-container">
                             <img
                                 alt="..."
-                                src={require("assets/img/now-logo.png")}
+                                src={require("assets/img/eye.png")}
                             />
                           </div>
                         </CardHeader>
                         <CardBody>
-                          <h1> Inscription </h1>
+                          <h2> Inscription </h2>
                           {this.state.error ?
                               <Alert color="danger">
                                 {this.state.error}

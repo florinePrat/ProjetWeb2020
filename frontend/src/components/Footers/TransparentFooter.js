@@ -15,7 +15,7 @@ function TransparentFooter() {
                 href="https://www.creative-tim.com?ref=nukr-transparent-footer"
                 target="_blank"
               >
-                Creative Tim
+                Accueil
               </a>
             </li>
             <li>
@@ -23,7 +23,7 @@ function TransparentFooter() {
                 href="http://presentation.creative-tim.com?ref=nukr-transparent-footer"
                 target="_blank"
               >
-                About Us
+                En savoir plus
               </a>
             </li>
             <li>
@@ -31,7 +31,7 @@ function TransparentFooter() {
                 href="http://blog.creative-tim.com?ref=nukr-transparent-footer"
                 target="_blank"
               >
-                Blog
+                Rechercher une salle
               </a>
             </li>
           </ul>
@@ -49,7 +49,7 @@ function TransparentFooter() {
             href="https://www.creative-tim.com?ref=nukr-transparent-footer"
             target="_blank"
           >
-            Creative Tim
+            Locat'me
           </a>
           .
         </div>

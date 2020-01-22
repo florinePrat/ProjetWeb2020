@@ -48,16 +48,17 @@ class ProfilePageHeader extends React.Component{
           <h3 className="title">{this.state.firstName}</h3>
           <div className="content">
             <div className="social-description">
-              <h2>26</h2>
-              <p>Comments</p>
+              <h2>3</h2>
+              <p>Reservations</p>
             </div>
             <div className="social-description">
-              <h2>26</h2>
-              <p>Comments</p>
+              <h2>2</h2>
+              <p>Commentaires</p>
             </div>
+
             <div className="social-description">
-              <h2>48</h2>
-              <p>Bookmarks</p>
+              <h2>5</h2>
+              <p>Etoiles</p>
             </div>
             <div className="social-description">
               <Nav.Link onClick={this.logout} >Logout</Nav.Link>

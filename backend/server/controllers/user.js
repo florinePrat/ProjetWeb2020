@@ -58,11 +58,10 @@ exports.login = async (req, res, next) => {
         } else {
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
-            //gettinf user by his email
             const user = await userController.getUserByEmail(email);
             //comparing encrypted password of user
             const bcrypt = require('bcryptjs');
-            const match = await  bcrypt.compare(req.body.password,user.password.toString());
+            const match = await  bcrypt.compare(password,user.password.toString());
             if(match){
                 //if password compare is true, we return token
                 const tokenUser = {
@@ -80,6 +79,7 @@ exports.login = async (req, res, next) => {
                 });
             }
             else{
+                console.log('mot de passe incorrect')
                 return  res.status(401).json({
                     error: 'mot de passe incorrect'
                 });
@@ -87,7 +87,7 @@ exports.login = async (req, res, next) => {
         }
     } catch(error) {
         return  res.status(401).json({
-            error: "erreur lors de l'authentication"
+            error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
         });
     }
 };
