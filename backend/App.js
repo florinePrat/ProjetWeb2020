@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/user');
+const userRoutes = require('./server/routes/user');
 const app = express();
 
 mongoose.connect('mongodb+srv://Florine:florine@cluster0-hqmob.mongodb.net/test?retryWrites=true&w=majority',
