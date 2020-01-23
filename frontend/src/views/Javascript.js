@@ -46,7 +46,7 @@ function Javascript() {
                     type="button"
                     onClick={() => setModal1(false)}
                   >
-                    <i className="now-ui-icons ui-1_simple-remove"></i>
+                    <i className="now-ui-icons ui-1_simple-remove"/>
                   </button>
                   <h4 className="title title-up">Modal title</h4>
                 </div>

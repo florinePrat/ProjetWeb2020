@@ -94,11 +94,13 @@ exports.login = async (req, res, next) => {
 
 
 exports.addPicture = async (req, res, next) => {
+    console.log(req.file);
     const userObject = req.file ?
         {
             ...JSON.parse(req.body.user),
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {... req.body};
+
     User.updateOne({_id: req.params.id}, { ...userObject, _id: req.params.id})
         .then(() => res.status(200).json({ message: 'Image ajouté !'}))
         .catch(error => res.status(400).json({ error }));

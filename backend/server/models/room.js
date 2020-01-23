@@ -7,10 +7,9 @@ const roomSchema = mongoose.Schema({
     place:{type:String, required:true},
     category:{type:String, required:true},
     bail:{type:Number, required:true},
-    option:{type:String, required:true},
     imageUrl:{type:String, required:true},
     availability:{type:Array, required:true},
-    review:{type:Array, required:true},
+    review:{type:Array},
     userId:{type:String, required:true},
 });
 
