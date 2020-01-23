@@ -38,7 +38,7 @@ class ProfilePageHeader extends React.Component{
   onSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("imageUrl", this.state.imageUrl)
+    formData.append("imageUrl", this.state.imageUrl);
     axios.put("http://localhost:3000/api/auth/addPicture", formData, {
     }).then(res => {
       console.log(res)

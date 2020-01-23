@@ -5,6 +5,7 @@ const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-
 
 exports.signup = async (req, res, next) => {
     try {
+        console.log(req.body)
         const { email, firstName, password} = req.body;
         if (!email){
             return res.status(400).json({error : "Aucun email saisi"});
@@ -97,7 +98,6 @@ exports.addPicture = async (req, res, next) => {
     console.log(req.file);
     const userObject = req.file ?
         {
-            ...JSON.parse(req.body.user),
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {... req.body};
 
