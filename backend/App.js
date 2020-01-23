@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./server/routes/user');
 const app = express();
+const path = require('path');
 
 mongoose.connect('mongodb+srv://Florine:florine@cluster0-hqmob.mongodb.net/test?retryWrites=true&w=majority',
     { useNewUrlParser: true,
@@ -20,6 +21,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/auth', userRoutes);
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;

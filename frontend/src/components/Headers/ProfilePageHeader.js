@@ -6,8 +6,8 @@ import auth from "../../utils/auth";
 
 // core components
 let pageHeader= React.createRef();
-class ProfilePageHeader extends React.Component{
 
+class ProfilePageHeader extends React.Component{
 
 
   constructor(props) {
@@ -27,6 +27,8 @@ class ProfilePageHeader extends React.Component{
     window.location= '/login-page';
   };
 
+
+
   render(){
   return (
     <>
@@ -43,7 +45,12 @@ class ProfilePageHeader extends React.Component{
         />
         <Container>
           <div className="photo-container">
-            <img alt="..." src={require("assets/img/user.png")}/>
+            <img
+                id="photoInitiale"
+                alt="..."
+                src={require("assets/img/user.png")}
+            />
+
           </div>
           <h3 className="title">{this.state.firstName}</h3>
           <div className="content">

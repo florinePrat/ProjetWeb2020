@@ -25,6 +25,7 @@ const createUser = async (email, firstName, password) => {
     }
 };
 
+
 const getUserByEmail = async(email) => {
     try {
         const user = await User.find({ email : email});
