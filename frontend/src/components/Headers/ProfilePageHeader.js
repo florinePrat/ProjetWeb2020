@@ -1,12 +1,13 @@
 import React from "react";
 import axios from 'axios';
 // reactstrap components
-import { Container } from "reactstrap";
+import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
 
 // core components
 let pageHeader= React.createRef();
+const burl = "http://localhost:3000/images";
 
 class ProfilePageHeader extends React.Component{
 
@@ -16,12 +17,13 @@ class ProfilePageHeader extends React.Component{
     this.state = {
       isAuth : auth.isAuth(),
       firstName:localStorage.getItem("firstName"),
-      imageUrl:'',
+      imageUrl:localStorage.getItem("imageUrl"),
+      avatar:" ",
     };
     console.log("test",localStorage);
     this.logout.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.send = this.send.bind(this);
+    this.handleAvatarChange = this.handleAvatarChange.bind(this);
   }
 
 
@@ -31,25 +33,36 @@ class ProfilePageHeader extends React.Component{
     window.location= '/login-page';
   };
 
-  onFileChange(e) {
-    this.setState({ imageUrl: e.target.files[0] })
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
+  send = event => {
+    console.log("image",this.state.avatar);
     const formData = new FormData();
-    formData.append("imageUrl", this.state.imageUrl);
-    axios.put("http://localhost:3000/api/auth/addPicture", formData, {
+    formData.append("imageUrl", this.state.avatar);
+    axios.put("http://localhost:3000/images/addPicture", formData, {
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
     }).then(res => {
       console.log(res)
     })
-  }
+  };
 
+  upload() {
+    document.getElementById("selectImage").click()
+  };
+
+  handleAvatarChange(e) {
+    const avatar = e.target.value;
+    this.setState({avatar: avatar});
+    console.log("target", e.target.value);
+    console.log("image", this.state.avatar.value)
+  };
 
 
   render(){
+
   return (
     <>
+
       <div
         className="page-header clear-filter page-header-small"
         filter-color="blue"
@@ -63,18 +76,22 @@ class ProfilePageHeader extends React.Component{
         />
         <Container>
           <div className="photo-container">
-            <img
-                id="photoInitiale"
-                alt="..."
-                src={require("assets/img/user.png")}
-            />
-
+            <input type="file" name="avatar" id="selectImage" hidden={true} onChange={this.handleAvatarChange}/>
+            <UncontrolledTooltip
+                delay={0}
+                placement="bottom"
+                target="photoInitiale"
+            >
+              Clic ici pour changer ta photo
+            </UncontrolledTooltip>
+              <img
+                  id="photoInitiale"
+                  onClick={this.upload}
+                  alt="..."
+                  src={(burl + this.state.imageUrl)}
+              />
           </div>
 
-          <form onSubmit={this.onSubmit}>
-              <input type="file" name="mon avatar" onChange={this.onFileChange} />
-              <button className="btn btn-primary" type="submit">Upload</button>
-          </form>
 
           <h3 className="title">{this.state.firstName}</h3>
           <div className="content">

@@ -5,7 +5,7 @@ const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-
 
 exports.signup = async (req, res, next) => {
     try {
-        console.log(req.body)
+        console.log(req.body);
         const { email, firstName, password} = req.body;
         if (!email){
             return res.status(400).json({error : "Aucun email saisi"});
@@ -36,6 +36,7 @@ exports.signup = async (req, res, next) => {
                 message: 'Connected !',
                 token: token,
                 firstName: user.firstName,
+                imageUrl: user.imageUrl,
             });
         }
         }catch (error) {
@@ -76,11 +77,12 @@ exports.login = async (req, res, next) => {
                     success: true,
                     message: 'Connected !',
                     token: token,
-                    firstName: user.firstName
+                    firstName: user.firstName,
+                    imageUrl: user.imageUrl
                 });
             }
             else{
-                console.log('mot de passe incorrect')
+                console.log('mot de passe incorrect');
                 return  res.status(401).json({
                     error: 'mot de passe incorrect'
                 });

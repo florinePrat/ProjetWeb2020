@@ -5,15 +5,8 @@ import Datetime from "react-datetime";
 import {
     Button,
     FormGroup,
-    Container,
     Modal,
     ModalBody,
-    Row,
-    Col,
-    UncontrolledTooltip,
-    PopoverBody,
-    PopoverHeader,
-    UncontrolledPopover
 } from "reactstrap";
 import Label from "reactstrap/es/Label";
 import CustomInput from "reactstrap/es/CustomInput";

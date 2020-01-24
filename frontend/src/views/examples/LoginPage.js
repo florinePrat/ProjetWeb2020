@@ -59,6 +59,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           console.log(res.data.firstName);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
+          localStorage.setItem('imageUrl', res.data.imageUrl);
           console.log("signup",localStorage);
           window.location = "./profile-page"
         }, error => {
@@ -80,6 +81,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           console.log(res.data.firstName);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
+          localStorage.setItem('imageUrl', res.data.imageUrl);
           console.log("res",localStorage);
           window.location = "./profile-page";
 

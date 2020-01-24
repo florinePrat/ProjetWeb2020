@@ -41,9 +41,11 @@ function ProfilePage() {
 
             <div className="button-container">
               <Javascript/>
+              {/* Button to propose a room => pop a form modal*/ }
 
               <Button
                 className="btn-round"
+                href="room-page"
                 color="default"
                 id="tooltip515203352"
                 size="lg"

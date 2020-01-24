@@ -6,6 +6,6 @@ const userCtrl = require('../controllers/user');
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
-router.put('/addPicture',  multer, userCtrl.addPicture);
+router.put('/addPicture', multer, userCtrl.addPicture);
 
 module.exports = router;
