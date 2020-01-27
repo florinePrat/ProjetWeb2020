@@ -42,7 +42,7 @@ function Javascript() {
                                         <div className="form-row">
                                             <div className="col">
                                                 <label htmlFor="inputAddress">Titre de l'annonce</label>
-                                                <input type="name" className="form-control" id="inputEmail4"
+                                                <input type="name" className="form-control" id="inputTitle"
                                                        placeholder="Nom de la salle"/>
                                             </div>
                                             <div className="col">
@@ -52,7 +52,7 @@ function Javascript() {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleFormControlTextarea1">Description</label>
-                                            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description de la salle et de l'annonce"/>
+                                            <textarea className="form-control" id="description" rows="3" placeholder="Description de la salle et de l'annonce"/>
                                         </div>
                                         <div className="form-row">
                                             <div className="col">
@@ -61,8 +61,8 @@ function Javascript() {
                                             </div>
                                             <div className="form-group col-md-4">
                                                 <label htmlFor="inputState">Catégorie</label>
-                                                <select id="inputState" className="form-control">
-                                                    <option selected>Choose...</option>
+                                                <select id="inputCategory" className="form-control">
+                                                    <option defaultValue >Catégorie</option>
                                                     <option>...</option>
                                                 </select>
                                             </div>
@@ -81,18 +81,22 @@ function Javascript() {
                                             <div className="form-group col-md-4">
                                                 <label htmlFor="inputState">Région</label>
                                                 <select id="inputState" className="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>...</option>
+                                                    <option defaultValue > Region </option>
+                                                    <option>.1.</option>
+                                                    <option>.2.</option>
+                                                    <option>.3.</option>
+                                                    <option>.4.</option>
+                                                    <option>.5.</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-2">
-                                                <label htmlFor="inputZip">CP</label>
-                                                <input type="text" className="form-control" id="inputZip"/>
+                                                <label htmlFor="inputCp">CP</label>
+                                                <input type="text" className="form-control" id="inputCp"/>
                                             </div>
                                         </div>
                                         <FormGroup>
                                             <Label for="exampleCustomFileBrowser">Choisir une image</Label>
-                                            <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Selectionner une image" />
+                                            <CustomInput type="file" id="avatarFileBrowser" name="customFile" label="Selectionner une image" />
                                         </FormGroup>
                                         <div className="form-row">
                                             <FormGroup>

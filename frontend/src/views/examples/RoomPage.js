@@ -9,13 +9,15 @@ import {
     InputGroup,
     Container,
     Row,
-    Col
+    Col, CardHeader, Nav, NavItem, NavLink, CardBody, TabContent, TabPane, Card
 } from "reactstrap";
+import SearchField from "react-search-field";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
+let pageHeader= React.createRef();
 
 function LandingPage() {
     const [firstFocus, setFirstFocus] = React.useState(false);
@@ -29,76 +31,35 @@ function LandingPage() {
             document.body.classList.remove("sidebar-collapse");
         };
     });
+    const [iconPills, setIconPills] = React.useState("1");
     return (
         <>
             <ExamplesNavbar />
             <div className="wrapper">
                 <LandingPageHeader />
+                <SearchField
+                    placeholder="Search..."
+                    onChange=""
+                    searchText="This is initial search text"
+                    classNames="test-class"
+                />
+                <Container>
+                <Card>
+                    <CardHeader>
 
-                <div className="section section-contact-us text-center">
-                    <Container>
-                        <h2 className="title">Je loue une salle</h2>
-                        <Row>
-                            <Col className="text-center ml-auto mr-auto" lg="6" md="8">
-                                <InputGroup
-                                    className={
-                                        "input-lg" + (firstFocus ? " input-group-focus" : "")
-                                    }
-                                >
-                                    <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>
-                                            <i className="now-ui-icons users_circle-08"/>
-                                        </InputGroupText>
-                                    </InputGroupAddon>
-                                    <Input
-                                        placeholder="First Name..."
-                                        type="text"
-                                        onFocus={() => setFirstFocus(true)}
-                                        onBlur={() => setFirstFocus(false)}
-                                    />
-                                </InputGroup>
-                                <InputGroup
-                                    className={
-                                        "input-lg" + (lastFocus ? " input-group-focus" : "")
-                                    }
-                                >
-                                    <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>
-                                            <i className="now-ui-icons ui-1_email-85"/>
-                                        </InputGroupText>
-                                    </InputGroupAddon>
-                                    <Input
-                                        placeholder="Email..."
-                                        type="text"
-                                        onFocus={() => setLastFocus(true)}
-                                        onBlur={() => setLastFocus(false)}
-                                    />
-                                </InputGroup>
-                                <div className="textarea-container">
-                                    <Input
-                                        cols="80"
-                                        name="name"
-                                        placeholder="Type a message..."
-                                        rows="4"
-                                        type="textarea"
-                                    />
-                                </div>
-                                <div className="send-button">
-                                    <Button
-                                        block
-                                        className="btn-round"
-                                        color="info"
-                                        href="#pablo"
-                                        onClick={e => e.preventDefault()}
-                                        size="lg"
-                                    >
-                                        Send Message
-                                    </Button>
-                                </div>
-                            </Col>
-                        </Row>
+                            <div
+                                className="page-header-image"
+                                style={{
+                                    backgroundImage: "url(" + require("assets/img/bg5.jpg") + ")"
+                                }}
+                                ref={pageHeader}
+                            />
+                    </CardHeader>
+                    <CardBody>
+                        <p>description de la salle :</p>
+                    </CardBody>
+                </Card>
                     </Container>
-                </div>
                 <DefaultFooter />
             </div>
         </>

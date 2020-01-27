@@ -6,7 +6,7 @@ exports.createRoom = (req, res, next) => {
     delete roomObject._id;
     const room = new Room({
         ...roomObject,
-        imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        //imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     room.save()
         .then(() => res.status(201).json({ message: 'Objet enregistré !'}))

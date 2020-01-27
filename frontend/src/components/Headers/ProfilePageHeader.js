@@ -1,9 +1,9 @@
 import React from "react";
-import axios from 'axios';
 // reactstrap components
 import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
+import pict from '../../utils/picture';
 
 // core components
 let pageHeader= React.createRef();
@@ -18,7 +18,7 @@ class ProfilePageHeader extends React.Component{
       isAuth : auth.isAuth(),
       firstName:localStorage.getItem("firstName"),
       imageUrl:localStorage.getItem("imageUrl"),
-      avatar:" ",
+      avatar:"",
     };
     console.log("test",localStorage);
     this.logout.bind(this);
@@ -33,18 +33,18 @@ class ProfilePageHeader extends React.Component{
     window.location= '/login-page';
   };
 
+
   send = event => {
-    console.log("image",this.state.avatar);
     const formData = new FormData();
     formData.append("imageUrl", this.state.avatar);
-    axios.put("http://localhost:3000/images/addPicture", formData, {
-      headers:{
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(res => {
-      console.log(res)
-    })
+    console.log("image",this.state.avatar.value);
+    pict.sendPicture(this.state.avatar).then(res => {
+        console.log(res.data);
+      }, error => {
+        console.log(error)
+      })
   };
+
 
   upload() {
     document.getElementById("selectImage").click()
@@ -54,7 +54,6 @@ class ProfilePageHeader extends React.Component{
     const avatar = e.target.value;
     this.setState({avatar: avatar});
     console.log("target", e.target.value);
-    console.log("image", this.state.avatar.value)
   };
 
 
@@ -76,7 +75,7 @@ class ProfilePageHeader extends React.Component{
         />
         <Container>
           <div className="photo-container">
-            <input type="file" name="avatar" id="selectImage" hidden={true} onChange={this.handleAvatarChange}/>
+            <input type="file" name="avatar" id="selectImage" hidden={true} onChange={this.handleAvatarChange} onChangeCapture={this.send}/>
             <UncontrolledTooltip
                 delay={0}
                 placement="bottom"

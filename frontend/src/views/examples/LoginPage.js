@@ -16,7 +16,7 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import TransparentFooter from "components/Footers/TransparentFooter.js";
 
-  import API from '../../utils/auth';
+import API from '../../utils/auth';
 import {FormGroup, FormControl}  from "react-bootstrap";
 
   export class signup extends React.Component {
