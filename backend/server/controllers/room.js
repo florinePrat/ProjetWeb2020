@@ -2,8 +2,8 @@ const Room = require('../models/room');
 const fs = require('fs');
 
 exports.createRoom = (req, res, next) => {
-    const roomObject = JSON.parse(req.body.room);
-    delete roomObject._id;
+    console.log(req.body)
+    const roomObject = req.body;
     const room = new Room({
         ...roomObject,
         //imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
