@@ -14,9 +14,9 @@ import {
 } from "reactstrap";
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
-import DefaultFooter from "components/Footers/DefaultFooter.js";
+import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
+import ProfilePageHeader from "../../components/Headers/ProfilePageHeader.js";
+import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import Javascript from "../../components/Modals/modalFormRent";
 
 
@@ -51,6 +51,16 @@ function ProfilePage() {
                 size="lg"
               >
                 Trouver une salle
+              </Button>
+
+              <Button
+                  className="btn-round"
+                  href="manag-room-page"
+                  color="success"
+                  id="tooltip515203352"
+                  size="lg"
+              >
+                Voir mes salles
               </Button>
 
             </div>

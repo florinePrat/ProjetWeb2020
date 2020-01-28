@@ -11,8 +11,8 @@ const roomSchema = mongoose.Schema({
     category:{type:String, required:true},
     bail:{type:Number, required:true},
     imageUrl:{type:String, required:true},
-    availability:{type:Array, required:true},
-    review:{type:Array},
+    availability:{type:Array,  default:''},
+    review:{type:Array, default:''},
     userId:{type:String, required:true},
 });
 

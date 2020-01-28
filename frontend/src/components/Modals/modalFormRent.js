@@ -1,137 +1,272 @@
 import React from "react";
-// react plugins that creates an input with a date picker
-import Datetime from "react-datetime";
 // reactstrap components
 import {
+    Alert,
     Button,
-    FormGroup,
     Modal,
     ModalBody,
 } from "reactstrap";
-import Label from "reactstrap/es/Label";
-import CustomInput from "reactstrap/es/CustomInput";
+
+import api from '../../utils/room';
+import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-function Javascript() {
-    const [modal1, setModal1] = React.useState(false);
-    return (
-        <>
+class createRoom extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            modal: false,
+            userId: localStorage.getItem("userId"),
+            title:"",
+            description:"",
+            price:"",
+            address:"",
+            city:"",
+            region:"",
+            postalCode:"",
+            category:"",
+            bail:"",
+            imageUrl:" ",
+            error: false
+        };
+        this.send.bind(this);
+        this.handleChange.bind(this);
+    };
 
-                            <Button
-                                className="btn-round"
-                                color="info"
-                                size="lg"
-                                onClick={() => setModal1(true)}
-                            >
-                                Proposer une salle
-                            </Button>
-                            <Modal isOpen={modal1} toggle={() => setModal1(false)}>
-                                <div className="modal-header justify-content-center">
-                                    <button
-                                        className="close"
-                                        type="button"
-                                        onClick={() => setModal1(false)}
-                                    >
-                                        <i className="now-ui-icons ui-1_simple-remove"/>
-                                    </button>
-                                    <h4 className="title title-up">Je loue une salle</h4>
+
+    send = event => {
+        if (this.state.title.length === 0) {
+            this.setState({error: "titre vide"});
+        } else if (this.state.price.length === 0) {
+            this.setState({error: "prix vide"});
+        } else if (this.state.bail.length === 0) {
+            this.setState({error: "caution vide"});
+        } else if (this.state.description.length === 0) {
+            this.setState({error: "description vide"});
+        } else if (this.state.address.length === 0) {
+            this.setState({error: "adresse vide"});
+        } else if (this.state.city.length === 0) {
+            this.setState({error: "ville vide"});
+        } else if (this.state.region.length === 0) {
+            this.setState({error: "region vide"});
+        } else if (this.state.postalCode.length === 0) {
+            this.setState({error: "code postal vide"});
+        } else if (this.state.category.length === 0) {
+            this.setState({error: "categorie vide"});
+        } else {
+            api.createRoom(this.state.title,this.state.description,this.state.price,this.state.address,this.state.city,this.state.region,this.state.postalCode,this.state.category,this.state.bail,this.state.imageUrl,this.state.userId).then(res => {
+                console.log(res.data);
+                window.location = "./profile-page"
+            }, error => {
+                console.log(error.response.data.error);
+                this.setState({error:error.response.data.error});
+            })
+        }
+    };
+
+    handleChange = event => {
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+    };
+
+
+
+    render() {
+        return (
+            <>
+
+                <Button
+                    className="btn-round"
+                    color="info"
+                    size="lg"
+                    onClick={() => this.setState({modal: true})}
+                >
+                    Proposer une salle
+                </Button>
+
+
+                <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
+                    <div className="modal-header justify-content-center">
+                        <button
+                            className="close"
+                            type="button"
+                            onClick={() => this.setState({modal: false})}
+                        >
+                            <i className="now-ui-icons ui-1_simple-remove"/>
+                        </button>
+                        <h4 className="title title-up">Je loue une salle</h4>
+                        {this.state.error ?
+                            <Alert color="danger">
+                                {this.state.error}
+                            </Alert> : false
+                        }
+                    </div>
+                    <ModalBody>
+                        <form>
+                            <div className="form-row">
+                                <div className="col">
+                                    <FormGroup controlId="title">
+                                        <i className="now-ui-icons shopping_tag-content"/> Titre de l'annonce :
+                                        <FormControl
+                                            placeholder= "Super salle à Palavas"
+                                            value={this.state.title}
+                                            onChange={this.handleChange}
+                                            type="text"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
                                 </div>
-                                <ModalBody>
-                                    <form>
-                                        <div className="form-row">
-                                            <div className="col">
-                                                <label htmlFor="inputAddress">Titre de l'annonce</label>
-                                                <input type="name" className="form-control" id="inputTitle"
-                                                       placeholder="Nom de la salle"/>
-                                            </div>
-                                            <div className="col">
-                                                <label htmlFor="inputAddress">Caution</label>
-                                                <input type="text" className="form-control" placeholder="Montant de la caution en euros "/>
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="exampleFormControlTextarea1">Description</label>
-                                            <textarea className="form-control" id="description" rows="3" placeholder="Description de la salle et de l'annonce"/>
-                                        </div>
-                                        <div className="form-row">
-                                            <div className="col">
-                                                <label htmlFor="inputAddress">Prix</label>
-                                                <input type="text" className="form-control" placeholder="Prix / jour en euros "/>
-                                            </div>
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="inputState">Catégorie</label>
-                                                <select id="inputCategory" className="form-control">
-                                                    <option defaultValue >Catégorie</option>
-                                                    <option>...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="inputAddress">Addresse </label>
-                                            <input type="text" className="form-control" id="inputAddress"
-                                                   placeholder="1234 rue de paris"/>
-                                        </div>
-                                        <div className="form-row">
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="inputCity">Ville</label>
-                                                <input type="text" className="form-control" id="inputCity"/>
-                                            </div>
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="inputState">Région</label>
-                                                <select id="inputState" className="form-control">
-                                                    <option defaultValue > Region </option>
-                                                    <option>.1.</option>
-                                                    <option>.2.</option>
-                                                    <option>.3.</option>
-                                                    <option>.4.</option>
-                                                    <option>.5.</option>
-                                                </select>
-                                            </div>
-                                            <div className="form-group col-md-2">
-                                                <label htmlFor="inputCp">CP</label>
-                                                <input type="text" className="form-control" id="inputCp"/>
-                                            </div>
-                                        </div>
-                                        <FormGroup>
-                                            <Label for="exampleCustomFileBrowser">Choisir une image</Label>
-                                            <CustomInput type="file" id="avatarFileBrowser" name="customFile" label="Selectionner une image" />
-                                        </FormGroup>
-                                        <div className="form-row">
-                                            <FormGroup>
-                                                <Datetime
-                                                    timeFormat={true}
-                                                    inputProps={{ placeholder: "Date et heure de début" }}
-                                                />
-                                            </FormGroup>
-                                            <FormGroup>
-                                                <Datetime
-                                                    timeFormat={true}
-                                                    inputProps={{ placeholder: "Date et heure de fin" }}
-                                                />
-                                            </FormGroup>
-                                        </div>
-                                    </form>
-                                </ModalBody>
-                                <div className="modal-footer">
-
-                                    <Button
-                                        color="danger"
-                                        type="button"
-                                        onClick={() => setModal1(false)}
-                                    >
-                                        Annuler
-                                    </Button>
-                                    <Button color="info" type="button">
-                                        Valider
-                                    </Button>
+                                <div className="form-group col-md-4">
+                                    <FormGroup  controlId="category">
+                                        <i className="now-ui-icons objects_diamond"/> Catégorie :
+                                        <FormControl
+                                            placeholder= "Catégorie"
+                                            as="select"
+                                            value={this.state.category}
+                                            onChange={this.handleChange}
+                                        >
+                                            <option>Fêtes</option>
+                                            <option>Mariage</option>
+                                            <option>Réunion</option>
+                                            <option>Coworking</option>
+                                            <option>...</option>
+                                        </FormControl>
+                                    </FormGroup>
                                 </div>
-                            </Modal>
+                            </div>
+                            <div className="form-group">
+                                <FormGroup  controlId="description">
+                                    <i className="now-ui-icons objects_spaceship"/> Description :
+                                    <FormControl
+                                        placeholder="Description de la salle et de l'annonce"
+                                        rows="3"
+                                        value={this.state.description}
+                                        onChange={this.handleChange}
+                                    >
+                                    </FormControl>
+                                </FormGroup>
+                            </div>
+                            <div className="form-row">
+                                <div className="col">
+                                    <FormGroup controlId="price">
+                                        <i className="now-ui-icons ui-1_zoom-bold"/> Prix :
+                                        <FormControl
+                                            placeholder= "Prix / jour en euros"
+                                            value={this.state.price}
+                                            onChange={this.handleChange}
+                                            type="number"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+                                <div className="col">
+                                    <FormGroup controlId="bail">
+                                        <i className="now-ui-icons ui-1_send"/> Caution :
+                                        <FormControl
+                                            placeholder= "Montant en euros"
+                                            value={this.state.bail}
+                                            onChange={this.handleChange}
+                                            type="number"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+
+                            </div>
+
+                            <div className="form-group">
+                                <FormGroup controlId="address">
+                                    <i className="now-ui-icons location_pin"/> Adresse :
+                                    <FormControl
+                                        placeholder= "81 rue du poirier"
+                                        value={this.state.address}
+                                        onChange={this.handleChange}
+                                        type="text"
+                                    >
+                                    </FormControl>
+                                </FormGroup>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <FormGroup controlId="city">
+                                        <i className="now-ui-icons location_map-big"/> Ville :
+                                        <FormControl
+                                            placeholder= "Palavas"
+                                            value={this.state.city}
+                                            onChange={this.handleChange}
+                                            type="text"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+                                <div className="form-group col-md-4">
+                                    <FormGroup  controlId="region">
+                                        <i className="now-ui-icons location_world"/> Région :
+                                        <FormControl
+                                            placeholder= "Région"
+                                            as="select"
+                                            value={this.state.region}
+                                            onChange={this.handleChange}
+                                        >
+                                            <option>Auvergne-Rhône-Alpes</option>
+                                            <option>Bourgogne-Franche-Comté</option>
+                                            <option>Bretagne</option>
+                                            <option>Centre-Val de Loire</option>
+                                            <option>Corse</option>
+                                            <option>Grand Est</option>
+                                            <option>Guadeloupe</option>
+                                            <option>Guyane</option>
+                                            <option>Hauts-de-France</option>
+                                            <option>Île-de-France</option>
+                                            <option>Normandie</option>
+                                            <option>Nouvelle-Aquitaine</option>
+                                            <option>Occitanie</option>
+                                            <option>Pays de la Loire</option>
+                                            <option>Provence-Alpes-Côte d'Azur</option>
+                                            <option>La Réunion</option>
+                                        </FormControl>
+                                    </FormGroup>
+
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <FormGroup controlId="postalCode">
+                                        <i className="now-ui-icons location_bookmark"/> CP :
+                                        <FormControl
+                                            placeholder= "34860"
+                                            value={this.state.postalCode}
+                                            onChange={this.handleChange}
+                                            type="number"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+                            </div>
+                        </form>
+                    </ModalBody>
+                    <div className="modal-footer">
+
+                        <Button
+                            color="danger"
+                            type="button"
+                            onClick={() => this.setState({modal: true})}
+                        >
+                            Annuler
+                        </Button>
+                        <Button
+                            color="info"
+                            type="button"
+                            onClick={this.send}
+                        >
+                            Valider
+                        </Button>
+                    </div>
+                </Modal>
 
 
-        </>
-    );
+            </>
+        );
+    }
 }
-
-export default Javascript;
+export default createRoom;

@@ -37,6 +37,7 @@ exports.signup = async (req, res, next) => {
                 token: token,
                 firstName: user.firstName,
                 imageUrl: user.imageUrl,
+                userId: user._id
             });
         }
         }catch (error) {
@@ -78,7 +79,8 @@ exports.login = async (req, res, next) => {
                     message: 'Connected !',
                     token: token,
                     firstName: user.firstName,
-                    imageUrl: user.imageUrl
+                    imageUrl: user.imageUrl,
+                    userId: user._id
                 });
             }
             else{

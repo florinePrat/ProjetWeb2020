@@ -2,6 +2,8 @@ import {Component} from "react";
 import React from "react";
 import {Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
+import CardBody from "reactstrap/es/CardBody";
+import CardTitle from "reactstrap/es/CardTitle";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -32,7 +34,9 @@ class roomCard extends Component{
         console.log("my props : ",this.props);
         return(
                 this.state.isDeployed
-                    ?   <card >
+                    ? <div>
+                    <card>
+                        <CardBody>
                        {/* <h3 style={{backgroundColor:this.props.labels[0].color}}> {this.props.labels[0].name}</h3>*/}
                         <p>prix : {this.props.price} </p>
                         <p>city : {this.props.city} </p>
@@ -63,15 +67,15 @@ class roomCard extends Component{
                         >
                             retour
                         </Button>
-
+                        </CardBody>
                     </card>
-
-                    : <div className="container-fluid">
-                        <Container>
+                        </div>
+                    : <div>
                             <card>
-                                <p>Annonce : {this.props.title} </p>
-
-
+                                <CardBody>
+                                    <CardTitle>Annonce : {this.props.title}</CardTitle>
+                                </CardBody>
+                                <CardBody>
                                 <Button
                                     className="btn-info"
                                     onClick={()=>{
@@ -81,9 +85,8 @@ class roomCard extends Component{
                                 >
                                     Voir
                                 </Button>
-
+                                </CardBody>
                             </card>
-                        </Container>
                     </div>
 
         )

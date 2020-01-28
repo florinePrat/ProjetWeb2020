@@ -1,12 +1,12 @@
 import React from "react";
 import axios from 'axios';
-import {tokenHeaders} from '../../utils/headers';
+import {tokenHeaders} from '../../../utils/headers';
 import RoomCard from './roomCard';
 // reactstrap components
-import auth from "../../utils/auth";
-import DefaultFooter from "../../components/Footers/DefaultFooter";
-import LandingPageHeader from "../../components/Headers/LandingPageHeader";
-import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar";
+import auth from "../../../utils/auth";
+import DefaultFooter from "../../../components/Footers/DefaultFooter";
+import LandingPageHeader from "../../../components/Headers/LandingPageHeader";
+import ExamplesNavbar from "../../../components/Navbars/ExamplesNavbar";
 
 
 
@@ -14,7 +14,7 @@ import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar";
 //let pageHeader= React.createRef();
 const burl = "http://localhost:3000/api/room";
 
-class roomPage extends React.Component{
+class manageRoomPage extends React.Component{
 
 
 
@@ -68,19 +68,19 @@ class roomPage extends React.Component{
                 <div className="wrapper">
                     <LandingPageHeader />
 
-                        {this.state.rooms.map(room =>
-                            <RoomCard
-                                _id={room._id}
-                                title={room.title}
-                                price={room.price}
-                                city={room.city}
-                            />
-                        )}
+                    {this.state.rooms.map(room =>
+                        <RoomCard
+                            _id={room._id}
+                            title={room.title}
+                            price={room.price}
+                            city={room.city}
+                        />
+                    )}
                     <DefaultFooter />
                 </div>
             </>
         );
     }}
 
-export default roomPage;
+export default manageRoomPage;
 

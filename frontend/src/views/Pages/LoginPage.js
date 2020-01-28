@@ -26,6 +26,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
         email: "",
         firstName: "",
         password: "",
+        userId:"",
         isLoggedIn: false,
         error: false
       };
@@ -60,6 +61,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
           localStorage.setItem('imageUrl', res.data.imageUrl);
+          localStorage.setItem('userId', res.data.userId);
           console.log("signup",localStorage);
           window.location = "./profile-page"
         }, error => {
@@ -82,6 +84,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
           localStorage.setItem('imageUrl', res.data.imageUrl);
+          localStorage.setItem('userId', res.data.userId);
           console.log("res",localStorage);
           window.location = "./profile-page";
 
@@ -177,7 +180,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
                                   href="#"
                                   onClick={this.handleLoginClick}
                               >
-                                Create Account
+                                S'inscrire
                               </a>
                             </h6>
                           </div>
@@ -279,7 +282,7 @@ import {FormGroup, FormControl}  from "react-bootstrap";
                                   href="#"
                                   onClick={this.handleLogoutClick}
                               >
-                                Sign In
+                                Se connecter
                               </a>
                             </h6>
                           </div>
