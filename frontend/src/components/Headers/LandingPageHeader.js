@@ -1,5 +1,5 @@
 import React from "react";
-
+import SearchField from "react-search-field";
 // reactstrap components
 
 // core components
@@ -31,6 +31,15 @@ function LandingPageHeader() {
           ref={pageHeader}
         />
 
+        <div className="content">
+        <center>
+          <SearchField
+              placeholder="Search..."
+              onChange=""
+              searchText="This is initial search text"
+              classNames="test-class"
+          /></center>
+        </div>
       </div>
     </>
   );

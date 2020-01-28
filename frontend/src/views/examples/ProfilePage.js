@@ -17,7 +17,7 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
-import Javascript from "../modalFormRent";
+import Javascript from "../../components/Modals/modalFormRent";
 
 
 function ProfilePage() {
