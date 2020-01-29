@@ -8,7 +8,7 @@ router.post('/', auth, multer, roomCtrl.createRoom);
 router.put('/:id', auth, multer, roomCtrl.modifyRoom);
 router.delete('/:id', auth, roomCtrl.deleteRoom);
 router.get('/:id', auth, roomCtrl.getOneRoom);
-router.get('/', auth, roomCtrl.getAllRooms);
+router.get('/', roomCtrl.getAllRooms);
 router.get('/byUser/:id', auth, roomCtrl.getRoomByUser);
 
 module.exports = router;

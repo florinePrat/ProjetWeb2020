@@ -4,21 +4,18 @@ import {tokenHeaders} from './headers';
 const burl = "http://localhost:3000/api/room";
 
 export default {
-    createRoom : function(title,description,price,address,city,region,postalCode,category,bail,imageUrl,userId){
+    createRoom : function(title,address,city,postalCode,userId,token){
         return axios.post(burl + '/',{
             'title' : title,
-            'description' : description,
-            'price' : price,
             'address' : address,
             'city' : city,
-            'region' : region,
             'postalCode' : postalCode,
-            'category' : category,
-            'bail' : bail,
-            'imageUrl' : imageUrl,
             'userId' : userId,
+            'token' : token,
         },{
-            headers: tokenHeaders
+            headers: {'Content-Type': 'application/json',
+                'Authorization' : 'Bearer ' + token
+            }
         })
     },
 }

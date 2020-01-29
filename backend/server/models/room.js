@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 
 const roomSchema = mongoose.Schema({
     title:{type:String, required:true},
-    description:{type:String, required:true},
-    price:{type:Number, required:true},
+    description:{type:String,  default:''},
+    price:{type:Number,  default:''},
     address:{type:String, required:true},
     city:{type:String, required:true},
-    region:{type:String, required:true},
     postalCode:{type:String, required:true},
-    category:{type:String, required:true},
-    bail:{type:Number, required:true},
-    imageUrl:{type:String, required:true},
+    category:{type:String,  default:''},
+    bail:{type:Number,  default:'100'},
+    imageUrl:{type:String, default:''},
     availability:{type:Array,  default:''},
     review:{type:Array, default:''},
     userId:{type:String, required:true},
+    state:{type:Boolean, default:false}, //status false : not published
 });
 
 module.exports = mongoose.model('Room', roomSchema);

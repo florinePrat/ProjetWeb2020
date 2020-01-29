@@ -3,6 +3,11 @@ import React from "react";
 import {Button} from "react-bootstrap";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import CardSubtitle from "reactstrap/es/CardSubtitle";
+import CardText from "reactstrap/es/CardText";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -14,27 +19,25 @@ class roomCard extends Component{
         console.log("propriete"+props._id);
         this.state = {
             isDeployed: false,
-            //edit : false,
         };
-        // this.delete.bind(this);
     }
-    /*delete=event =>{
-        axios.delete(burl + '/api/card/'+this.props._id, { headers: tokenHeaders})
-            .then(res =>{
-                window.location = "/mancard"
-            })
-    };*/
 
     render(){
         console.log("my props : ",this.props);
         return(
                 this.state.isDeployed
                     ? <div>
-                    <card>
+                        <Container>
+
+                            <Col>
+                    <Card>
                         <CardBody>
-                       {/* <h3 style={{backgroundColor:this.props.labels[0].color}}> {this.props.labels[0].name}</h3>*/}
-                        <p>prix : {this.props.price} </p>
-                        <p>city : {this.props.city} </p>
+                            <CardTitle>{this.props.title}</CardTitle>
+                            <CardText>Catégorie : {this.props.category}</CardText>
+                            <CardText> Prix : {this.props.price} / jours</CardText>
+                            <CardText> Adresse : {this.props.address}</CardText>
+                            <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
+
                         <Button
                             className="btn-info"
                             onClick={()=>{
@@ -54,12 +57,19 @@ class roomCard extends Component{
                             Retour
                         </Button>
                         </CardBody>
-                    </card>
+                    </Card>
+                            </Col>
+                        </Container>
                         </div>
                     : <div>
-                            <card>
+                        <Container>
+
+                        <Col>
+                            <Card>
                                 <CardBody>
-                                    <CardTitle>Annonce : {this.props.title}</CardTitle>
+                                    <CardTitle>{this.props.title}</CardTitle>
+                                    <CardText>Catégorie : {this.props.category}</CardText>
+                                    <CardText> Prix : {this.props.price}</CardText>
                                 </CardBody>
                                 <CardBody>
                                 <Button
@@ -72,7 +82,9 @@ class roomCard extends Component{
                                     Voir
                                 </Button>
                                 </CardBody>
-                            </card>
+                            </Card>
+                        </Col>
+                        </Container>
                     </div>
 
         )

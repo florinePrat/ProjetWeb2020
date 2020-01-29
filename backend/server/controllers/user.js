@@ -5,25 +5,25 @@ const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-
 
 exports.signup = async (req, res, next) => {
     try {
-        console.log(req.body);
-        const { email, firstName, password} = req.body;
+        console.log("signup : req.body : ",req.body);
+        const { email, firstName, phoneNumber} = req.body;
         if (!email){
             return res.status(400).json({error : "Aucun email saisi"});
         }else if (!email.toLowerCase().match(regEmail)){
             return res.status(400).json({error : "Format de l'email incorrect"});
         }else if (!firstName){
             return res.status(400).json({error : "Aucun prénom saisi"});
-        }else if (!password){
-            return res.status(400).json({error : "Aucun mot de passe saisi"});
+        }else if (!phoneNumber){
+            return res.status(400).json({error : "Aucun numéro de téléphone saisi"});
         }
         const userExist = await userController.getUserByEmail(email);
-        console.log(userExist);
+        console.log('userExist : ',userExist);
         if (userExist){
             return res.status(400).json({error : "Cet email est déjà utilisé"});
         }
         else {
             //creation of user in database
-            const user = await userController.createUser(email.toLowerCase(), firstName, password);
+            const user = await userController.createUser(email.toLowerCase(), firstName, phoneNumber);
             //if success token creation of 1day
             const tokenUser = {
                 id: user._id,

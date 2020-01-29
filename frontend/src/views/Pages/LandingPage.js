@@ -1,52 +1,68 @@
 import React from "react";
 
 // reactstrap components
-import {
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
-
 // core components
 import AccueilNavbar from "../../components/Navbars/AccueilNavbar";
 import LandingPageHeader from "../../components/Headers/LandingPageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
-import Javascript from "../../components/Modals/modalFormRent";
+import auth from "../../utils/auth";
+import axios from "axios";
+import {tokenHeaders} from "../../utils/headers";
+import RoomCard from "./usersPage/roomCard";
 
-function LandingPage() {
-  React.useEffect(() => {
-    document.body.classList.add("profile-page");
-    document.body.classList.add("sidebar-collapse");
-    document.documentElement.classList.remove("nav-open");
-    return function cleanup() {
-      document.body.classList.remove("profile-page");
-      document.body.classList.remove("sidebar-collapse");
+const burl = "http://localhost:3000/api/room";
+
+class LandingPage extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuth : auth.isAuth(),
+      rooms:[]
     };
-  });
-  return (
-    <>
-      <AccueilNavbar />
-      <div className="wrapper">
+  }
 
-        <LandingPageHeader />
-        <div className="section">
-          <Container>
-          <div className="button-container">
-            <Javascript/>
-            {/* Button to propose a room => pop a form modal*/ }
+  componentDidMount() {
+
+    axios.get(burl + '/',{
+      headers: tokenHeaders
+    } )
+        .then(res => {
+          const rooms = res.data;
+          console.log('my data',rooms[0]);
+          this.setState({ rooms });
+        }, function(data){
+          console.log(data);
+        })
+  }
+
+  render() {
+    return (
+        <>
+          <AccueilNavbar/>
+          <div className="wrapper">
+
+            <LandingPageHeader/>
+            <div className="wrapper">
+
+              {this.state.rooms.map(room =>
+                  <RoomCard
+                      _id={room._id}
+                      title={room.title}
+                      price={room.price}
+                      city={room.city}
+                      address={room.address}
+                      postalCode={room.postalCode}
+                      imageUrl={room.imageUrl}
+                      category={room.category}
+                  />
+              )}
+              <DefaultFooter />
+            </div>
           </div>
-            <Row>
-            <Col className="ml-auto mr-auto" md="6">
-
-            </Col>
-
-          </Row>
-          </Container>
-        </div>
-        <DefaultFooter />
-      </div>
-    </>
-  );
+        </>
+    );
+  }
 }
-
 export default LandingPage;

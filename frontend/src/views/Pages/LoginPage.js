@@ -13,8 +13,8 @@ import {
   Col
 } from "reactstrap";
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import TransparentFooter from "components/Footers/TransparentFooter.js";
+import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
+import TransparentFooter from "../../components/Footers/TransparentFooter.js";
 
 import API from '../../utils/auth';
 import {FormGroup, FormControl}  from "react-bootstrap";

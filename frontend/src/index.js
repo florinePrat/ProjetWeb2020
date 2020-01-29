@@ -59,8 +59,8 @@ ReactDOM.render(
             render={props => <ManagRoomPage {...props} />}
         />
         <Route path="/login-page" render={props => <LoginPage {...props} />} />
-        <Redirect to="/login-page" />
-        <Redirect from="/" to="/login-page" />
+        <Redirect to="/landing-page" />
+        <Redirect from="/" to="/landing-page" />
       </Switch>
     </Switch>
   </BrowserRouter>,

@@ -2,6 +2,7 @@ import React from "react";
 import {Container} from "reactstrap";
 import auth from "../../utils/auth";
 import ExamplesNavbar from "../Navbars/ExamplesNavbar";
+import Javascript from "../Modals/modalFormRent";
 // reactstrap components
 
 // core components
@@ -41,7 +42,10 @@ class LandingPageHeader extends React.Component {
             </Container>
 
               <Container>
-
+                  <div className="button-container">
+                      <Javascript/>
+                      {/* Button to propose a room => pop a form modal*/}
+                  </div>
               </Container>
 
 

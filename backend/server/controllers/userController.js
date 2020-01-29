@@ -9,13 +9,13 @@ getUserById = async (id) => {
         throw error
     }
 };
-const createUser = async (email, firstName, password) => {
-    const hashedPassword = await passwordEncryption.passwordEncryption(password);
+const createUser = async (email, firstName, phoneNumber) => {
+   // const hashedPassword = await passwordEncryption.passwordEncryption(password);
     try {
         const user = new User({
             firstName: firstName,
             email: email,
-            password : hashedPassword
+            phoneNumber : phoneNumber
         });
         const savedUser= await user.save();
         return savedUser

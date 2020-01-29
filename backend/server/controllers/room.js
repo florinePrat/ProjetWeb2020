@@ -3,7 +3,7 @@ const fs = require('fs');
 const decodeToken = require('../encryption/decodeToken');
 
 exports.createRoom = (req, res, next) => {
-    console.log(req.body)
+    console.log('createRoom : req.body :',req.body)
     const roomObject = req.body;
     const room = new Room({
         ...roomObject,
@@ -45,7 +45,7 @@ exports.getOneRoom = (req, res, next) => {
 };
 
 exports.getAllRooms = (req, res, next) => {
-    Room.find()
+    Room.find({state:true})
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({ error }));
 };

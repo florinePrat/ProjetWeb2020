@@ -7,6 +7,7 @@ import {
     ModalBody,
 } from "reactstrap";
 
+import auth from '../../utils/auth';
 import api from '../../utils/room';
 import {FormGroup,FormControl} from "react-bootstrap";
 
@@ -16,6 +17,9 @@ class createRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: "",
+            firstName: "",
+            phoneNumber: "",
             modal: false,
             userId: localStorage.getItem("userId"),
             title:"",
@@ -28,7 +32,7 @@ class createRoom extends React.Component {
             category:"",
             bail:"",
             imageUrl:" ",
-            error: false
+            error: false,
         };
         this.send.bind(this);
         this.handleChange.bind(this);
@@ -38,30 +42,42 @@ class createRoom extends React.Component {
     send = event => {
         if (this.state.title.length === 0) {
             this.setState({error: "titre vide"});
-        } else if (this.state.price.length === 0) {
-            this.setState({error: "prix vide"});
-        } else if (this.state.bail.length === 0) {
-            this.setState({error: "caution vide"});
-        } else if (this.state.description.length === 0) {
-            this.setState({error: "description vide"});
         } else if (this.state.address.length === 0) {
             this.setState({error: "adresse vide"});
         } else if (this.state.city.length === 0) {
             this.setState({error: "ville vide"});
-        } else if (this.state.region.length === 0) {
-            this.setState({error: "region vide"});
         } else if (this.state.postalCode.length === 0) {
             this.setState({error: "code postal vide"});
-        } else if (this.state.category.length === 0) {
-            this.setState({error: "categorie vide"});
+        } else if (this.state.email.length === 0) {
+            this.setState({error: "email vide"});
+        } else if (this.state.phoneNumber.length === 0) {
+            this.setState({error: "numéro de téléphone vide"});
         } else {
-            api.createRoom(this.state.title,this.state.description,this.state.price,this.state.address,this.state.city,this.state.region,this.state.postalCode,this.state.category,this.state.bail,this.state.imageUrl,this.state.userId).then(res => {
-                console.log(res.data);
-                window.location = "./profile-page"
+
+            auth.signup(this.state.email, this.state.firstName, this.state.phoneNumber).then(res => {
+                console.log('je suis dans créer user');
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('firstName', res.data.firstName);
+                localStorage.setItem('imageUrl', res.data.imageUrl);
+                localStorage.setItem('userId', res.data.userId);
+                this.setState({userId: res.data.userId});
+                console.log("signup",localStorage);
+
+                setTimeout(() => {this.setState({timePassed: true})}, 3000);
+                api.createRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,res.data.userId, res.data.token).then(res => {
+                    console.log(res.data);
+                    console.log('je suis dans créer room');
+                    window.location = "./profile-page"
+                }, error => {
+                    console.log(error.response.data.error);
+                    this.setState({error:error.response.data.error});
+                })
+
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error:error.response.data.error});
-            })
+            });
+
         }
     };
 
@@ -79,10 +95,12 @@ class createRoom extends React.Component {
 
                 <Button
                     className="btn-round"
-                    color="info"
-                    size="lg"
+                    color="neutral"
+                    outline
+                    type="button"
                     onClick={() => this.setState({modal: true})}
                 >
+                    <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                     Proposer une salle
                 </Button>
 
@@ -108,9 +126,9 @@ class createRoom extends React.Component {
                             <div className="form-row">
                                 <div className="col">
                                     <FormGroup controlId="title">
-                                        <i className="now-ui-icons shopping_tag-content"/> Titre de l'annonce :
+                                        <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
                                         <FormControl
-                                            placeholder= "Super salle à Palavas"
+                                            placeholder= "Nom du lieu *"
                                             value={this.state.title}
                                             onChange={this.handleChange}
                                             type="text"
@@ -118,69 +136,12 @@ class createRoom extends React.Component {
                                         </FormControl>
                                     </FormGroup>
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <FormGroup  controlId="category">
-                                        <i className="now-ui-icons objects_diamond"/> Catégorie :
-                                        <FormControl
-                                            placeholder= "Catégorie"
-                                            as="select"
-                                            value={this.state.category}
-                                            onChange={this.handleChange}
-                                        >
-                                            <option>Fêtes</option>
-                                            <option>Mariage</option>
-                                            <option>Réunion</option>
-                                            <option>Coworking</option>
-                                            <option>...</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                </div>
                             </div>
-                            <div className="form-group">
-                                <FormGroup  controlId="description">
-                                    <i className="now-ui-icons objects_spaceship"/> Description :
-                                    <FormControl
-                                        placeholder="Description de la salle et de l'annonce"
-                                        rows="3"
-                                        value={this.state.description}
-                                        onChange={this.handleChange}
-                                    >
-                                    </FormControl>
-                                </FormGroup>
-                            </div>
-                            <div className="form-row">
-                                <div className="col">
-                                    <FormGroup controlId="price">
-                                        <i className="now-ui-icons ui-1_zoom-bold"/> Prix :
-                                        <FormControl
-                                            placeholder= "Prix / jour en euros"
-                                            value={this.state.price}
-                                            onChange={this.handleChange}
-                                            type="number"
-                                        >
-                                        </FormControl>
-                                    </FormGroup>
-                                </div>
-                                <div className="col">
-                                    <FormGroup controlId="bail">
-                                        <i className="now-ui-icons ui-1_send"/> Caution :
-                                        <FormControl
-                                            placeholder= "Montant en euros"
-                                            value={this.state.bail}
-                                            onChange={this.handleChange}
-                                            type="number"
-                                        >
-                                        </FormControl>
-                                    </FormGroup>
-                                </div>
-
-                            </div>
-
                             <div className="form-group">
                                 <FormGroup controlId="address">
                                     <i className="now-ui-icons location_pin"/> Adresse :
                                     <FormControl
-                                        placeholder= "81 rue du poirier"
+                                        placeholder= "Adresse *"
                                         value={this.state.address}
                                         onChange={this.handleChange}
                                         type="text"
@@ -193,7 +154,7 @@ class createRoom extends React.Component {
                                     <FormGroup controlId="city">
                                         <i className="now-ui-icons location_map-big"/> Ville :
                                         <FormControl
-                                            placeholder= "Palavas"
+                                            placeholder= "ville *"
                                             value={this.state.city}
                                             onChange={this.handleChange}
                                             type="text"
@@ -201,43 +162,53 @@ class createRoom extends React.Component {
                                         </FormControl>
                                     </FormGroup>
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <FormGroup  controlId="region">
-                                        <i className="now-ui-icons location_world"/> Région :
-                                        <FormControl
-                                            placeholder= "Région"
-                                            as="select"
-                                            value={this.state.region}
-                                            onChange={this.handleChange}
-                                        >
-                                            <option>Auvergne-Rhône-Alpes</option>
-                                            <option>Bourgogne-Franche-Comté</option>
-                                            <option>Bretagne</option>
-                                            <option>Centre-Val de Loire</option>
-                                            <option>Corse</option>
-                                            <option>Grand Est</option>
-                                            <option>Guadeloupe</option>
-                                            <option>Guyane</option>
-                                            <option>Hauts-de-France</option>
-                                            <option>Île-de-France</option>
-                                            <option>Normandie</option>
-                                            <option>Nouvelle-Aquitaine</option>
-                                            <option>Occitanie</option>
-                                            <option>Pays de la Loire</option>
-                                            <option>Provence-Alpes-Côte d'Azur</option>
-                                            <option>La Réunion</option>
-                                        </FormControl>
-                                    </FormGroup>
 
-                                </div>
-                                <div className="form-group col-md-2">
+                                <div className="form-group col-md-6">
                                     <FormGroup controlId="postalCode">
                                         <i className="now-ui-icons location_bookmark"/> CP :
                                         <FormControl
-                                            placeholder= "34860"
+                                            placeholder= "Code postal *"
                                             value={this.state.postalCode}
                                             onChange={this.handleChange}
-                                            type="number"
+                                            type="text"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <FormGroup controlId="email">
+                                    <i className="now-ui-icons ui-1_email-85"/> E-mail :
+                                    <FormControl
+                                        placeholder= "E-mail *"
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                        type="text"
+                                    >
+                                    </FormControl>
+                                </FormGroup>
+                            </div>
+                            <div className="form-row">
+                                <div className="col">
+                                    <FormGroup controlId="firstName">
+                                        <i className="now-ui-icons users_single-02"/> Prénom :
+                                        <FormControl
+                                            placeholder= "Prénom *"
+                                            value={this.state.firstName}
+                                            onChange={this.handleChange}
+                                            type="text"
+                                        >
+                                        </FormControl>
+                                    </FormGroup>
+                                </div>
+                                <div className="col">
+                                    <FormGroup controlId="phoneNumber">
+                                        <i className="now-ui-icons tech_mobile"/> Numéro de téléphone :
+                                        <FormControl
+                                            placeholder= "Poratble *"
+                                            value={this.state.phoneNumber}
+                                            onChange={this.handleChange}
+                                            type="text"
                                         >
                                         </FormControl>
                                     </FormGroup>

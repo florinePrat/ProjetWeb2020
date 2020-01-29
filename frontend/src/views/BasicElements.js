@@ -70,8 +70,9 @@ function BasicElements() {
                 <i className="now-ui-icons ui-2_favourite-28"></i>
               </Button>
               <Button className="btn-round" color="info" outline type="button">
-                Outline
-              </Button>
+                <i className="now-ui-icons ui-2_favourite-28"></i>
+              With Icon
+            </Button>
             </Col>
           </Row>
           <p className="category">Pick your size</p>
