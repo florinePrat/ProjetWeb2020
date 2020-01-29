@@ -5,6 +5,7 @@ import IndexNavbar from "../components/Navbars/IndexNavbar.js";
 import IndexHeader from "../components/Headers/IndexHeader.js";
 import DarkFooter from "../components/Footers/DarkFooter.js";
 
+
 // sections for this page
 import Images from "./Images.js";
 import BasicElements from "./BasicElements.js";
@@ -20,6 +21,7 @@ import CompleteExamples from "./CompleteExamples.js";
 import SignUp from "./SignUp.js";
 import Examples from "./Examples.js";
 import Download from "./Download.js";
+
 
 function Index() {
   React.useEffect(() => {

@@ -22,13 +22,13 @@ class manageRoomPage extends React.Component{
         super(props);
         this.state = {
             isAuth : auth.isAuth(),
-            rooms:[]
+            rooms:[],
+            userId: localStorage.getItem("userId")
         };
     }
 
     componentDidMount() {
-
-        axios.get(burl + '/',{
+        axios.get(burl + '/byUser/'+this.state.userId,{
             headers: tokenHeaders
         } )
             .then(res => {

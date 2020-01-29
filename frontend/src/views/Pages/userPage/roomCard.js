@@ -5,6 +5,7 @@ import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import {tokenHeaders} from "../../../utils/headers";
 import axios from 'axios';
+import Card from "react-bootstrap/Card";
 const burl = "http://localhost:3000/api/room";
 // this class send a answer to back for verify the answer and done the card of the day
 class roomCard extends Component{
@@ -35,8 +36,8 @@ class roomCard extends Component{
         console.log("my props : ",this.props);
         return(
             this.state.isDeployed
-                ? <div>
-                    <card>
+                ?
+                    <Card>
                         <CardBody>
                             {/* <h3 style={{backgroundColor:this.props.labels[0].color}}> {this.props.labels[0].name}</h3>*/}
                             <p>prix : {this.props.price} </p>
@@ -69,10 +70,9 @@ class roomCard extends Component{
                                 retour
                             </Button>
                         </CardBody>
-                    </card>
-                </div>
-                : <div>
-                    <card>
+                    </Card>
+                :
+                    <Card>
                         <CardBody>
                             <CardTitle>Annonce : {this.props.title}</CardTitle>
                         </CardBody>
@@ -87,8 +87,7 @@ class roomCard extends Component{
                                 Voir
                             </Button>
                         </CardBody>
-                    </card>
-                </div>
+                    </Card>
 
         )
     }

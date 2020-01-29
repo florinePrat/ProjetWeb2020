@@ -1,5 +1,6 @@
 const Room = require('../models/room');
 const fs = require('fs');
+const decodeToken = require('../encryption/decodeToken');
 
 exports.createRoom = (req, res, next) => {
     console.log(req.body)
@@ -48,4 +49,12 @@ exports.getAllRooms = (req, res, next) => {
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({ error }));
 };
+
+exports.getRoomByUser = (req,res,next)  => {
+    console.log(req.params.id);
+    Room.find({userId:req.params.id})
+        .then(rooms => res.status(200).json(rooms))
+        .catch(error => res.status(400).json({ error }));
+};
+
 
