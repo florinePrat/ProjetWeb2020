@@ -10,9 +10,6 @@ export default {
         },{
             headers:{
                 'Content-Type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods' : 'DELETE, POST, GET, OPTIONS',
-                'Access-Control-Allow-Headers':'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
                 'Authorization' : 'Bearer ' + localStorage.getItem('token')
             }
         })

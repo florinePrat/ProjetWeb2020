@@ -67,6 +67,8 @@ class manageRoomPage extends React.Component{
                 <ExamplesNavbar />
                 <div className="wrapper">
                     <LandingPageHeader />
+                    <div className="wrapper">
+                        <br/>
 
                     {this.state.rooms.map(room =>
                         <RoomCard
@@ -74,9 +76,16 @@ class manageRoomPage extends React.Component{
                             title={room.title}
                             price={room.price}
                             city={room.city}
+                            postalCode={room.postalCode}
+                            address={room.address}
+                            category={room.category}
+                            bail={room.bail}
+                            description={room.description}
+                            imageUrl={room.imageUrl}
                         />
                     )}
                     <DefaultFooter />
+                    </div>
                 </div>
             </>
         );

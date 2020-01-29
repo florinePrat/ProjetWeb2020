@@ -10,7 +10,12 @@ exports.createRoom = (req, res, next) => {
         //imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     room.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+        .then(() => res.status(201).json({
+            message: 'Objet enregistré !',
+            success: true,
+            roomId: room._id,
+
+        }))
         .catch(error => res.status(400).json({ error }));
 };
 
@@ -21,7 +26,10 @@ exports.modifyRoom = (req, res, next) => {
             //imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {...req.body};
     Room.updateOne({ _id: req.params.id }, { ...roomObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+        .then(() => res.status(200).json({
+            message: 'Objet modifié !',
+            success: true,
+        }))
         .catch(error => res.status(400).json({ error }));
 };
 

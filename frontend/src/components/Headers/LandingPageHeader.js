@@ -42,10 +42,13 @@ class LandingPageHeader extends React.Component {
             </Container>
 
               <Container>
-                  <div className="button-container">
-                      <Javascript/>
-                      {/* Button to propose a room => pop a form modal*/}
-                  </div>
+                  { this.state.isAuth ?
+                      null
+                      :<div className="button-container">
+                          <Javascript/>
+                          {/* Button to propose a room => pop a form modal*/}
+                      </div>}
+
               </Container>
 
 

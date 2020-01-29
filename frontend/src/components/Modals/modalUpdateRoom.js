@@ -4,22 +4,18 @@ import {
     Alert,
     Button,
     Modal,
-    ModalBody,
+    ModalBody, UncontrolledTooltip,
 } from "reactstrap";
 
-import auth from '../../utils/auth';
 import api from '../../utils/room';
 import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-class createRoom extends React.Component {
+class updateRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
-            firstName: "",
-            phoneNumber: "",
             modal: false,
             userId: localStorage.getItem("userId"),
             title:"",
@@ -33,6 +29,7 @@ class createRoom extends React.Component {
             bail:"",
             imageUrl:" ",
             error: false,
+            rooms:[],
         };
         this.send.bind(this);
         this.handleChange.bind(this);
@@ -48,23 +45,13 @@ class createRoom extends React.Component {
             this.setState({error: "ville vide"});
         } else if (this.state.postalCode.length === 0) {
             this.setState({error: "code postal vide"});
-        } else if (this.state.email.length === 0) {
-            this.setState({error: "email vide"});
-        } else if (this.state.phoneNumber.length === 0) {
-            this.setState({error: "numéro de téléphone vide"});
+        } else if (this.state.category.length === 0) {
+            this.setState({error: "categorie vide"});
+        } else if (this.state.bail.length === 0) {
+            this.setState({error: "caution vide"});
         } else {
 
-            auth.signup(this.state.email, this.state.firstName, this.state.phoneNumber).then(res => {
-                console.log('je suis dans créer user');
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('firstName', res.data.firstName);
-                localStorage.setItem('imageUrl', res.data.imageUrl);
-                localStorage.setItem('userId', res.data.userId);
-                this.setState({userId: res.data.userId});
-                console.log("signup",localStorage);
-
-                setTimeout(() => {this.setState({timePassed: true})}, 3000);
-                api.createRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,res.data.userId, res.data.token).then(res => {
+                api.updateRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,).then(res => {
                     console.log(res.data);
                     console.log('je suis dans créer room');
                     window.location = "./profile-page"
@@ -72,12 +59,6 @@ class createRoom extends React.Component {
                     console.log(error.response.data.error);
                     this.setState({error:error.response.data.error});
                 })
-
-            }, error => {
-                console.log(error.response.data.error);
-                this.setState({error:error.response.data.error});
-            });
-
         }
     };
 
@@ -93,17 +74,16 @@ class createRoom extends React.Component {
         return (
             <>
 
+
                 <Button
                     className="btn-round"
-                    color="neutral"
-                    outline
+                    color="info"
                     type="button"
                     onClick={() => this.setState({modal: true})}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                    Proposer une salle
+                    Modifier salle
                 </Button>
-
 
                 <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
                     <div className="modal-header justify-content-center">
@@ -218,19 +198,28 @@ class createRoom extends React.Component {
                     </ModalBody>
                     <div className="modal-footer">
 
+
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modal: false})}
+                            onClick={() => this.setState({modal: true})}
                         >
                             Annuler
                         </Button>
+                        <UncontrolledTooltip
+                            delay={0}
+                            placement="bottom"
+                            target="published"
+                        >
+                            Ceci ne publie pas l'annonce
+                        </UncontrolledTooltip>
                         <Button
                             color="info"
                             type="button"
+                            id = "published"
                             onClick={this.send}
                         >
-                            Valider
+                            Enregistrer
                         </Button>
                     </div>
                 </Modal>
@@ -240,4 +229,4 @@ class createRoom extends React.Component {
         );
     }
 }
-export default createRoom;
+export default updateRoom;

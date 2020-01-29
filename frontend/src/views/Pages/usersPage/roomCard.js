@@ -6,7 +6,6 @@ import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardText from "reactstrap/es/CardText";
 
 
@@ -30,7 +29,7 @@ class roomCard extends Component{
                         <Container>
 
                             <Col>
-                    <Card>
+                    <Card style={{ width: '18rem' }} >
                         <CardBody>
                             <CardTitle>{this.props.title}</CardTitle>
                             <CardText>Catégorie : {this.props.category}</CardText>
@@ -64,9 +63,9 @@ class roomCard extends Component{
                     : <div>
                         <Container>
 
-                        <Col>
-                            <Card>
-                                <CardBody>
+
+                            <Card style={{ width: '18rem' }} >
+                                <CardBody >
                                     <CardTitle>{this.props.title}</CardTitle>
                                     <CardText>Catégorie : {this.props.category}</CardText>
                                     <CardText> Prix : {this.props.price}</CardText>
@@ -83,7 +82,6 @@ class roomCard extends Component{
                                 </Button>
                                 </CardBody>
                             </Card>
-                        </Col>
                         </Container>
                     </div>
 
