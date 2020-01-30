@@ -15,7 +15,6 @@ class roomCard extends Component{
 
     constructor(props) {
         super(props);
-        console.log("propriete"+props._id);
         this.state = {
             isDeployed: false,
         };
@@ -69,6 +68,7 @@ class roomCard extends Component{
                                     <CardTitle>{this.props.title}</CardTitle>
                                     <CardText>Catégorie : {this.props.category}</CardText>
                                     <CardText> Prix : {this.props.price}</CardText>
+                                    <CardText>{this.props.description}</CardText>
                                 </CardBody>
                                 <CardBody>
                                 <Button

@@ -82,6 +82,7 @@ class manageRoomPage extends React.Component{
                             bail={room.bail}
                             description={room.description}
                             imageUrl={room.imageUrl}
+                            state={room.state}
                         />
                     )}
                     <DefaultFooter />

@@ -20,7 +20,7 @@ export default {
         })
     },
 
-    updateRoom: function ({title , description, address, category, city, postalCode, price, bail, _id}) {
+    updateRoom: function ({title , description, address, category, city, postalCode, price, bail, _id, state}) {
         return axios.put(burl + '/' + _id, {
             'title': title,
             'address': address,
@@ -30,8 +30,28 @@ export default {
             'bail': bail,
             'price': price,
             'category': category,
+            'state': state,
         }, {
             headers: tokenHeaders
         })
     },
+
+    publishRoom: function ({state, _id}) {
+        return axios.put (burl + '/' +_id, {
+            'state': state,
+        },{
+            headers: tokenHeaders
+        })
+    },
+
+    unPublishRoom: function ({state, _id}) {
+        return axios.put (burl + '/' +_id, {
+            'state': state,
+        },{
+            headers: tokenHeaders
+        })
+    },
+
+
+
 }

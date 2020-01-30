@@ -3,7 +3,7 @@ const fs = require('fs');
 const decodeToken = require('../encryption/decodeToken');
 
 exports.createRoom = (req, res, next) => {
-    console.log('createRoom : req.body :',req.body)
+    console.log('createRoom : req.body :', req.body)
     const roomObject = req.body;
     const room = new Room({
         ...roomObject,
@@ -16,7 +16,7 @@ exports.createRoom = (req, res, next) => {
             roomId: room._id,
 
         }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({error}));
 };
 
 exports.modifyRoom = (req, res, next) => {
@@ -25,44 +25,45 @@ exports.modifyRoom = (req, res, next) => {
             ...JSON.parse(req.body.room),
             //imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {...req.body};
-    Room.updateOne({ _id: req.params.id }, { ...roomObject, _id: req.params.id })
+    Room.updateOne({_id: req.params.id}, {...roomObject, _id: req.params.id})
         .then(() => res.status(200).json({
             message: 'Objet modifié !',
             success: true,
         }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({error}));
 };
 
-exports.deleteRoom =  (req, res, next) => {
+exports.deleteRoom = (req, res, next) => {
     Room.findOne({_id: req.params.id})
-        .then(room =>{
+        .then(room => {
             //const filename = room.imageUrl.split('/images/')[1];
             //fs.unlink( `images/${filename}`, () =>{
-                Room.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-                    .catch(error => res.status(400).json({ error }));
+            Room.deleteOne({_id: req.params.id})
+                .then(() => res.status(200).json({message: 'Objet supprimé !'}))
+                .catch(error => res.status(400).json({error}));
             //})
         })
-        .catch(error => res.status(500).json({ error }))
+        .catch(error => res.status(500).json({error}))
 };
 
 exports.getOneRoom = (req, res, next) => {
-    Room.findOne({ _id: req.params.id })
+    Room.findOne({_id: req.params.id})
         .then(room => res.status(200).json(room))
-        .catch(error => res.status(404).json({ error }));
+        .catch(error => res.status(404).json({error}));
 };
 
 exports.getAllRooms = (req, res, next) => {
-    Room.find({state:true})
+    console.log("room : ");
+    Room.find({state:"published"})
         .then(rooms => res.status(200).json(rooms))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({error}));
 };
 
-exports.getRoomByUser = (req,res,next)  => {
+exports.getRoomByUser = (req, res, next) => {
     console.log(req.params.id);
-    Room.find({userId:req.params.id})
+    Room.find({userId: req.params.id})
         .then(rooms => res.status(200).json(rooms))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({error}));
 };
 
 

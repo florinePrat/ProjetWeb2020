@@ -8,7 +8,6 @@ import {
 } from "reactstrap";
 
 import {FormGroup, FormControl} from "react-bootstrap";
-
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import {tokenHeaders} from "../../../utils/headers";
@@ -16,6 +15,7 @@ import axios from 'axios';
 import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
 import api from "../../../utils/room";
+import CardSubtitle from "reactstrap/es/CardSubtitle";
 
 const burl = "http://localhost:3000/api/room";
 
@@ -29,7 +29,8 @@ class roomCard extends Component {
         this.state = {
             isDeployed: false,
             edit: false,
-            modal: false,
+            modalUpdate: false,
+            modalDelete: false,
             userId: localStorage.getItem("userId"),
             title: this.props.title,
             description: this.props.description,
@@ -43,6 +44,7 @@ class roomCard extends Component {
             _id: this.props._id,
             error: false,
             rooms: [],
+            state:this.props.state,
         };
         this.delete.bind(this);
     }
@@ -55,9 +57,35 @@ class roomCard extends Component {
             })
     };
 
+    publish = event => {
+        api.publishRoom({
+            state:"published",
+            _id: this.state._id,
+        }).then(res => {
+            window.location = "./manag-room-page"
+            {alert('Votre salle à bien été publié ! :)')}
+        }, error => {
+            console.log(error.response.data.error);
+            this.setState({error: error.response.data.error});
+        })
+    };
+
+    unPublish = event => {
+        api.unPublishRoom({
+            state:"publishable",
+            _id: this.state._id,
+        }).then(res => {
+            window.location = "./manag-room-page"
+            {alert('Votre salle à bien été dépublié ! :)')}
+        }, error => {
+            console.log(error.response.data.error);
+            this.setState({error: error.response.data.error});
+        })
+    };
+
     update = event => {
         if (this.state.title.length === 0) {
-            this.setState({error: "titre vide"});
+            this.setState({error: "nom du lieu vide"});
         } else if (this.state.address.length === 0) {
             this.setState({error: "adresse vide"});
         } else if (this.state.city.length === 0) {
@@ -68,6 +96,10 @@ class roomCard extends Component {
             this.setState({error: "categorie vide"});
         } else if (this.state.bail.length === 0) {
             this.setState({error: "caution vide"});
+        } else if (this.state.price.length === 0) {
+            this.setState({error: "prix vide"});
+        } else if (this.state.description.length === 0) {
+            this.setState({error: "description vide"});
         } else {
             console.log('roomid : ', this.state._id);
 
@@ -80,7 +112,8 @@ class roomCard extends Component {
                 category: this.state.category,
                 bail: this.state.bail,
                 _id: this.state._id,
-                price: this.state.price
+                price: this.state.price,
+                state: "publishable",
             }).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
@@ -99,7 +132,6 @@ class roomCard extends Component {
     };
 
     render() {
-        console.log("my props : ", this.props);
         return (
             this.state.isDeployed
                 ?
@@ -115,19 +147,19 @@ class roomCard extends Component {
                             className="btn-round"
                             color="info"
                             type="button"
-                            onClick={() => this.setState({modal: true})}
+                            onClick={() => this.setState({modalUpdate: true})}
                         >
                             <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                             Modifier salle
                         </Button>
-                        {/* ------------------------------------------------------------------------------------ modal*/}
+                        {/* ------------------------------------------------------------------------------------ modalUpdate*/}
 
-                        <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
+                        <Modal isOpen={this.state.modalUpdate} toggle={() => this.setState({modalUpdate: false})}>
                             <div className="modal-header justify-content-center">
                                 <button
                                     className="close"
                                     type="button"
-                                    onClick={() => this.setState({modal: false})}
+                                    onClick={() => this.setState({modalUpdate: false})}
                                 >
                                     <i className="now-ui-icons ui-1_simple-remove"/>
                                 </button>
@@ -226,12 +258,13 @@ class roomCard extends Component {
                                                 onChange={this.handleChange}
                                                 type="text"
                                             >
-                                                <option>...</option>
-                                                <option>...</option>
-                                                <option>...</option>
-                                                <option>...</option>
-                                                <option>...</option>
-                                                <option>...</option>
+                                                <option>{this.state.category}</option>
+                                                <option>Salle de fêtes (mariages, soirée, anniverssaire..)</option>
+                                                <option>Salle de réunions pro</option>
+                                                <option>Salle de coworking</option>
+                                                <option>Salle de restaurant</option>
+                                                <option>Garage</option>
+                                                <option>Hangar</option>
                                             </FormControl>
                                         </FormGroup>
                                         <FormGroup controlId="description">
@@ -254,7 +287,7 @@ class roomCard extends Component {
                                 <Button
                                     color="danger"
                                     type="button"
-                                    onClick={() => this.setState({modal: false})}
+                                    onClick={() => this.setState({modalUpdate: false})}
                                 >
                                     Annuler
                                 </Button>
@@ -280,15 +313,70 @@ class roomCard extends Component {
                         <Button
                             className="btn-round"
                             color="danger"
-                            onClick={this.delete}
+                            onClick={() => this.setState({modalDelete: true})}
                             bssize="large"
                         >
                             supprimer
                         </Button>
+
+
+                        {/* ------------------------------------------------------------------------------------ modalDelete*/}
+
+                        <Modal isOpen={this.state.modalDelete} toggle={() => this.setState({modalDelete: false})}>
+                            <div className="modal-header justify-content-center">
+                                <button
+                                    className="close"
+                                    type="button"
+                                    onClick={() => this.setState({modalDelete: false})}
+                                >
+                                    <i className="now-ui-icons ui-1_simple-remove"/>
+                                </button>
+                                <h4 className="title title-up">Je supprime ma salle</h4>
+                                {this.state.error ?
+                                    <Alert color="danger">
+                                        {this.state.error}
+                                    </Alert> : false
+                                }
+                            </div>
+                            <ModalBody>
+                               <p>Etes-vous sûr de vouloir supprimer votre salle ?</p>
+                            </ModalBody>
+                            <div className="modal-footer">
+
+
+                                <Button
+                                    color="danger"
+                                    type="button"
+                                    onClick={() => this.setState({modalDelete: false})}
+                                >
+                                    Non
+                                </Button>
+                                <UncontrolledTooltip
+                                    delay={0}
+                                    placement="bottom"
+                                    target="delete"
+                                >
+                                    Supprime définitivement votre annonce
+                                </UncontrolledTooltip>
+                                <Button
+                                    color="info"
+                                    type="button"
+                                    id="delete"
+                                    onClick={this.delete}
+                                >
+                                    Oui
+                                </Button>
+                            </div>
+                        </Modal>
+
+                        {/* ------------------------------------------------------------------------------------ endModal */}
+
+
                         <Button
                             className="btn-round"
                             onClick={() => {
                                 this.setState({isDeployed: false});
+
                             }}
                             bssize="large"
                         >
@@ -299,7 +387,8 @@ class roomCard extends Component {
                 :
                 <Card style={{width: '18rem'}}>
                     <CardBody>
-                        <CardTitle>Annonce : {this.props.title}</CardTitle>
+                        <CardTitle>{this.props.title}</CardTitle>
+                        <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>
                     </CardBody>
                     <CardBody>
                         <Button
@@ -312,6 +401,27 @@ class roomCard extends Component {
                         >
                             Voir
                         </Button>
+                        {this.state.state === "publishable"
+                            ? <Button
+                                className="btn-round"
+                                color="info"
+                                onClick={this.publish}
+                                bssize="large"
+                            >
+                                Publier
+                            </Button>
+
+                            : this.state.state === "published" ?
+
+                                    <Button
+                                        className="btn-round"
+                                        color="info"
+                                        onClick={this.unPublish}
+                                        bssize="large"
+                                    >
+                                        Unpublish
+                                    </Button> : null
+                        }
                     </CardBody>
                 </Card>
 

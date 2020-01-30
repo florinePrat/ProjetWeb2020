@@ -30,7 +30,7 @@ class LandingPage extends React.Component {
     } )
         .then(res => {
           const rooms = res.data;
-          console.log('my data',rooms[0]);
+          console.log('my data',rooms);
           this.setState({ rooms });
         }, function(data){
           console.log(data);
@@ -56,6 +56,8 @@ class LandingPage extends React.Component {
                       postalCode={room.postalCode}
                       imageUrl={room.imageUrl}
                       category={room.category}
+                      state={room.state}
+                      description={room.description}
                   />
               )}
               <DefaultFooter />

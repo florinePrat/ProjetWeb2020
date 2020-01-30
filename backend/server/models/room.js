@@ -13,7 +13,7 @@ const roomSchema = mongoose.Schema({
     availability:{type:Array,  default:''},
     review:{type:Array, default:''},
     userId:{type:String, required:true},
-    state:{type:Boolean, default:false}, //status false : not published
+    state:{type:String, default:"unpublish"}, //status false : not published
 });
 
 module.exports = mongoose.model('Room', roomSchema);
