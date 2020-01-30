@@ -22,6 +22,13 @@ export default {
         })
     },
 
+    sendEmail : function(email){
+       return axios.get(burl + '/hasPassword/' + email,{
+       },{
+           headers: basicHeaders
+       })
+   },
+
    /* createPassword : function(password, statePassword, _id){
         return axios.put(burl + '/password/' + _id,{
             'password' : password,

@@ -36,15 +36,13 @@ const getUserByEmail = async(email) => {
     }
 };
 
-const createPassword = async (password) => {
+const createPassword = async (_id,password) => {
     try {
         const hashedPassword = await passwordEncryption.passwordEncryption(password);
-        const user =  User({
-            password : hashedPassword,
-        });
-        console.log(user);
-        const updatedPassword= await user.update();
-        return updatedPassword
+        console.log('hashpassword', hashedPassword);
+        const user= await User.findOneAndUpdate({_id:_id},{password:hashedPassword},{new:true});
+        console.log(user)
+        return user;
     } catch (error) {
         console.log(error.message);
         throw error

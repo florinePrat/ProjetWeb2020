@@ -3,9 +3,8 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
   email:{type:String, required: true, unique:true},
-  firstName:{type:String, default:'Prénom '},
-  password:{type:String, default:' '},
-  statePassword:{type:Boolean, default: false},
+  firstName:{type:String, required: true},
+  password:{type:String, default:null},
   imageUrl:{type:String, default:'/user.png'},
   phoneNumber:{type:Number, required:true},
 });

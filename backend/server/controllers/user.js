@@ -38,7 +38,6 @@ exports.signup = async (req, res, next) => {
                 firstName: user.firstName,
                 imageUrl: user.imageUrl,
                 userId: user._id,
-                statePassword:user.statePassword,
             });
         }
         }catch (error) {
@@ -63,11 +62,36 @@ exports.login = async (req, res, next) => {
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
             const user = await userController.getUserByEmail(email);
-            //comparing encrypted password of user
-            const bcrypt = require('bcryptjs');
-            const match = await  bcrypt.compare(password,user.password.toString());
-            if(match){
-                //if password compare is true, we return token
+            if(user.password !== null){
+                //comparing encrypted password of user
+                const bcrypt = require('bcryptjs');
+                const match = await  bcrypt.compare(password,user.password.toString());
+                if(match){
+                    //if password compare is true, we return token
+                    const tokenUser = {
+                        id: user._id,
+                        email: user.email,
+                        firstName: user.firstName
+                    };
+                    const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '24h'});
+                    //return satuts OK with token
+                    return  res.status(200).json({
+                        success: true,
+                        message: 'Connected !',
+                        token: token,
+                        firstName: user.firstName,
+                        imageUrl: user.imageUrl,
+                        userId: user._id,
+                    });
+                }
+                else{
+                    console.log('mot de passe incorrect');
+                    return  res.status(401).json({
+                        error: 'mot de passe incorrect'
+                    });
+                }
+            }else {
+                await userController.createPassword(user._id,password);
                 const tokenUser = {
                     id: user._id,
                     email: user.email,
@@ -82,15 +106,9 @@ exports.login = async (req, res, next) => {
                     firstName: user.firstName,
                     imageUrl: user.imageUrl,
                     userId: user._id,
-                    statePassword:user.statePassword,
                 });
             }
-            else{
-                console.log('mot de passe incorrect');
-                return  res.status(401).json({
-                    error: 'mot de passe incorrect'
-                });
-            }
+
         }
     } catch(error) {
         return  res.status(401).json({
@@ -111,6 +129,30 @@ exports.addPicture = async (req, res, next) => {
     User.updateOne({_id: req.params.id}, { ...userObject, _id: req.params.id})
         .then(() => res.status(200).json({ message: 'Image ajouté !'}))
         .catch(error => res.status(400).json({ error }));
+};
+
+
+exports.sendEmail = async (req, res, next) => {
+    try{
+        if(req.params.email === undefined) {
+            //if data is empty we return 400 status
+            return res.status(400).json({error : "Aucun email saisi"});
+        }else if(!req.params.email.toLowerCase().match(regEmail)){
+            return res.status(400).json({error : "Format de l'email incorrect"});
+        } else {
+            const email = req.params.email.toLowerCase();
+            const user = await userController.getUserByEmail(email);
+
+                return  res.status(200).json(
+                    user.password !== null
+                );
+            }
+
+    } catch(error) {
+        return  res.status(401).json({
+            error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
+        });
+    }
 };
 
 /*exports.createPassword = async (req, res, next) => {
