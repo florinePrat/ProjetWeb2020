@@ -4,18 +4,22 @@ import {
     Alert,
     Button,
     Modal,
-    ModalBody, UncontrolledTooltip,
+    ModalBody,
 } from "reactstrap";
 
+import auth from '../../utils/auth';
 import api from '../../utils/room';
 import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-class updateRoom extends React.Component {
+class createRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: "",
+            firstName: "",
+            phoneNumber: "",
             modal: false,
             userId: localStorage.getItem("userId"),
             title:"",
@@ -29,7 +33,6 @@ class updateRoom extends React.Component {
             bail:"",
             imageUrl:" ",
             error: false,
-            rooms:[],
         };
         this.send.bind(this);
         this.handleChange.bind(this);
@@ -45,20 +48,16 @@ class updateRoom extends React.Component {
             this.setState({error: "ville vide"});
         } else if (this.state.postalCode.length === 0) {
             this.setState({error: "code postal vide"});
-        } else if (this.state.category.length === 0) {
-            this.setState({error: "categorie vide"});
-        } else if (this.state.bail.length === 0) {
-            this.setState({error: "caution vide"});
         } else {
+            api.createOtherRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,this.state.userId).then(res => {
+                console.log(res.data);
+                console.log('je suis dans créer room');
+                window.location = "./profile-page"
+            }, error => {
+                console.log(error.response.data.error);
+                this.setState({error:error.response.data.error});
+            })
 
-                api.updateRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,).then(res => {
-                    console.log(res.data);
-                    console.log('je suis dans créer room');
-                    window.location = "./profile-page"
-                }, error => {
-                    console.log(error.response.data.error);
-                    this.setState({error:error.response.data.error});
-                })
         }
     };
 
@@ -74,16 +73,16 @@ class updateRoom extends React.Component {
         return (
             <>
 
-
                 <Button
                     className="btn-round"
-                    color="info"
+                    color="neutral"
                     type="button"
                     onClick={() => this.setState({modal: true})}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                    Modifier salle
+                    Proposer une asalle
                 </Button>
+
 
                 <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
                     <div className="modal-header justify-content-center">
@@ -155,71 +154,25 @@ class updateRoom extends React.Component {
                                         </FormControl>
                                     </FormGroup>
                                 </div>
-                            </div>
-                            <div className="col">
-                                <FormGroup controlId="email">
-                                    <i className="now-ui-icons ui-1_email-85"/> E-mail :
-                                    <FormControl
-                                        placeholder= "E-mail *"
-                                        value={this.state.email}
-                                        onChange={this.handleChange}
-                                        type="text"
-                                    >
-                                    </FormControl>
-                                </FormGroup>
-                            </div>
-                            <div className="form-row">
-                                <div className="col">
-                                    <FormGroup controlId="firstName">
-                                        <i className="now-ui-icons users_single-02"/> Prénom :
-                                        <FormControl
-                                            placeholder= "Prénom *"
-                                            value={this.state.firstName}
-                                            onChange={this.handleChange}
-                                            type="text"
-                                        >
-                                        </FormControl>
-                                    </FormGroup>
-                                </div>
-                                <div className="col">
-                                    <FormGroup controlId="phoneNumber">
-                                        <i className="now-ui-icons tech_mobile"/> Numéro de téléphone :
-                                        <FormControl
-                                            placeholder= "Poratble *"
-                                            value={this.state.phoneNumber}
-                                            onChange={this.handleChange}
-                                            type="text"
-                                        >
-                                        </FormControl>
-                                    </FormGroup>
-                                </div>
+
                             </div>
                         </form>
                     </ModalBody>
                     <div className="modal-footer">
 
-
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modal: true})}
+                            onClick={() => this.setState({modal: false})}
                         >
                             Annuler
                         </Button>
-                        <UncontrolledTooltip
-                            delay={0}
-                            placement="bottom"
-                            target="published"
-                        >
-                            Ceci ne publie pas l'annonce
-                        </UncontrolledTooltip>
                         <Button
                             color="info"
                             type="button"
-                            id = "published"
                             onClick={this.send}
                         >
-                            Enregistrer
+                            Valider
                         </Button>
                     </div>
                 </Modal>
@@ -229,4 +182,4 @@ class updateRoom extends React.Component {
         );
     }
 }
-export default updateRoom;
+export default createRoom;

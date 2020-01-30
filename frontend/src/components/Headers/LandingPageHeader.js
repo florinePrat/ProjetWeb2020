@@ -3,8 +3,9 @@ import {Container} from "reactstrap";
 import auth from "../../utils/auth";
 import ExamplesNavbar from "../Navbars/ExamplesNavbar";
 import Javascript from "../Modals/modalFormRent";
-import {FormGroup, Input} from "reactstrap";
-import {Button, FormControl} from "react-bootstrap";
+import {FormGroup, Button} from "reactstrap";
+import CustomInput from "reactstrap/es/CustomInput";
+import AccueilNavbar from "../Navbars/AccueilNavbar";
 // reactstrap components
 
 // core components
@@ -20,7 +21,8 @@ class LandingPageHeader extends React.Component {
     render() {
         return (
             <>
-                {this.state.isAuth ? <ExamplesNavbar/> : null}
+
+                {this.state.isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
 
                 <div className="page-header page-header-small">
 
@@ -41,46 +43,50 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                    </Container>
-
-                    <Container>
                         <form>
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <FormGroup controlId="search">
-                                        <Input
-                                            placeholder="Mots clés ..."
-                                            type="text"
+                            <div className="form-row" >
+                                <div className="form-group col-md-4">
+                                    <FormGroup controlId="localisation">
+                                        <CustomInput
+                                            type="select"
+                                            id="city"
+                                            name="customSelect"
+                                            value={this.state.city}
+                                            onChange={this.handleChange}
                                         >
-                                        </Input>
+                                            <option value="">Où ?</option>
+                                            <option>Montpellier</option>
+                                            <option>Alès</option>
+                                        </CustomInput>
                                     </FormGroup>
                                 </div>
 
-                                <div className="form-group col-md-3">
+                                <div className="form-group col-md-4">
                                 <FormGroup controlId="category">
-                                    <FormControl
-                                        placeholder="Categorie *"
-                                        as="select"
+                                    <CustomInput
+                                        type="select"
+                                        id="category"
+                                        name="customSelect"
                                         value={this.state.category}
                                         onChange={this.handleChange}
-                                        type="text"
                                     >
-                                        <option>{this.state.category}</option>
+                                        <option value="">Type de salle</option>
                                         <option>Salle de fêtes (mariages, soirée, anniverssaire..)</option>
                                         <option>Salle de réunions pro</option>
                                         <option>Salle de coworking</option>
                                         <option>Salle de restaurant</option>
                                         <option>Garage</option>
                                         <option>Hangar</option>
-                                    </FormControl>
+                                    </CustomInput>
+
                                 </FormGroup>
                                 </div>
-                                <div className="form-group col-md-2">
+                                <div className="form-group col-md-1">
                                     <FormGroup>
                                         <Button
-                                            color='neutral'
-                                        >
-                                            Rechercher
+                                            className='btn-round'
+                                            color='info'
+                                        >Rechercher
                                         </Button>
                                     </FormGroup>
                                 </div>

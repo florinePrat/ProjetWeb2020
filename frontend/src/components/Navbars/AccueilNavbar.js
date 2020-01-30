@@ -3,13 +3,15 @@ import React from "react";
 import {
     NavbarBrand,
     Navbar,
-    Container,
+    Container, Nav, NavItem, NavLink, UncontrolledTooltip, Collapse,
 } from "reactstrap";
+import {Link} from "react-router-dom";
 
 
 
 function AccueilNavbar() {
     const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
+    const [collapseOpen, setCollapseOpen] = React.useState(false);
     React.useEffect(() => {
         const updateNavbarColor = () => {
             if (
@@ -31,6 +33,15 @@ function AccueilNavbar() {
     });
     return (
         <>
+            {collapseOpen ? (
+                <div
+                    id="bodyClick"
+                    onClick={() => {
+                        document.documentElement.classList.toggle("nav-open");
+                        setCollapseOpen(false);
+                    }}
+                />
+            ) : null}
 
             <Navbar className={"fixed-top " + navbarColor} color="info" expand="lg">
                 <Container>
@@ -43,8 +54,39 @@ function AccueilNavbar() {
                         >
                             Locat'Me
                         </NavbarBrand>
-
+                        <button
+                            className="navbar-toggler navbar-toggler"
+                            onClick={() => {
+                                document.documentElement.classList.toggle("nav-open");
+                                setCollapseOpen(!collapseOpen);
+                            }}
+                            aria-expanded={collapseOpen}
+                            type="button"
+                        >
+                            <span className="navbar-toggler-bar top-bar"/>
+                            <span className="navbar-toggler-bar middle-bar"/>
+                            <span className="navbar-toggler-bar bottom-bar"/>
+                        </button>
                     </div>
+                    <Collapse
+                        className="justify-content-end"
+                        isOpen={collapseOpen}
+                        navbar
+                    >
+                        <Nav navbar>
+                            <NavItem>
+                                <NavLink to="/" tag={Link}>
+                                    Accueil
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="/login-page">
+                                    Se connecter
+                                </NavLink>
+                            </NavItem>
+
+                        </Nav>
+                    </Collapse>
 
                 </Container>
             </Navbar>

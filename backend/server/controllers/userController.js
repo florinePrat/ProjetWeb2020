@@ -36,9 +36,25 @@ const getUserByEmail = async(email) => {
     }
 };
 
+const createPassword = async (password) => {
+    try {
+        const hashedPassword = await passwordEncryption.passwordEncryption(password);
+        const user =  User({
+            password : hashedPassword,
+        });
+        console.log(user);
+        const updatedPassword= await user.update();
+        return updatedPassword
+    } catch (error) {
+        console.log(error.message);
+        throw error
+    }
+};
+
 
 module.exports = {
     getUserById,
     createUser,
     getUserByEmail,
+    createPassword,
 };

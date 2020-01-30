@@ -16,6 +16,7 @@ import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
 import api from "../../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
+import Container from "@material-ui/core/Container";
 
 const burl = "http://localhost:3000/api/room";
 
@@ -44,7 +45,7 @@ class roomCard extends Component {
             _id: this.props._id,
             error: false,
             rooms: [],
-            state:this.props.state,
+            state: this.props.state,
         };
         this.delete.bind(this);
     }
@@ -59,11 +60,13 @@ class roomCard extends Component {
 
     publish = event => {
         api.publishRoom({
-            state:"published",
+            state: "published",
             _id: this.state._id,
         }).then(res => {
             window.location = "./manag-room-page"
-            {alert('Votre salle à bien été publié ! :)')}
+            {
+                alert('Votre salle à bien été publié ! :)')
+            }
         }, error => {
             console.log(error.response.data.error);
             this.setState({error: error.response.data.error});
@@ -72,11 +75,13 @@ class roomCard extends Component {
 
     unPublish = event => {
         api.unPublishRoom({
-            state:"publishable",
+            state: "publishable",
             _id: this.state._id,
         }).then(res => {
             window.location = "./manag-room-page"
-            {alert('Votre salle à bien été dépublié ! :)')}
+            {
+                alert('Votre salle à bien été dépublié ! :)')
+            }
         }, error => {
             console.log(error.response.data.error);
             this.setState({error: error.response.data.error});
@@ -117,7 +122,7 @@ class roomCard extends Component {
             }).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./profile-page"
+                window.location = "./manag-room-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error: error.response.data.error});
@@ -164,12 +169,13 @@ class roomCard extends Component {
                                     <i className="now-ui-icons ui-1_simple-remove"/>
                                 </button>
                                 <h4 className="title title-up">Je modifie ma salle</h4>
-                                {this.state.error ?
-                                    <Alert color="danger">
-                                        {this.state.error}
-                                    </Alert> : false
-                                }
+
                             </div>
+                            {this.state.error ?
+                                <Alert color="danger">
+                                    {this.state.error}
+                                </Alert> : false
+                            }
                             <ModalBody>
                                 <form>
                                     <div className="form-row">
@@ -339,7 +345,7 @@ class roomCard extends Component {
                                 }
                             </div>
                             <ModalBody>
-                               <p>Etes-vous sûr de vouloir supprimer votre salle ?</p>
+                                <p>Etes-vous sûr de vouloir supprimer votre salle ?</p>
                             </ModalBody>
                             <div className="modal-footer">
 
@@ -385,46 +391,44 @@ class roomCard extends Component {
                     </CardBody>
                 </Card>
                 :
-                <Card style={{width: '18rem'}}>
-                    <CardBody>
-                        <CardTitle>{this.props.title}</CardTitle>
-                        <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>
-                    </CardBody>
-                    <CardBody>
-                        <Button
-                            className="btn-round"
-                            color="info"
-                            onClick={() => {
-                                this.setState({isDeployed: true})
-                            }}
-                            bssize="large"
-                        >
-                            Voir
-                        </Button>
-                        {this.state.state === "publishable"
-                            ? <Button
-                                className="btn-round"
-                                color="info"
-                                onClick={this.publish}
-                                bssize="large"
-                            >
-                                Publier
-                            </Button>
-
-                            : this.state.state === "published" ?
-
-                                    <Button
+                        <Card style={{width: '18rem'}}>
+                            <CardBody>
+                                <CardTitle>{this.props.title}</CardTitle>
+                                <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>
+                            </CardBody>
+                            <CardBody>
+                                <Button
+                                    className="btn-round"
+                                    color="info"
+                                    onClick={() => {
+                                        this.setState({isDeployed: true})
+                                    }}
+                                    bssize="large"
+                                >
+                                    Voir
+                                </Button>
+                                {this.state.state === "publishable"
+                                    ? <Button
                                         className="btn-round"
-                                        color="info"
-                                        onClick={this.unPublish}
+                                        color="success"
+                                        onClick={this.publish}
                                         bssize="large"
                                     >
-                                        Unpublish
-                                    </Button> : null
-                        }
-                    </CardBody>
-                </Card>
+                                        Publier
+                                    </Button>
 
+                                    : this.state.state === "published" ?
+
+                                        <Button
+                                            className="btn-round"
+                                            onClick={this.unPublish}
+                                            bssize="large"
+                                        >
+                                            Unpublish
+                                        </Button> : null
+                                }
+                            </CardBody>
+                        </Card>
         )
 
 

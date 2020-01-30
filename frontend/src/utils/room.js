@@ -20,6 +20,18 @@ export default {
         })
     },
 
+    createOtherRoom: function (title, address, city, postalCode, userId) {
+        return axios.post(burl + '/', {
+            'title': title,
+            'address': address,
+            'city': city,
+            'postalCode': postalCode,
+            'userId': userId,
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
     updateRoom: function ({title , description, address, category, city, postalCode, price, bail, _id, state}) {
         return axios.put(burl + '/' + _id, {
             'title': title,

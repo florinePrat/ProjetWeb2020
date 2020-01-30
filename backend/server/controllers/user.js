@@ -37,7 +37,8 @@ exports.signup = async (req, res, next) => {
                 token: token,
                 firstName: user.firstName,
                 imageUrl: user.imageUrl,
-                userId: user._id
+                userId: user._id,
+                statePassword:user.statePassword,
             });
         }
         }catch (error) {
@@ -80,7 +81,8 @@ exports.login = async (req, res, next) => {
                     token: token,
                     firstName: user.firstName,
                     imageUrl: user.imageUrl,
-                    userId: user._id
+                    userId: user._id,
+                    statePassword:user.statePassword,
                 });
             }
             else{
@@ -110,5 +112,19 @@ exports.addPicture = async (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Image ajouté !'}))
         .catch(error => res.status(400).json({ error }));
 };
+
+/*exports.createPassword = async (req, res, next) => {
+    console.log("je suis ici")
+    const password = req.body.password;
+    await userController.createPassword(password);
+    return res.status(200).json({
+        success: true,
+        message: 'Connected !'
+    });
+};*/
+
+
+
+
 
 

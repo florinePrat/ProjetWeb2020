@@ -7,35 +7,35 @@ import auth from "../../../utils/auth";
 import DefaultFooter from "../../../components/Footers/DefaultFooter";
 import LandingPageHeader from "../../../components/Headers/LandingPageHeader";
 import ExamplesNavbar from "../../../components/Navbars/ExamplesNavbar";
-
+import {Col, Container, Row} from "react-bootstrap";
+import ProfilePageHeader from "../../../components/Headers/ProfilePageHeader";
 
 
 // core components
 //let pageHeader= React.createRef();
 const burl = "http://localhost:3000/api/room";
 
-class manageRoomPage extends React.Component{
-
+class manageRoomPage extends React.Component {
 
 
     constructor(props) {
         super(props);
         this.state = {
-            isAuth : auth.isAuth(),
-            rooms:[],
+            isAuth: auth.isAuth(),
+            rooms: [],
             userId: localStorage.getItem("userId")
         };
     }
 
     componentDidMount() {
-        axios.get(burl + '/byUser/'+this.state.userId,{
+        axios.get(burl + '/byUser/' + this.state.userId, {
             headers: tokenHeaders
-        } )
+        })
             .then(res => {
                 const rooms = res.data;
-                console.log('my data',rooms[0]);
-                this.setState({ rooms });
-            }, function(data){
+                console.log('my data', rooms[0]);
+                this.setState({rooms});
+            }, function (data) {
                 console.log(data);
             })
     }
@@ -59,38 +59,44 @@ class manageRoomPage extends React.Component{
     })*/
 
 
-    render(){
+    render() {
 
 
         return (
             <>
-                <ExamplesNavbar />
+                <ExamplesNavbar/>
                 <div className="wrapper">
-                    <LandingPageHeader />
+                    <LandingPageHeader/>
                     <div className="wrapper">
                         <br/>
-
-                    {this.state.rooms.map(room =>
-                        <RoomCard
-                            _id={room._id}
-                            title={room.title}
-                            price={room.price}
-                            city={room.city}
-                            postalCode={room.postalCode}
-                            address={room.address}
-                            category={room.category}
-                            bail={room.bail}
-                            description={room.description}
-                            imageUrl={room.imageUrl}
-                            state={room.state}
-                        />
-                    )}
-                    <DefaultFooter />
+                        <Container>
+                            <Row xs="3">
+                                <Col>
+                                    {this.state.rooms.map(room =>
+                                        <RoomCard
+                                            _id={room._id}
+                                            title={room.title}
+                                            price={room.price}
+                                            city={room.city}
+                                            postalCode={room.postalCode}
+                                            address={room.address}
+                                            category={room.category}
+                                            bail={room.bail}
+                                            description={room.description}
+                                            imageUrl={room.imageUrl}
+                                            state={room.state}
+                                        />
+                                    )}
+                                </Col>
+                            </Row>
+                        </Container>
+                        <DefaultFooter/>
                     </div>
                 </div>
             </>
         );
-    }}
+    }
+}
 
 export default manageRoomPage;
 

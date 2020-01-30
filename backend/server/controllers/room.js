@@ -53,7 +53,6 @@ exports.getOneRoom = (req, res, next) => {
 };
 
 exports.getAllRooms = (req, res, next) => {
-    console.log("room : ");
     Room.find({state:"published"})
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({error}));

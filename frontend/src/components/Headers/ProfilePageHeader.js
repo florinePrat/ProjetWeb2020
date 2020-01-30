@@ -4,6 +4,7 @@ import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
 import pict from '../../utils/picture';
+import Javascript from "../../components/Modals/modalCreatePassword";
 
 // core components
 let pageHeader= React.createRef();
@@ -19,6 +20,7 @@ class ProfilePageHeader extends React.Component{
       firstName:localStorage.getItem("firstName"),
       imageUrl:localStorage.getItem("imageUrl"),
       avatar:"",
+      statePassword:localStorage.getItem("statePassword"),
     };
     console.log("test",localStorage);
     this.logout.bind(this);
@@ -30,7 +32,7 @@ class ProfilePageHeader extends React.Component{
   logout = event => {
     console.log("logout called");
     auth.logout();
-    window.location= '/login-page';
+    window.location= '/';
   };
 
 
@@ -58,7 +60,7 @@ class ProfilePageHeader extends React.Component{
 
 
   render(){
-
+    console.log('statepass : ',this.state.statePassword);
   return (
     <>
 
@@ -94,19 +96,26 @@ class ProfilePageHeader extends React.Component{
 
           <h3 className="title">{this.state.firstName}</h3>
           <div className="content">
+
+            {this.state.statePassword === 'false'
+                ? <Javascript/>
+                : null
+            }
             <div className="social-description">
-              <h2>3</h2>
-              <p>Reservations</p>
+
+
+
             </div>
             <div className="social-description">
-              <h2>2</h2>
-              <p>Commentaires</p>
+
+
+
+            </div>
+            <div className="social-description">
+
+
             </div>
 
-            <div className="social-description">
-              <h2>5</h2>
-              <p>Etoiles</p>
-            </div>
             <div className="social-description">
               <Nav.Link onClick={this.logout} >Logout</Nav.Link>
             </div>

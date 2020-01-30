@@ -60,6 +60,7 @@ class createRoom extends React.Component {
                 localStorage.setItem('firstName', res.data.firstName);
                 localStorage.setItem('imageUrl', res.data.imageUrl);
                 localStorage.setItem('userId', res.data.userId);
+                localStorage.setItem('statePassword', res.data.statePassword);
                 this.setState({userId: res.data.userId});
                 console.log("signup",localStorage);
 

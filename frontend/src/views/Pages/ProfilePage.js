@@ -17,7 +17,7 @@ import {
 import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "../../components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
-import Javascript from "../../components/Modals/modalFormRent";
+import Javascript from "../../components/Modals/modalCreateOtherRoom";
 
 
 function ProfilePage() {
@@ -45,7 +45,7 @@ function ProfilePage() {
 
               <Button
                 className="btn-round"
-                href="room-page"
+                href="/"
                 color="default"
                 id="tooltip515203352"
                 size="lg"

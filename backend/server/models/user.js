@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
   email:{type:String, required: true, unique:true},
   firstName:{type:String, default:'Prénom '},
   password:{type:String, default:' '},
+  statePassword:{type:Boolean, default: false},
   imageUrl:{type:String, default:'/user.png'},
   phoneNumber:{type:Number, required:true},
 });
