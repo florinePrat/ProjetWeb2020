@@ -64,7 +64,7 @@ exports.getAllSearchRooms = (req, res, next) => {
         Room.find(
             {$and :
                     [
-                        {$and: [ { category : req.params.category }, { city : req.params.city } ] },
+                        {$and: [ { category : req.params.category }, { city : req.params.city  } ] },
                         { state : "published" }
                     ]
             })
@@ -85,7 +85,6 @@ exports.getAllSearchRooms = (req, res, next) => {
     }};
 
 exports.getRoomByUser = (req, res, next) => {
-    console.log(req.params.id);
     Room.find({userId: req.params.id})
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({error}));

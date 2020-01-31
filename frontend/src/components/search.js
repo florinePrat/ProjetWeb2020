@@ -27,20 +27,6 @@ class SearchComponent extends React.Component {
     };
 
 
-   /* send = event => {
-            room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
-                const rooms = res;
-                console.log('je suis bien dans la requette send ! ');
-                console.log(this.state.category);
-                console.log(this.state.city);
-                this.setState({rooms : rooms});
-                console.log("room : ", res)
-            }, error => {
-                console.log(error)
-            })
-
-    };*/
-
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
@@ -65,7 +51,7 @@ class SearchComponent extends React.Component {
                                 >
                                     <option>Où ?</option>
                                     <option>Montpellier</option>
-                                    <option>Alès</option>
+                                    <option>Ales</option>
                                 </CustomInput>
                             </FormGroup>
                         </div>

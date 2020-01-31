@@ -5,7 +5,8 @@ import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import {Card, Col, Container, Row} from "react-bootstrap";
 import CardText from "reactstrap/es/CardText";
-
+import CardImg from "react-bootstrap/CardImg";
+const burl = "http://localhost:3000/images";
 
 // this class send a answer to back for verify the answer and done the card of the day
 class roomCard extends Component {
@@ -15,6 +16,7 @@ class roomCard extends Component {
         super(props);
         this.state = {
             isDeployed: false,
+            imageUrl: localStorage.getItem("roomUrl"),
         };
     }
 
@@ -24,6 +26,7 @@ class roomCard extends Component {
             this.state.isDeployed
                 ?
                             <Card style={{width: '18rem'}}>
+                                <CardImg top width="100%" src={burl + '/' + this.state.imageUrl} alt="Card image cap" />
                                 <CardBody>
                                     <CardTitle>{this.props.title}</CardTitle>
                                     <CardText>{this.props.category}</CardText>
@@ -53,6 +56,7 @@ class roomCard extends Component {
                             </Card>
                 :
                         <Card style={{width: '18rem'}}>
+                            <CardImg top width="100%" src={burl + '/' + this.state.imageUrl} alt="Card image cap" />
                             <CardBody>
                                 <CardTitle>{this.props.title}</CardTitle>
                                 <CardText>{this.props.category}</CardText>

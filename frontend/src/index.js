@@ -31,7 +31,6 @@ import LoginPage from "views/Pages/LoginPage.js";
 import LandingPage from "views/Pages/LandingPage.js";
 import ProfilePage from "views/Pages/ProfilePage.js";
 import RoomPage from "views/Pages/usersPage/RoomPage.js";
-import ManagRoomPage from "views/Pages/userPage/ManagRoomPage";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -53,10 +52,6 @@ ReactDOM.render(
         <Route
             path="/room-page"
             render={props => <RoomPage {...props} />}
-        />
-        <Route
-            path="/manag-room-page"
-            render={props => <ManagRoomPage {...props} />}
         />
         <Route path="/login-page" render={props => <LoginPage {...props} />} />
         <Redirect to="/landing-page" />

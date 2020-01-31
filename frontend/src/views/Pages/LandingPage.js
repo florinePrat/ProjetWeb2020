@@ -36,7 +36,7 @@ class LandingPage extends React.Component {
             console.log(this.state.city);
             console.log("room : ", rooms);
             this.setState({rooms});
-
+            localStorage.setItem("roomUrl" , rooms[0].imageUrl)
         }, error => {
             console.log(error)
         })
@@ -52,6 +52,7 @@ class LandingPage extends React.Component {
                 const rooms = res.data;
                 console.log('my data', rooms);
                 this.setState({rooms});
+                localStorage.setItem("roomUrl" , rooms[0].imageUrl)
             }, function (data) {
                 console.log(data);
             })
@@ -65,7 +66,7 @@ class LandingPage extends React.Component {
                     <div className="wrapper">
                         <br/>
                         <Container>
-                            <Row xs="3">
+                            <Row xs="3" >
                                 <Col>
                                     {this.state.rooms.map(room =>
                                         <RoomCard

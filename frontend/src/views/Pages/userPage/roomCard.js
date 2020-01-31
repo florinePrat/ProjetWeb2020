@@ -14,8 +14,9 @@ import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
 import api from "../../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
+import CardImg from "react-bootstrap/CardImg";
 
-const burl = "http://localhost:3000/api/room";
+const burl = "http://localhost:3000/images";
 
 // this class send a answer to back for verify the answer and done the card of the day
 class roomCard extends Component {
@@ -38,7 +39,7 @@ class roomCard extends Component {
             postalCode: this.props.postalCode,
             category: this.props.category,
             bail: this.props.bail,
-            imageUrl: this.props.imageUrl,
+            imageUrl: localStorage.getItem("roomUrl"),
             _id: this.props._id,
             error: false,
             rooms: [],
@@ -49,7 +50,7 @@ class roomCard extends Component {
     deleteRoom = event => {
         api.deleteRoom(this.props._id)
             .then(res => {
-                window.location = "/manag-room-page";
+                window.location = "/profile-page";
                 console.log('objet supprimer !')
             })
     };
@@ -59,7 +60,7 @@ class roomCard extends Component {
             state: "published",
             _id: this.state._id,
         }).then(res => {
-            window.location = "./manag-room-page";
+            window.location = "./profile-page";
             {
                 alert('Votre salle à bien été publié ! :)')
             }
@@ -74,7 +75,7 @@ class roomCard extends Component {
             state: "publishable",
             _id: this.state._id,
         }).then(res => {
-            window.location = "./manag-room-page"
+            window.location = "./profile-page"
             {
                 alert('Votre salle à bien été dépublié ! :)')
             }
@@ -118,7 +119,7 @@ class roomCard extends Component {
             }).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./manag-room-page"
+                window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error: error.response.data.error});
@@ -137,6 +138,7 @@ class roomCard extends Component {
             this.state.isDeployed
                 ?
                 <Card style={{width: '18rem'}}>
+                    <CardImg top width="100%" src={burl + '/' + this.state.imageUrl} alt="Card image cap" />
                     <CardBody>
                         <CardTitle>{this.props.title}</CardTitle>
                         <CardText>Catégorie : {this.props.category}</CardText>
@@ -387,7 +389,8 @@ class roomCard extends Component {
                     </CardBody>
                 </Card>
                 :
-                        <Card style={{width: '18rem'}}>
+                        <Card style={{width: '18rem'}} >
+                            <CardImg top width="100%" src={burl + '/' + this.state.imageUrl} alt="Card image cap" />
                             <CardBody>
                                 <CardTitle>{this.props.title}</CardTitle>
                                 <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>

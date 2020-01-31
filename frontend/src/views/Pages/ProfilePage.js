@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // reactstrap components
 import {
@@ -18,10 +18,18 @@ import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "../../components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import Javascript from "../../components/Modals/modalCreateOtherRoom";
+import axios from "axios";
+import {tokenHeaders} from "../../utils/headers";
+import RoomCard from "./userPage/roomCard";
+import IndexNavbar from "../../components/Navbars/IndexNavbar";
+const burl = "http://localhost:3000/api/room";
 
 
 function ProfilePage() {
   const [pills, setPills] = React.useState("2");
+  const [rooms, setRooms] = React.useState([]);
+  const [userId, setUserId] = React.useState(localStorage.getItem("userId"));
+
   React.useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -31,6 +39,21 @@ function ProfilePage() {
       document.body.classList.remove("sidebar-collapse");
     };
   });
+
+  useEffect(()=>{
+    axios.get(burl + '/byUser/' + userId, {
+      headers: tokenHeaders
+    })
+        .then(res => {
+          const rooms = res.data;
+          setRooms(rooms);
+          localStorage.setItem("roomUrl" , rooms[0].imageUrl)
+        }, function (data) {
+          console.log(data);
+        })
+  });
+
+
   return (
     <>
       <ExamplesNavbar />
@@ -41,27 +64,8 @@ function ProfilePage() {
 
             <div className="button-container">
               <Javascript/>
-              {/* Button to propose a room => pop a form modal*/ }
+              {/* Button to propose a room => pop a form modal : call a modalCreateOtherRoom*/ }
 
-              <Button
-                className="btn-round"
-                href="/"
-                color="default"
-                id="tooltip515203352"
-                size="lg"
-              >
-                Trouver une salle
-              </Button>
-
-              <Button
-                  className="btn-round"
-                  href="manag-room-page"
-                  color="success"
-                  id="tooltip515203352"
-                  size="lg"
-              >
-                Voir mes salles
-              </Button>
 
             </div>
 
@@ -74,29 +78,32 @@ function ProfilePage() {
                     role="tablist"
                   >
                     <NavItem>
-                      <NavLink
-                        className={pills === "1" ? "active" : ""}
-                        href="#pablo"
-                        onClick={e => {
-                          e.preventDefault();
-                          setPills("1");
-                        }}
+                      <Button
+                          className={pills === "1" ? "active" : ""}
+                          href="#"
+                          color='info'
+                          onClick={e => {
+                            e.preventDefault();
+                            setPills("1");
+                          }}
                       >
-                        <i className="now-ui-icons design_image" />
-
-                      </NavLink>
+                        <i className="now-ui-icons education_paper"/>
+                        Mes réservations
+                      </Button>
                     </NavItem>
                     <NavItem>
-                      <NavLink
-                        className={pills === "2" ? "active" : ""}
-                        href="#pablo"
-                        onClick={e => {
-                          e.preventDefault();
-                          setPills("2");
-                        }}
+                      <Button
+                          className={pills === "2" ? "active" : ""}
+                          href="#"
+                          color='success'
+                          onClick={e => {
+                            e.preventDefault();
+                            setPills("2");
+                          }}
                       >
-                        <i className="now-ui-icons location_world"/>
-                      </NavLink>
+                        <i className="now-ui-icons shopping_shop"/>
+                        Mes salles
+                      </Button>
                     </NavItem>
 
                   </Nav>
@@ -134,34 +141,29 @@ function ProfilePage() {
                   </Col>
                 </TabPane>
                 <TabPane tabId="pills2">
-                  <Col className="ml-auto mr-auto" md="10">
-                    <Row className="collections">
-                      <Col md="6">
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg6.jpg")}
-                        />
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg11.jpg")}
-                        />
-                      </Col>
-                      <Col md="6">
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg7.jpg")}
-                        />
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg8.jpg")}
-                        />
+                  <Container>
+                    <Row md="3">
+                      <Col>
+
+                        {rooms.map(room =>
+                            <RoomCard
+                                _id={room._id}
+                                title={room.title}
+                                price={room.price}
+                                city={room.city}
+                                postalCode={room.postalCode}
+                                address={room.address}
+                                category={room.category}
+                                bail={room.bail}
+                                description={room.description}
+                                imageUrl={room.imageUrl}
+                                state={room.state}
+                            />
+                        )}
+
                       </Col>
                     </Row>
-                  </Col>
+                  </Container>
                 </TabPane>
 
               </TabContent>

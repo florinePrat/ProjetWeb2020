@@ -20,7 +20,6 @@ class ProfilePageHeader extends React.Component{
       firstName:localStorage.getItem("firstName"),
       imageUrl:localStorage.getItem("imageUrl"),
       avatar:"",
-      statePassword:localStorage.getItem("statePassword"),
     };
     console.log("test",localStorage);
     this.logout.bind(this);
@@ -60,7 +59,6 @@ class ProfilePageHeader extends React.Component{
 
 
   render(){
-    console.log('statepass : ',this.state.statePassword);
   return (
     <>
 

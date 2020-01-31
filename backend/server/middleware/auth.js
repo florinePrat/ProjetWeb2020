@@ -15,7 +15,6 @@ module.exports = async (req,res,next) => {
                     res.sendStatus(403);
                     return false;
                 } else {
-                    console.log("is connected");
                     next();
                     return true;
                 }

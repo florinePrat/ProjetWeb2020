@@ -52,7 +52,7 @@ class createRoom extends React.Component {
             api.createOtherRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,this.state.userId).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./manag-room-page"
+                window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error:error.response.data.error});
