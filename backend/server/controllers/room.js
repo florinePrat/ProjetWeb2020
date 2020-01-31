@@ -1,6 +1,5 @@
 const Room = require('../models/room');
 const fs = require('fs');
-const decodeToken = require('../encryption/decodeToken');
 
 exports.createRoom = (req, res, next) => {
     console.log('createRoom : req.body :', req.body)
@@ -57,6 +56,33 @@ exports.getAllRooms = (req, res, next) => {
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({error}));
 };
+
+exports.getAllSearchRooms = (req, res, next) => {
+    console.log(req.params)
+    if (req.params.category !== 'null' && req.params.city !== 'null') {
+        console.log("j'effectue une recherche à 2 entrée");
+        Room.find(
+            {$and :
+                    [
+                        {$and: [ { category : req.params.category }, { city : req.params.city } ] },
+                        { state : "published" }
+                    ]
+            })
+            .then(rooms => {console.log(rooms), res.status(200).json(rooms)})
+            .catch(error => res.status(400).json({error}));
+    } else {
+        console.log("j'effectue une recherche à 1 entrée");
+        Room.find(
+            {
+                $and:
+                    [
+                        {$or: [{category: req.params.category}, {city: req.params.city}]},
+                        {state: "published"}
+                    ]
+            })
+            .then(rooms => {console.log(rooms), res.status(200).json(rooms)})
+            .catch(error => res.status(400).json({error}));
+    }};
 
 exports.getRoomByUser = (req, res, next) => {
     console.log(req.params.id);

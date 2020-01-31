@@ -10,13 +10,10 @@ import {
 import {FormGroup, FormControl} from "react-bootstrap";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
-import {tokenHeaders} from "../../../utils/headers";
-import axios from 'axios';
 import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
 import api from "../../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
-import Container from "@material-ui/core/Container";
 
 const burl = "http://localhost:3000/api/room";
 
@@ -47,11 +44,10 @@ class roomCard extends Component {
             rooms: [],
             state: this.props.state,
         };
-        this.delete.bind(this);
     }
 
-    delete = event => {
-        axios.delete(burl + '/' + this.props._id, {headers: tokenHeaders})
+    deleteRoom = event => {
+        api.deleteRoom(this.props._id)
             .then(res => {
                 window.location = "/manag-room-page";
                 console.log('objet supprimer !')
@@ -63,7 +59,7 @@ class roomCard extends Component {
             state: "published",
             _id: this.state._id,
         }).then(res => {
-            window.location = "./manag-room-page"
+            window.location = "./manag-room-page";
             {
                 alert('Votre salle à bien été publié ! :)')
             }
@@ -368,7 +364,7 @@ class roomCard extends Component {
                                     color="info"
                                     type="button"
                                     id="delete"
-                                    onClick={this.delete}
+                                    onClick={this.deleteRoom}
                                 >
                                     Oui
                                 </Button>

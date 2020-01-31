@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {tokenHeaders} from './headers';
+import {basicHeaders, tokenHeaders} from './headers';
 
 const burl = "http://localhost:3000/api/room";
 
@@ -17,6 +17,12 @@ export default {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             }
+        })
+    },
+
+    deleteRoom:function(_id){
+        return axios.delete(burl + '/' + _id , {
+            headers: tokenHeaders
         })
     },
 
@@ -64,6 +70,12 @@ export default {
         })
     },
 
-
+    getAllSearchRooms: function (category, city) {
+        console.log(burl + '/' + category + '/' + city);
+        return axios.get (burl + '/' + category + '/' + city , {
+        },{
+            headers: basicHeaders
+        })
+    }
 
 }

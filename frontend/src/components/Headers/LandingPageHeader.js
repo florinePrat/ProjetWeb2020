@@ -3,9 +3,8 @@ import {Container} from "reactstrap";
 import auth from "../../utils/auth";
 import ExamplesNavbar from "../Navbars/ExamplesNavbar";
 import Javascript from "../Modals/modalFormRent";
-import {FormGroup, Button} from "reactstrap";
-import CustomInput from "reactstrap/es/CustomInput";
 import AccueilNavbar from "../Navbars/AccueilNavbar";
+import SearchComponent from "../search";
 // reactstrap components
 
 // core components
@@ -43,55 +42,7 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                        <form>
-                            <div className="form-row" >
-                                <div className="form-group col-md-4">
-                                    <FormGroup controlId="localisation">
-                                        <CustomInput
-                                            type="select"
-                                            id="city"
-                                            name="customSelect"
-                                            value={this.state.city}
-                                            onChange={this.handleChange}
-                                        >
-                                            <option value="">Où ?</option>
-                                            <option>Montpellier</option>
-                                            <option>Alès</option>
-                                        </CustomInput>
-                                    </FormGroup>
-                                </div>
-
-                                <div className="form-group col-md-4">
-                                <FormGroup controlId="category">
-                                    <CustomInput
-                                        type="select"
-                                        id="category"
-                                        name="customSelect"
-                                        value={this.state.category}
-                                        onChange={this.handleChange}
-                                    >
-                                        <option value="">Type de salle</option>
-                                        <option>Salle de fêtes (mariages, soirée, anniverssaire..)</option>
-                                        <option>Salle de réunions pro</option>
-                                        <option>Salle de coworking</option>
-                                        <option>Salle de restaurant</option>
-                                        <option>Garage</option>
-                                        <option>Hangar</option>
-                                    </CustomInput>
-
-                                </FormGroup>
-                                </div>
-                                <div className="form-group col-md-1">
-                                    <FormGroup>
-                                        <Button
-                                            className='btn-round'
-                                            color='info'
-                                        >Rechercher
-                                        </Button>
-                                    </FormGroup>
-                                </div>
-                            </div>
-                        </form>
+                        <SearchComponent/>
 
                     </Container>
 
