@@ -26,6 +26,12 @@ export default {
         })
     },
 
+    getAllRooms:function(){
+        return axios.get(burl + '/',{
+            headers: basicHeaders
+        })
+    },
+
     createOtherRoom: function (title, address, city, postalCode, userId) {
         return axios.post(burl + '/', {
             'title': title,

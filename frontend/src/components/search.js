@@ -14,12 +14,20 @@ class SearchComponent extends React.Component {
             city: 'null',
             rooms:[],
         };
-        this.send = this.send.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.mySearch = this.mySearch.bind(this);
     }
 
+    mySearch = () => {
+        console.log('cat : ',this.state.category);
+        console.log('cit : ',this.state.city);
+        this.state = {search :[ this.state.category, this.state.city]};
+        console.log('search : ',this.state.search);
+        this.props.callbackFromParent(this.state.search);
+    };
 
-    send = event => {
+
+   /* send = event => {
             room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
                 const rooms = res;
                 console.log('je suis bien dans la requette send ! ');
@@ -31,7 +39,7 @@ class SearchComponent extends React.Component {
                 console.log(error)
             })
 
-    };
+    };*/
 
     handleChange = event => {
         this.setState({
@@ -88,7 +96,7 @@ class SearchComponent extends React.Component {
                                 <Button
                                     className='btn-round'
                                     color='info'
-                                    onClick={this.send}
+                                    onClick={this.mySearch}
                                 >Rechercher
                                 </Button>
                             </FormGroup>

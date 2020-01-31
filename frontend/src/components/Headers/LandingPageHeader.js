@@ -17,6 +17,11 @@ class LandingPageHeader extends React.Component {
         };
     }
 
+    myCallback = (search) => {
+        this.props.update(search);
+    };
+
+
     render() {
         return (
             <>
@@ -42,7 +47,7 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                        <SearchComponent/>
+                        <SearchComponent callbackFromParent={this.myCallback}/>
 
                     </Container>
 
