@@ -12,9 +12,10 @@ import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
-import api from "../../../utils/room";
+import api from "../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
+import Javascript from "../Modals/modalChooseAvailability";
 
 const burl = "http://localhost:3000/images";
 
@@ -282,6 +283,11 @@ class roomCard extends Component {
                                             </FormControl>
                                         </FormGroup>
                                     </div>
+
+
+                                    <Javascript
+                                        _id={this.state._id}
+                                    />
 
                                 </form>
                             </ModalBody>

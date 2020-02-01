@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./server/routes/user');
 const roomRoutes = require('./server/routes/room');
+const bookingRoutes = require('./server/routes/booking');
 const app = express();
 const path = require('path');
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', userRoutes);
 app.use('/api/room', roomRoutes);
+app.use('/api/booking', bookingRoutes);
 app.use('/images', express.static(path.join(__dirname, 'server/images')));
 
 module.exports = app;

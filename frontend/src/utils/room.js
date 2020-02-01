@@ -60,6 +60,14 @@ export default {
         })
     },
 
+    updateRoomAvailabilities: function (dispo, _id) {
+        return axios.put(burl + '/' + _id, {
+            'availability': dispo,
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
     publishRoom: function ({state, _id}) {
         return axios.put (burl + '/' +_id, {
             'state': state,

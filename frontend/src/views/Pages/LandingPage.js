@@ -7,7 +7,7 @@ import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import auth from "../../utils/auth";
 import axios from "axios";
 import {tokenHeaders} from "../../utils/headers";
-import RoomCard from "./usersPage/roomCard";
+import RoomCard from "../../components/Cards/roomCardForLanding";
 import {Col, Container, Row} from "react-bootstrap";
 import room from "../../utils/room";
 
@@ -80,6 +80,7 @@ class LandingPage extends React.Component {
                                             category={room.category}
                                             state={room.state}
                                             description={room.description}
+                                            availability={room.availability}
                                         />
                                     )}
                                 </Col>

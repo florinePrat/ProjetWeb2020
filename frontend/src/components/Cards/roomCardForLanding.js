@@ -34,15 +34,8 @@ class roomCard extends Component {
                                     <CardText> Adresse : {this.props.address}</CardText>
                                     <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
 
-                                    <Button
-                                        className="btn-info"
-                                        onClick={() => {
-                                            this.setState({isDeployed: false});
-                                        }}
-                                        bssize="large"
-                                    >
-                                        Réserver
-                                    </Button>
+
+
                                     <Button
                                         className="btn-info"
                                         onClick={() => {

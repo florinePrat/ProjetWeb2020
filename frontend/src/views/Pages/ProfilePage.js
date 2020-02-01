@@ -20,14 +20,16 @@ import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import Javascript from "../../components/Modals/modalCreateOtherRoom";
 import axios from "axios";
 import {tokenHeaders} from "../../utils/headers";
-import RoomCard from "./userPage/roomCard";
-import IndexNavbar from "../../components/Navbars/IndexNavbar";
+import RoomCard from "../../components/Cards/roomCard";
+import BookingCard from "../../components/Cards/bookingCard";
 const burl = "http://localhost:3000/api/room";
+const burlBooking = "http://localhost:3000/api/booking";
 
 
 function ProfilePage() {
   const [pills, setPills] = React.useState("2");
   const [rooms, setRooms] = React.useState([]);
+  const [booking, setBooking] = React.useState([]);
   const [userId, setUserId] = React.useState(localStorage.getItem("userId"));
 
   React.useEffect(() => {
@@ -40,6 +42,7 @@ function ProfilePage() {
     };
   });
 
+
   useEffect(()=>{
     axios.get(burl + '/byUser/' + userId, {
       headers: tokenHeaders
@@ -50,8 +53,19 @@ function ProfilePage() {
           localStorage.setItem("roomUrl" , rooms[0].imageUrl)
         }, function (data) {
           console.log(data);
+        });
+
+    axios.get(burlBooking + '/byUser/' + userId, {
+      headers: tokenHeaders
+    })
+        .then(res => {
+          const booking = res.data;
+          setBooking(booking);
+        }, function (data) {
+          console.log(data);
         })
-  });
+
+  }, []);
 
 
   return (
@@ -111,34 +125,23 @@ function ProfilePage() {
               </Col>
               <TabContent className="gallery" activeTab={"pills" + pills}>
                 <TabPane tabId="pills1">
-                  <Col className="ml-auto mr-auto" md="10">
-                    <Row className="collections">
-                      <Col md="6">
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg1.jpg")}
-                        />
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg3.jpg")}
-                        />
-                      </Col>
-                      <Col md="6">
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg8.jpg")}
-                        />
-                        <img
-                          alt="..."
-                          className="img-raised"
-                          src={require("assets/img/bg7.jpg")}
-                        />
+                  <Container>
+                    <Row md="3">
+                      <Col>
+
+                        {booking.map(booking =>
+                            <BookingCard
+                                _id={booking._id}
+                                date={booking.date}
+                                state={booking.state}
+                                ownerId={booking.ownerId}
+                                customerId={booking.customerId}
+                            />
+                        )}
+
                       </Col>
                     </Row>
-                  </Col>
+                  </Container>
                 </TabPane>
                 <TabPane tabId="pills2">
                   <Container>
