@@ -7,10 +7,9 @@ import {
     ModalBody,
 } from "reactstrap";
 
-import api from '../../utils/booking';
-import auth from '../../utils/auth';
+import api from '../../utils/room';
 import {FormControl, FormGroup, Form} from "react-bootstrap"
-import {Redirect} from "react-router-dom";
+import MultipleDatePicker from 'react-multiple-datepicker';
 
 // core components
 
@@ -18,15 +17,11 @@ class availabilityModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            availability: this.props.availability,
             modal: false,
             userId: localStorage.getItem("userId"),
             error: false,
-            dispo:"",
+            dispo:[],
             _id: this.props._id,
-            isAuth: auth.isAuth,
-            state:'',
-            ownerId:this.props.ownerId
         };
         this.send.bind(this);
         this.handleChange.bind(this);
@@ -34,16 +29,19 @@ class availabilityModal extends React.Component {
 
 
     send = event => {
-
-        api.createBooking(this.state.dispo, this.state.state, this.state.ownerId, this.state.userId).then(res => {
+        if (this.state.dispo.length === 0) {
+            this.setState({error: "disponibilités vide"});
+        } else {
+            api.updateRoomAvailabilities(this.state.dispo, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
                 window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error:error.response.data.error});
-            });
+            })
 
+        }
     };
 
     handleChange = event => {
@@ -55,15 +53,6 @@ class availabilityModal extends React.Component {
 
 
     render() {
-
-        let availability = this.state.availability;
-        let options = availability.map((data)=>
-            <option
-            key={data}>
-                {data}
-            </option>
-        );
-
         return (
             <>
 
@@ -73,8 +62,8 @@ class availabilityModal extends React.Component {
                     type="button"
                     onClick={() => this.setState({modal: true})}
                 >
-                    <i className="now-ui-icons shopping_cart-simple"/>
-                     Réserver cette salle
+                    <i className="now-ui-icons arrows-1_cloud-upload-94"/>
+                    Ajouter des disponibilités
                 </Button>
 
 
@@ -87,7 +76,7 @@ class availabilityModal extends React.Component {
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
-                        <h4 className="title title-up">Je choisi une date pour la réservation</h4>
+                        <h4 className="title title-up">J'ajoute mes disponibilités</h4>
                         {this.state.error ?
                             <Alert color="danger">
                                 {this.state.error}
@@ -105,8 +94,18 @@ class availabilityModal extends React.Component {
                                     onChange={this.handleChange}
                                     type="text"
                                 >
-                                    {options}
+                                    <option>Tous les jours</option>
+                                    <option>Certains jours</option>
                                 </FormControl>
+                                {this.state.dispo === "Certains jours"
+                                    ? <div>
+                                        <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles :
+                                        <MultipleDatePicker
+                                            onSubmit={dates => this.setState({dispo : dates})}
+                                        />
+                                    </div>
+                                : null
+                                }
 
                             </FormGroup>
 
@@ -127,7 +126,7 @@ class availabilityModal extends React.Component {
                             type="button"
                             onClick={this.send}
                         >
-                            Je reserve
+                            Valider
                         </Button>
                     </div>
                 </Modal>

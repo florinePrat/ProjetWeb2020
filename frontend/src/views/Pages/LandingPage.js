@@ -81,6 +81,7 @@ class LandingPage extends React.Component {
                                             state={room.state}
                                             description={room.description}
                                             availability={room.availability}
+                                            userId={room.userId}
                                         />
                                     )}
                                 </Col>

@@ -15,7 +15,7 @@ import CardText from "reactstrap/es/CardText";
 import api from "../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
-import Javascript from "../Modals/modalChooseAvailability";
+import Javascript from "../Modals/modalCreateAvailability";
 
 const burl = "http://localhost:3000/images";
 
