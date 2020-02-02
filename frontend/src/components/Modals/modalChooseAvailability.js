@@ -10,7 +10,6 @@ import {
 import api from '../../utils/booking';
 import auth from '../../utils/auth';
 import {FormControl, FormGroup, Form} from "react-bootstrap"
-import {Redirect} from "react-router-dom";
 
 // core components
 

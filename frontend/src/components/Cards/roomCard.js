@@ -76,7 +76,7 @@ class roomCard extends Component {
             state: "publishable",
             _id: this.state._id,
         }).then(res => {
-            window.location = "./profile-page"
+            window.location = "./profile-page";
             {
                 alert('Votre salle à bien été dépublié ! :)')
             }

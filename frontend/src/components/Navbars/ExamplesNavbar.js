@@ -79,7 +79,7 @@ function ExamplesNavbar() {
           >
             <Nav navbar>
               <NavItem>
-                <NavLink to="/" tag={Link}>
+                <NavLink to="/landing-page" tag={Link}>
                   Accueil
                 </NavLink>
               </NavItem>

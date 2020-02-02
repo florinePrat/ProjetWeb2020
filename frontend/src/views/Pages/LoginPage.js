@@ -215,7 +215,7 @@ export class signup extends React.Component {
                                                 <h6>
                                                     <a
                                                         className="link"
-                                                        href="#"
+                                                        href="!#"
                                                         onClick={this.handleLoginClick}
                                                     >
                                                         S'inscrire
@@ -317,7 +317,7 @@ export class signup extends React.Component {
                                                 <h6>
                                                     <a
                                                         className="link"
-                                                        href="#"
+                                                        href="!#"
                                                         onClick={this.handleLogoutClick}
                                                     >
                                                         Se connecter

@@ -8,5 +8,6 @@ router.put('/:id', auth, bookingCtrl.modifyBooking);
 router.delete('/:id', auth, bookingCtrl.deleteBooking);
 router.get('/:id', auth, bookingCtrl.getOneBooking);
 router.get('/byUser/:id', auth, bookingCtrl.getBookingByUser);
+router.get('/byOwner/:id', auth, bookingCtrl.getBookingByOwner);
 
 module.exports = router;

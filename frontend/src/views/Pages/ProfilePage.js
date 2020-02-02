@@ -4,7 +4,6 @@ import React, {useEffect} from "react";
 import {
   Button,
   NavItem,
-  NavLink,
   Nav,
   TabContent,
   TabPane,
@@ -22,6 +21,7 @@ import axios from "axios";
 import {tokenHeaders} from "../../utils/headers";
 import RoomCard from "../../components/Cards/roomCard";
 import BookingCard from "../../components/Cards/bookingCard";
+import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
 const burl = "http://localhost:3000/api/room";
 const burlBooking = "http://localhost:3000/api/booking";
 
@@ -30,7 +30,8 @@ function ProfilePage() {
   const [pills, setPills] = React.useState("2");
   const [rooms, setRooms] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
-  const [userId, setUserId] = React.useState(localStorage.getItem("userId"));
+  const [bookingOwner, setBookingOwner] = React.useState([]);
+  const [userId] = React.useState(localStorage.getItem("userId"));
 
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -63,12 +64,25 @@ function ProfilePage() {
           setBooking(booking);
         }, function (data) {
           console.log(data);
-        })
+        });
 
-  }, []);
+    axios.get(burlBooking + '/byOwner/' + userId, {
+      headers: tokenHeaders
+    })
+        .then(res => {
+          const bookingOwner = res.data;
+          setBookingOwner(bookingOwner);
+          console.log('booking', bookingOwner);
+        }, function (data) {
+          console.log(data);
+        });
+
+
+  }, [userId]);
 
 
   return (
+
     <>
       <ExamplesNavbar />
       <div className="wrapper">
@@ -94,7 +108,7 @@ function ProfilePage() {
                     <NavItem>
                       <Button
                           className={pills === "1" ? "active" : ""}
-                          href="#"
+                          href="!#"
                           color='info'
                           onClick={e => {
                             e.preventDefault();
@@ -108,7 +122,7 @@ function ProfilePage() {
                     <NavItem>
                       <Button
                           className={pills === "2" ? "active" : ""}
-                          href="#"
+                          href="!#"
                           color='success'
                           onClick={e => {
                             e.preventDefault();
@@ -125,11 +139,11 @@ function ProfilePage() {
               </Col>
               <TabContent className="gallery" activeTab={"pills" + pills}>
                 <TabPane tabId="pills1">
+                  <h2>------ Mes réservations ------</h2>
                   <Container>
-                    <Row md="3">
-                      <Col>
-
-                        {booking.map(booking =>
+                    <Row>
+                      {booking.map(booking =>(
+                      <Col xs={4}>
                             <BookingCard
                                 _id={booking._id}
                                 date={booking.date}
@@ -137,18 +151,34 @@ function ProfilePage() {
                                 ownerId={booking.ownerId}
                                 customerId={booking.customerId}
                             />
-                        )}
-
                       </Col>
+                      ))}
+                    </Row>
+                  </Container>
+
+                  <h2>------  Gestion de mes réservations ------</h2>
+                  <Container>
+                    <Row>
+                      {bookingOwner.map(bookingOwner => (
+                      <Col xs={4}>
+                          <BookingOwnerCard
+                              _id={bookingOwner._id}
+                              date={bookingOwner.date}
+                              state={bookingOwner.state}
+                              roomId={bookingOwner.roomId}
+                              ownerId={bookingOwner.ownerId}
+                              customerId={bookingOwner.customerId}
+                          />
+                      </Col>
+                      ))}
                     </Row>
                   </Container>
                 </TabPane>
                 <TabPane tabId="pills2">
                   <Container>
-                    <Row md="3">
-                      <Col>
-
-                        {rooms.map(room =>
+                    <Row>
+                      {rooms.map(room =>(
+                      <Col xs={4}>
                             <RoomCard
                                 _id={room._id}
                                 title={room.title}
@@ -162,9 +192,8 @@ function ProfilePage() {
                                 imageUrl={room.imageUrl}
                                 state={room.state}
                             />
-                        )}
-
                       </Col>
+                        ))}
                     </Row>
                   </Container>
                 </TabPane>

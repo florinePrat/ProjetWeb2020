@@ -7,7 +7,6 @@ import {
     ModalBody,
 } from "reactstrap";
 
-import auth from '../../utils/auth';
 import api from '../../utils/room';
 import {FormGroup,FormControl} from "react-bootstrap";
 

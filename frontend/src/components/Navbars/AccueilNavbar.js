@@ -3,7 +3,7 @@ import React from "react";
 import {
     NavbarBrand,
     Navbar,
-    Container, Nav, NavItem, NavLink, UncontrolledTooltip, Collapse,
+    Container, Nav, NavItem, NavLink, Collapse,
 } from "reactstrap";
 import {Link} from "react-router-dom";
 

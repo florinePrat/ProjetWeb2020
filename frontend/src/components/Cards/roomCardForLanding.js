@@ -3,7 +3,7 @@ import React from "react";
 import {Button} from "react-bootstrap";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import CardText from "reactstrap/es/CardText";
 import CardImg from "react-bootstrap/CardImg";
 import Javascript from "../../components/Modals/modalChooseAvailability";

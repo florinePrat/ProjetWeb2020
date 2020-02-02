@@ -1,5 +1,5 @@
 import axios from "axios";
-import {basicHeaders, tokenHeaders} from './headers';
+import {tokenHeaders} from './headers';
 
 const burl = "http://localhost:3000/api/booking";
 
@@ -15,4 +15,13 @@ export default {
             headers: tokenHeaders
         })
     },
+
+    requestBooking: function ({_id, state}) {
+        return axios.put(burl + '/' + _id, {
+            'state': state,
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
 }

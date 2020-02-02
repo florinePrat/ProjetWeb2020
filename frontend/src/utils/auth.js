@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {basicHeaders, tokenHeaders} from './headers';
+import {basicHeaders} from './headers';
 
 const burl = "http://localhost:3000/api/auth";
 // this is the request for authentification
@@ -29,14 +29,6 @@ export default {
        })
    },
 
-   /* createPassword : function(password, statePassword, _id){
-        return axios.put(burl + '/password/' + _id,{
-            'password' : password,
-            'statePassword' : true,
-        },{
-            headers: tokenHeaders
-        })
-    },*/
 
     isAuth : function() {
         console.log(localStorage.getItem('token'));

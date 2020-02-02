@@ -25,9 +25,7 @@ class LandingPage extends React.Component {
     }
 
     myCallback = (search) => {
-        this.state = {category:search[0], city:search[1]};
-        console.log('catLanding : ',this.state.category);
-        console.log('citLanding : ',this.state.city);
+        this.state = {category: search[0], city: search[1]};
 
         room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
             const rooms = res.data;
@@ -36,7 +34,7 @@ class LandingPage extends React.Component {
             console.log(this.state.city);
             console.log("room : ", rooms);
             this.setState({rooms});
-            localStorage.setItem("roomUrl" , rooms[0].imageUrl)
+            localStorage.setItem("roomUrl", rooms[0].imageUrl)
         }, error => {
             console.log(error)
         })
@@ -52,7 +50,7 @@ class LandingPage extends React.Component {
                 const rooms = res.data;
                 console.log('my data', rooms);
                 this.setState({rooms});
-                localStorage.setItem("roomUrl" , rooms[0].imageUrl)
+                localStorage.setItem("roomUrl", rooms[0].imageUrl)
             }, function (data) {
                 console.log(data);
             })
@@ -66,9 +64,9 @@ class LandingPage extends React.Component {
                     <div className="wrapper">
                         <br/>
                         <Container>
-                            <Row xs="3" >
-                                <Col>
-                                    {this.state.rooms.map(room =>
+                            <Row>
+                                {this.state.rooms.map(room => (
+                                    <Col xs={4}>
                                         <RoomCard
                                             _id={room._id}
                                             title={room.title}
@@ -83,8 +81,8 @@ class LandingPage extends React.Component {
                                             availability={room.availability}
                                             userId={room.userId}
                                         />
-                                    )}
-                                </Col>
+                                    </Col>
+                                ))}
                             </Row>
                         </Container>
                         <DefaultFooter/>
