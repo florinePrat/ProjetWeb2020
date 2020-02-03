@@ -5,7 +5,6 @@ const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-
 
 exports.signup = async (req, res, next) => {
     try {
-        console.log("signup : req.body : ",req.body);
         const { email, firstName, phoneNumber} = req.body;
         if (!email){
             return res.status(400).json({error : "Aucun email saisi"});
@@ -17,7 +16,6 @@ exports.signup = async (req, res, next) => {
             return res.status(400).json({error : "Aucun numéro de téléphone saisi"});
         }
         const userExist = await userController.getUserByEmail(email);
-        console.log('userExist : ',userExist);
         if (userExist){
             return res.status(400).json({error : "Cet email est déjà utilisé"});
         }
@@ -153,6 +151,18 @@ exports.sendEmail = async (req, res, next) => {
             error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
         });
     }
+};
+
+
+exports.deleteUserForMochaTest = (req, res, next) => {
+    User.findOne({_id: req.params.id})
+        .then(user => {
+            User.deleteOne({_id: req.params.id})
+                .then(() => res.status(200).json({message: 'User deleted !'}))
+                .catch(error => res.status(400).json({error}));
+            //})
+        })
+        .catch(error => res.status(500).json({error}))
 };
 
 /*exports.createPassword = async (req, res, next) => {

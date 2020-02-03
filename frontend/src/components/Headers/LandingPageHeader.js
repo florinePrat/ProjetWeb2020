@@ -9,30 +9,25 @@ import SearchComponent from "../search";
 
 // core components
 
-function LandingPageHeader() {
-    const [isAuth] = React.useState(auth.isAuth());
-    myCallback = myCallback.bind(this);
+class LandingPageHeader extends React.Component {
 
-    React.useEffect(() => {
-        document.body.classList.add("landing-page");
-        document.body.classList.add("sidebar-collapse");
-        document.documentElement.classList.remove("nav-open");
-        return function cleanup() {
-            document.body.classList.remove("landing-page");
-            document.body.classList.remove("sidebar-collapse");
+    constructor(props) {
+        super(props);
+        this.state = {
+            isAuth: auth.isAuth(),
         };
-    });
-
-
-    function myCallback (search) {
-        this.props.update(search);
     }
 
+    myCallback = (search) => {
+        this.props.update(search);
+    };
 
+
+    render() {
         return (
             <>
 
-                {isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
+                {this.state.isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
 
                 <div className="page-header page-header-small">
 
@@ -53,12 +48,12 @@ function LandingPageHeader() {
                             </div>
                         </div>
 
-                        <SearchComponent callbackFromParent={myCallback}/>
+                        <SearchComponent callbackFromParent={this.myCallback}/>
 
                     </Container>
 
                     <Container>
-                        {isAuth ?
+                        {this.state.isAuth ?
                             null
                             : <div className="button-container">
                                 <Javascript/>
@@ -73,5 +68,6 @@ function LandingPageHeader() {
             </>
         );
     }
+}
 
 export default LandingPageHeader;

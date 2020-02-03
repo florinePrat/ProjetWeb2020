@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // reactstrap components
 import {
@@ -18,48 +18,56 @@ import TransparentFooter from "../../components/Footers/TransparentFooter.js";
 
 import API from '../../utils/auth';
 import {FormGroup, FormControl} from "react-bootstrap";
+import AccueilNavbar from "../../components/Navbars/AccueilNavbar";
 
-export class signup extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            firstName: "",
-            phoneNumber: "",
-            userId: "",
-            isLoggedIn: false,
-            error: false,
-            step: true,
-            hasPassword: false,
+function Signup() {
+    const [email, setEmail] = React.useState("");
+    const [firstName, setFirstName] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [hasPassword, setHasPassword] = React.useState(false);
+    const [password, setPassword] = React.useState("");
+    const [step, setStep] = React.useState(true);
+
+    send = send.bind(this);
+    sendLog = sendLog.bind(this);
+    sendEmail = sendEmail.bind(this);
+    handleLoginClick = handleLoginClick.bind(this);
+    handleLogoutClick = handleLogoutClick.bind(this);
+
+    React.useEffect(() => {
+        document.body.classList.add("login-page");
+        document.body.classList.add("sidebar-collapse");
+        document.documentElement.classList.remove("nav-open");
+        return function cleanup() {
+            document.body.classList.remove("login-page");
+            document.body.classList.remove("sidebar-collapse");
         };
-        this.handleChange.bind(this);
-        this.send.bind(this);
+    });
 
-        this.sendLog.bind(this);
-        this.sendEmail.bind(this);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+
+
+
+    function handleLoginClick() {
+        setIsLoggedIn (true);
+        setError ("");
     }
 
-    handleLoginClick() {
-        this.setState({isLoggedIn: true});
-        this.setState({error: ""});
+    function handleLogoutClick() {
+        setIsLoggedIn (false);
+        setError ("");
     }
 
-    handleLogoutClick() {
-        this.setState({isLoggedIn: false});
-        this.setState({error: ""});
-    }
-
-    send = event => {
-        if (this.state.email.length === 0) {
-            this.setState({error: "email vide"});
-        } else if (this.state.firstName.length === 0) {
-            this.setState({error: "prenom vide"});
-        } else if (this.state.phoneNumber.length === 0) {
-            this.setState({error: "mot de passe vide"});
+    function send  (event) {
+        if (email.length === 0) {
+            setError("email vide");
+        } else if (firstName.length === 0) {
+            setError("prenom vide");
+        } else if (phoneNumber.length === 0) {
+            setError("numero de telephone vide");
         } else {
-            API.signup(this.state.email, this.state.firstName, this.state.phoneNumber).then(res => {
+            API.signup(email, firstName, phoneNumber).then(res => {
                 console.log(res.data.firstName);
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('firstName', res.data.firstName);
@@ -73,32 +81,32 @@ export class signup extends React.Component {
                 this.setState({error: error.response.data.error});
             })
         }
-    };
+    }
 
-    sendEmail = event => {
-        if (this.state.email.length === 0) {
-            this.setState({error: "email vide"});
+    function sendEmail ( event ) {
+        if (email.length === 0) {
+            setError("email vide");
         } else {
-            API.sendEmail(this.state.email).then(res => {
+            API.sendEmail(email).then(res => {
                 console.log('res.data : ',res.data);
-                this.setState({step:false});
-                this.setState({hasPassword: res.data});
+                setStep(false);
+                setHasPassword(res.data);
                 console.log("signup", localStorage);
             }, error => {
                 console.log(error.response.data.error);
-                this.setState({error: error.response.data.error});
+                setError(error.response.data.error);
             })
         }
-    };
+    }
 
-    sendLog = async () => {
-        if (this.state.email.length === 0) {
-            this.setState({error: "email vide"});
-        } else if (this.state.password.length === 0) {
-            this.setState({error: "mot de passe vide"});
+    async function sendLog() {
+        if (email.length === 0) {
+            setError("email vide");
+        } else if (password.length === 0) {
+            setError( "mot de passe vide");
         } else {
             try {
-                const res = await API.login(this.state.email, this.state.password);
+                const res = await API.login(email, password);
                 console.log("token", res.data.token);
                 console.log(res.data.firstName);
                 localStorage.setItem('token', res.data.token);
@@ -113,23 +121,19 @@ export class signup extends React.Component {
                 console.log('ici :', res);
                 if (res.response) {
                     console.log('erreur: ', res.response);
-                    this.setState({error: res.response.data.error});
+                    setError( res.response.data.error);
                 }
 
             }
         }
-    };
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
+    }
 
 
-    GuestGreeting() {
+
+   function GuestGreeting() {
         return (
             <>
-                <ExamplesNavbar/>
+                <AccueilNavbar/>
                 <div className="page-header clear-filter" filter-color="blue">
                     <div
                         className="page-header-image"
@@ -152,9 +156,9 @@ export class signup extends React.Component {
                                         </CardHeader>
                                         <CardBody>
                                             <h2> Connexion </h2>
-                                            {this.state.error ?
+                                            {error ?
                                                 <Alert color="danger">
-                                                    {this.state.error}
+                                                    {error}
                                                 </Alert> : false
                                             }
 
@@ -163,15 +167,15 @@ export class signup extends React.Component {
                                                 <i className="now-ui-icons ui-1_email-85"/> Email :
                                                 <FormControl
                                                     placeholder="exemple@email.fr"
-                                                    value={this.state.email}
-                                                    onChange={this.handleChange}
+                                                    value={email}
+                                                    onChange={event => setEmail(event.target.value)}
                                                     type="email"
                                                 >
                                                 </FormControl>
                                             </FormGroup>
-                                            <div hidden={this.state.step}>
+                                            <div hidden={step}>
                                                 <FormGroup controlId="password">
-                                                    <i className="now-ui-icons ui-1_lock-circle-open"/> {this.state.hasPassword
+                                                    <i className="now-ui-icons ui-1_lock-circle-open"/> {hasPassword
                                                     ? "Mot de passe :"
                                                     : "Créez votre mot de passe : "
                                                 }
@@ -179,8 +183,8 @@ export class signup extends React.Component {
                                                         placeholder="Password..."
                                                         type="password"
                                                         name="password"
-                                                        value={this.state.password}
-                                                        onChange={this.handleChange}
+                                                        value={password}
+                                                        onChange={event => setPassword(event.target.value)}
                                                         required
                                                     >
                                                     </FormControl>
@@ -188,13 +192,13 @@ export class signup extends React.Component {
                                             </div>
                                         </CardBody>
                                         <CardFooter className="text-center">
-                                            {!this.state.step
+                                            {!step
                                                 ?
                                                 <Button
                                                     block
                                                     className="btn-round"
                                                     color="info"
-                                                    onClick={this.sendLog}
+                                                    onClick={sendLog}
                                                     size="lg"
                                                 >
                                                     Get Started
@@ -205,7 +209,7 @@ export class signup extends React.Component {
                                                     block
                                                     className="btn-round"
                                                     color="info"
-                                                    onClick={this.sendEmail}
+                                                    onClick={sendEmail}
                                                     size="lg"
                                                 >
                                                     Suivant
@@ -215,8 +219,8 @@ export class signup extends React.Component {
                                                 <h6>
                                                     <a
                                                         className="link"
-                                                        href="!#"
-                                                        onClick={this.handleLoginClick}
+                                                        href="#"
+                                                        onClick={handleLoginClick}
                                                     >
                                                         S'inscrire
                                                     </a>
@@ -236,7 +240,7 @@ export class signup extends React.Component {
     }
 
 
-    UserGreeting() {
+    function UserGreeting() {
         return (
             <>
                 <ExamplesNavbar/>
@@ -262,9 +266,9 @@ export class signup extends React.Component {
                                         </CardHeader>
                                         <CardBody>
                                             <h2> Inscription </h2>
-                                            {this.state.error ?
+                                            {error ?
                                                 <Alert color="danger">
-                                                    {this.state.error}
+                                                    {error}
                                                 </Alert> : false
                                             }
 
@@ -273,8 +277,8 @@ export class signup extends React.Component {
                                                 <FormControl
                                                     placeholder="Email..."
                                                     type="email"
-                                                    value={this.state.email}
-                                                    onChange={this.handleChange}
+                                                    value={email}
+                                                    onChange={event => setEmail(event.target.value)}
                                                     required
                                                 >
                                                 </FormControl>
@@ -285,8 +289,8 @@ export class signup extends React.Component {
                                                 <FormControl
                                                     placeholder="First Name..."
                                                     type="name"
-                                                    value={this.state.firstName}
-                                                    onChange={this.handleChange}
+                                                    value={firstName}
+                                                    onChange={event => setFirstName(event.target.value)}
                                                 >
                                                 </FormControl>
                                             </FormGroup>
@@ -296,8 +300,8 @@ export class signup extends React.Component {
                                                 <FormControl
                                                     placeholder="Numéro de téléphone *"
                                                     type="text"
-                                                    value={this.state.phoneNumber}
-                                                    onChange={this.handleChange}
+                                                    value={phoneNumber}
+                                                    onChange={event => setPhoneNumber(event.target.value)}
                                                     required
                                                 >
                                                 </FormControl>
@@ -308,7 +312,7 @@ export class signup extends React.Component {
                                                 block
                                                 className="btn-round"
                                                 color="info"
-                                                onClick={this.send}
+                                                onClick={send}
                                                 size="lg"
                                             >
                                                 Get Started
@@ -317,8 +321,8 @@ export class signup extends React.Component {
                                                 <h6>
                                                     <a
                                                         className="link"
-                                                        href="!#"
-                                                        onClick={this.handleLogoutClick}
+                                                        href="#"
+                                                        onClick={handleLogoutClick}
                                                     >
                                                         Se connecter
                                                     </a>
@@ -337,19 +341,17 @@ export class signup extends React.Component {
         );
     }
 
-    render() {
         return (
 
             <div>
                 {
-                    this.state.isLoggedIn
-                        ? this.UserGreeting()
-                        : this.GuestGreeting()
+                    isLoggedIn
+                        ? UserGreeting()
+                        : GuestGreeting()
                 }
             </div>
         );
     }
 
-}
 
-export default signup;
+export default Signup;
