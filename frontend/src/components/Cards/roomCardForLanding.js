@@ -37,6 +37,7 @@ class roomCard extends Component {
                                     <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
 
                                     <Javascript
+                                        _id={this.props._id}
                                         ownerId={this.props.userId}
                                         availability={this.state.availability}
                                     />

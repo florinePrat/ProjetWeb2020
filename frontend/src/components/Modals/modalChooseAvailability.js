@@ -23,7 +23,7 @@ class availabilityModal extends React.Component {
             error: false,
             dispo:"",
             _id: this.props._id,
-            isAuth: auth.isAuth,
+            isAuth: auth.isAuth(),
             state:'',
             ownerId:this.props.ownerId
         };
@@ -33,11 +33,11 @@ class availabilityModal extends React.Component {
 
 
     send = event => {
-
-        api.createBooking(this.state.dispo, this.state.state, this.state.ownerId, this.state.userId).then(res => {
+        console.log("id : ", this.props._id);
+        api.createBooking(this.state.dispo, this.state.state, this.state.ownerId, this.state.userId, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./profile-page"
+                window.location = "profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error:error.response.data.error});
@@ -65,16 +65,26 @@ class availabilityModal extends React.Component {
 
         return (
             <>
-
-                <Button
-                    className="btn-round"
-                    color="success"
-                    type="button"
-                    onClick={() => this.setState({modal: true})}
-                >
-                    <i className="now-ui-icons shopping_cart-simple"/>
-                     Réserver cette salle
-                </Button>
+                {this.state.isAuth !== false
+                    ? <Button
+                        className="btn-round"
+                        color="success"
+                        type="button"
+                        onClick={() => this.setState({modal: true})}
+                    >
+                        <i className="now-ui-icons shopping_cart-simple"/>
+                        Réserver cette salle
+                    </Button>
+                    : <Button
+                        className="btn-round"
+                        color="success"
+                        type="button"
+                        href="login-page"
+                    >
+                        <i className="now-ui-icons shopping_cart-simple"/>
+                        Identifiez-vous pour réserver cette salle
+                    </Button>
+                }
 
 
                 <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>

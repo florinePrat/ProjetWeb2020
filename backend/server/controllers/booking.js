@@ -54,7 +54,7 @@ exports.getBookingByUser = (req, res, next) => {
 };
 
 exports.getBookingByOwner = (req, res, next) => {
-    Booking.find({ownerId: req.params.id})
+    Booking.find({$and : [{ownerId: req.params.id}, {state: "awaitingValidation"}]})
         .then(bookings => res.status(200).json(bookings))
         .catch(error => res.status(400).json({error}));
 };

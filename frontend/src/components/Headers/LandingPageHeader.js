@@ -8,25 +8,31 @@ import SearchComponent from "../search";
 // reactstrap components
 
 // core components
-class LandingPageHeader extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAuth: auth.isAuth(),
+function LandingPageHeader() {
+    const [isAuth] = React.useState(auth.isAuth());
+    myCallback = myCallback.bind(this);
+
+    React.useEffect(() => {
+        document.body.classList.add("landing-page");
+        document.body.classList.add("sidebar-collapse");
+        document.documentElement.classList.remove("nav-open");
+        return function cleanup() {
+            document.body.classList.remove("landing-page");
+            document.body.classList.remove("sidebar-collapse");
         };
+    });
+
+
+    function myCallback (search) {
+        this.props.update(search);
     }
 
-    myCallback = (search) => {
-        this.props.update(search);
-    };
 
-
-    render() {
         return (
             <>
 
-                {this.state.isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
+                {isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
 
                 <div className="page-header page-header-small">
 
@@ -47,12 +53,12 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                        <SearchComponent callbackFromParent={this.myCallback}/>
+                        <SearchComponent callbackFromParent={myCallback}/>
 
                     </Container>
 
                     <Container>
-                        {this.state.isAuth ?
+                        {isAuth ?
                             null
                             : <div className="button-container">
                                 <Javascript/>
@@ -67,6 +73,5 @@ class LandingPageHeader extends React.Component {
             </>
         );
     }
-}
 
 export default LandingPageHeader;

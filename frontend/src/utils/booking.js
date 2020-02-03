@@ -5,12 +5,13 @@ const burl = "http://localhost:3000/api/booking";
 
 export default {
 
-    createBooking: function (date, state, ownerId, customerId) {
+    createBooking: function (date, state, ownerId, customerId, roomId) {
         return axios.post(burl + '/', {
             'date': date,
             'state': "awaitingValidation",
             'ownerId': ownerId,
             'customerId': customerId,
+            'roomId': roomId,
         }, {
             headers: tokenHeaders
         })

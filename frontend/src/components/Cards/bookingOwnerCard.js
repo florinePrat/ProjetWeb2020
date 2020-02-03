@@ -74,7 +74,9 @@ class bookingCard extends Component {
                     console.log(error.response.data.error);
                     this.setState({error: error.response.data.error});
                 });
-             }
+             } else {
+                window.location = "./profile-page";
+            }
 
         }, error => {
             console.log(error.response.data.error);
