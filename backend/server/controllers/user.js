@@ -165,15 +165,14 @@ exports.deleteUserForMochaTest = (req, res, next) => {
         .catch(error => res.status(500).json({error}))
 };
 
-/*exports.createPassword = async (req, res, next) => {
-    console.log("je suis ici")
-    const password = req.body.password;
-    await userController.createPassword(password);
+exports.getUserById = async (req, res, next) => {
+    const user = await userController.getUserById(req.params.id);
     return res.status(200).json({
+        phoneNumber: user.phoneNumber,
         success: true,
         message: 'Connected !'
     });
-};*/
+};
 
 
 

@@ -14,6 +14,7 @@ import room from "../../utils/room";
 const burlRoom = "http://localhost:3000/api/room";
 
 
+
 // this class send a answer to back for verify the answer and done the card of the day
 class bookingCard extends Component {
 
@@ -31,6 +32,7 @@ class bookingCard extends Component {
             customerId: this.props.customerId,
             error: false,
             rooms: [],
+            user:[],
             state: this.props.state,
         };
     }
@@ -46,7 +48,9 @@ class bookingCard extends Component {
                 console.log('room', room)
             }, function (data) {
                 console.log(data);
-            })
+            });
+
+
     }
 
     requestBooking = status => {
@@ -74,6 +78,8 @@ class bookingCard extends Component {
                     console.log(error.response.data.error);
                     this.setState({error: error.response.data.error});
                 });
+
+
              } else {
                 window.location = "./profile-page";
             }

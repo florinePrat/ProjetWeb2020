@@ -1,5 +1,5 @@
-import {basicHeaders} from "../../frontend/src/utils/headers";
-import axios from 'axios';
+//import {basicHeaders} from "../../frontend/src/utils/headers";
+//import axios from 'axios';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../App');
@@ -85,27 +85,27 @@ describe('Rooms', function() {
             }).then( (res) {
             _token = res.body.token
         })*/
-        it('#Room - Created OK', (done) => {
+        /*it('#Room - Created OK', (done) => {
             //mock valid user input
             const new_room = {
-                "title" : "titre",
-                "description" : "description",
-                "price" : "10",
-                "address" : "00 address",
-                "city" : "city",
-                "region" : "region",
-                "postalCode" : "00000",
-                "category" : "category",
-                "bail" : "100",
-                "imageUrl" : "/user.png",
-                "availability" : "{'2','3','4','5','6','7'}",
-                "review" : "{'1', '2', '3', '4'}",
-                "userId" : "5e231c2765e9b51af8d7680e"
+                "title": "titre",
+                "description": "description",
+                "price": "10",
+                "address": "00 address",
+                "city": "city",
+                "region": "region",
+                "postalCode": "00000",
+                "category": "category",
+                "bail": "100",
+                "imageUrl": "/user.png",
+                "availability": "{'2','3','4','5','6','7'}",
+                "review": "{'1', '2', '3', '4'}",
+                "userId": "5e231c2765e9b51af8d7680e"
             };
             //send request to the app
             chai.request(server).post('/api/room')
                 .send(new_room)
-                .headers({'Authorization':'Bearer' + _token})
+                .headers({'Authorization': 'Bearer' + _token})
                 .then((res) => {
                     _roomId = res.body.roomId;
                     //assertions
@@ -116,7 +116,7 @@ describe('Rooms', function() {
                 }).catch(err => {
                 console.log(err.message);
             })
-        });
+        });*/
 
         /*it('#User - Connexion OK', (done) => {
             //mock valid user input

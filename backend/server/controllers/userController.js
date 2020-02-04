@@ -1,9 +1,10 @@
 const User = require('../models/user');
 const passwordEncryption = require('../encryption/passwordEncryption');
 
-getUserById = async (id) => {
+const getUserById = async (_id) => {
     try {
-        return await User.findById(id)
+        const user = await User.findById(_id);
+        return user;
     } catch (error) {
         console.log("Impossible de trouver l'utilisateur");
         throw error
