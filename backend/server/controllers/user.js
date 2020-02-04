@@ -28,7 +28,7 @@ exports.signup = async (req, res, next) => {
                 email: user.email,
                 firstName: user.firstName
             };
-            const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '24h'});
+            const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
             return res.status(200).json({
                 success: true,
                 message: 'Connected !',
@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
                         email: user.email,
                         firstName: user.firstName
                     };
-                    const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '24h'});
+                    const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
                     //return satuts OK with token
                     return  res.status(200).json({
                         success: true,
@@ -95,7 +95,7 @@ exports.login = async (req, res, next) => {
                     email: user.email,
                     firstName: user.firstName
                 };
-                const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '24h'});
+                const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
                 //return satuts OK with token
                 return  res.status(200).json({
                     success: true,

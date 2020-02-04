@@ -115,7 +115,7 @@ deleteRoom = event => {
                 <Card style={{width: '18rem'}} >
                     <CardBody>
                         <CardTitle>Réservation pour : {this.state.rooms.title}</CardTitle>
-                        <CardSubtitle>Pour le : {this.props.date} </CardSubtitle>
+                        <CardSubtitle>Pour le : {this.props.date.substring(0, 10)} </CardSubtitle>
                             <Button
                                 color="danger"
                                 type="button"

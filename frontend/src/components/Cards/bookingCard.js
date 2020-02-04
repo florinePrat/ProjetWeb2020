@@ -62,12 +62,13 @@ class bookingCard extends Component {
 
 
     render() {
+
         return (
 
                 <Card style={{width: '18rem'}} >
                     <CardBody>
                         <CardTitle>Etat : {this.state.state}</CardTitle>
-                        <CardSubtitle>Date : {this.state.date} </CardSubtitle>
+                        <CardSubtitle>Date : {this.state.date.substring(0, 10)} </CardSubtitle>
                         <br/>
                         {this.state.state === "accepted"
                             ?<CardTitle>Contact propriétaire de la salle : 0{this.state.phoneNumber} </CardTitle>
