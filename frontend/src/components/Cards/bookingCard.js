@@ -3,12 +3,15 @@ import React from "react";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
-import api from "../../utils/room";
+import api from "../../utils/booking";
+import apiRoom from "../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import axios from "axios";
 import {tokenHeaders} from "../../utils/headers";
+import {Button} from "reactstrap";
 
 const burlUser = "http://localhost:3000/api/auth";
+const burlRoom = "http://localhost:3000/api/room";
 
 
 
@@ -18,7 +21,6 @@ class bookingCard extends Component {
 
     constructor(props) {
         super(props);
-        console.log("propriete" + props._id);
         this.state = {
             edit: false,
             userId: localStorage.getItem("userId"),
@@ -27,9 +29,12 @@ class bookingCard extends Component {
             error: false,
             rooms: [],
             state: this.props.state,
-            customerId:this.props.customerId,
-            phoneNumber:'',
+            customerId: this.props.customerId,
+            phoneNumber: '',
+            roomId: this.props.roomId,
+            availability:[],
         };
+        this.deleteBooking = this.deleteBooking.bind(this);
     }
 
     componentDidMount() {
@@ -42,22 +47,43 @@ class bookingCard extends Component {
                     const user = res.data;
                     this.setState({user: user});
                     console.log('my user :', user);
-                    this.setState({phoneNumber:user.phoneNumber});
+                    this.setState({phoneNumber: user.phoneNumber});
                     console.log('phoneNumber : ', this.state.phoneNumber);
                 }, function (data) {
-                    console.log('je suis dans data erreur',data);
+                    console.log('je suis dans data erreur', data);
                 });
         }
     }
 
-    deleteRoom = event => {
-        api.deleteRoom(this.props._id)
-            .then(res => {
-                window.location = "/profile-page";
-                console.log('objet supprimer !')
+    deleteBooking = event => {
+        if (this.state.state !== "refused") {
+            axios.get(burlRoom + '/' + this.state.roomId, {
+                headers: tokenHeaders
             })
-    };
+                .then(res => {
+                        const room = res.data;
+                        this.setState({availability: room.availability});
+                        console.log('availability', this.state.availability);
 
+                        apiRoom.updateRoomAvailabilities(this.state.availability.concat([this.state.date]), this.state.roomId)
+                            .then(res => {
+                                console.log('date a ajoter : ', this.state.date);
+                                console.log('new availability', this.state.availability.concat([this.state.date]));
+
+                                api.deleteBooking(this.state._id)
+                                    .then(res => {
+                                        window.location = "profile-page";
+                                        console.log('objet supprimer !')
+                                    })
+                            });
+
+                    }
+                    , function (data) {
+                        console.log('je suis dans data erreur', data);
+                    });
+        }
+        ;
+    }
 
 
 
@@ -71,9 +97,15 @@ class bookingCard extends Component {
                         <CardSubtitle>Date : {this.state.date.substring(0, 10)} </CardSubtitle>
                         <br/>
                         {this.state.state === "accepted"
-                            ?<CardTitle>Contact propriétaire de la salle : 0{this.state.phoneNumber} </CardTitle>
+                            ? <CardTitle>Contact propriétaire de la salle : 0{this.state.phoneNumber} </CardTitle>
                             : null
                         }
+                        <Button
+                            type="button"
+                            onClick={this.deleteBooking}
+                        >
+                            Supprimer réservation
+                        </Button>
                     </CardBody>
                 </Card>
         )

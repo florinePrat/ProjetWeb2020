@@ -27,7 +27,7 @@ const burlBooking = "http://localhost:3000/api/booking";
 
 
 function ProfilePage() {
-  const [pills, setPills] = React.useState("2");
+  const [pills, setPills] = React.useState("1");
   const [rooms, setRooms] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
   const [bookingOwner, setBookingOwner] = React.useState([]);
@@ -42,7 +42,6 @@ function ProfilePage() {
       document.body.classList.remove("sidebar-collapse");
     };
   });
-
 
   useEffect(()=>{
     axios.get(burl + '/byUser/' + userId, {
@@ -150,6 +149,7 @@ function ProfilePage() {
                                 state={booking.state}
                                 ownerId={booking.ownerId}
                                 customerId={booking.customerId}
+                                roomId={booking.roomId}
                             />
                       </Col>
                       ))}

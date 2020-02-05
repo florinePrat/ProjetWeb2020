@@ -25,4 +25,10 @@ export default {
         })
     },
 
+    deleteBooking:function(_id){
+        return axios.delete(burl + '/' + _id , {
+            headers: tokenHeaders
+        })
+    },
+
 }
