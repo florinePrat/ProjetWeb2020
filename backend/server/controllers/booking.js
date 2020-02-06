@@ -1,19 +1,23 @@
 const Booking = require('../models/booking');
 
 exports.createBooking = (req, res, next) => {
-    console.log('createbooking : req.body :', req.body);
-    const bookingObject = req.body;
-    const booking = new Booking({
-        ...bookingObject,
-    });
-    booking.save()
-        .then(() => res.status(201).json({
-            message: 'Objet enregistré !',
-            success: true,
-            bookingId: booking._id,
+    if (req.body.ownerId === req.body.userId) {
+        return res.status(400).json({error: "Impossible de réserver sa propre salle..."});
+    }else{
+        console.log('createbooking : req.body :', req.body);
+        const bookingObject = req.body;
+        const booking = new Booking({
+            ...bookingObject,
+        });
+        booking.save()
+            .then(() => res.status(201).json({
+                message: 'Objet enregistré !',
+                success: true,
+                bookingId: booking._id,
 
-        }))
-        .catch(error => res.status(400).json({error}));
+            }))
+            .catch(error => res.status(400).json({error}));
+    }
 };
 
 exports.modifyBooking = (req, res, next) => {

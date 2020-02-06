@@ -38,7 +38,7 @@ class availabilityModal extends React.Component {
                 window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
-                this.setState({error:error.response.data.error});
+                this.setState({error:error.response.data.errors});
             })
 
         }

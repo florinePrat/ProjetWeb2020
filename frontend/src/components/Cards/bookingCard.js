@@ -24,7 +24,7 @@ class bookingCard extends Component {
         this.state = {
             edit: false,
             userId: localStorage.getItem("userId"),
-            date: this.props.date,
+            date: this.props.date.substring(0, 10),
             _id: this.props._id,
             error: false,
             rooms: [],
@@ -65,10 +65,10 @@ class bookingCard extends Component {
                         this.setState({availability: room.availability});
                         console.log('availability', this.state.availability);
 
-                        apiRoom.updateRoomAvailabilities(this.state.availability.concat([this.state.date]), this.state.roomId)
+                        apiRoom.updateRoomAvailabilities(this.state.availability.concat([this.state.date.substring(0, 10)]), this.state.roomId)
                             .then(res => {
-                                console.log('date a ajoter : ', this.state.date);
-                                console.log('new availability', this.state.availability.concat([this.state.date]));
+                                console.log('date a ajoter : ', this.state.date.substring(0, 10));
+                                console.log('new availability', this.state.availability.concat([this.state.date.substring(0, 10)]));
 
                                 api.deleteBooking(this.state._id)
                                     .then(res => {
@@ -82,8 +82,8 @@ class bookingCard extends Component {
                         console.log('je suis dans data erreur', data);
                     });
         }
-        ;
-    }
+
+    };
 
 
 
@@ -104,7 +104,7 @@ class bookingCard extends Component {
                             type="button"
                             onClick={this.deleteBooking}
                         >
-                            Supprimer réservation
+                            Annuler réservation
                         </Button>
                     </CardBody>
                 </Card>

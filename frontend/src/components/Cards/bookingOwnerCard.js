@@ -25,7 +25,7 @@ class bookingCard extends Component {
         this.state = {
             edit: false,
             userId: localStorage.getItem("userId"),
-            date: this.props.date,
+            date: this.props.date.substring(0, 10),
             _id: this.props._id,
             roomId: this.props.roomId,
             ownerId: this.props.ownerId,
@@ -68,9 +68,9 @@ class bookingCard extends Component {
 
             if (this.state.state === "accepted"){
                 console.log("je suis dans le if");
-                console.log("nouvelles dispo : ", this.state.rooms.availability.filter(dispo => dispo !== this.state.date));
+                console.log("nouvelles dispo : ", this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)));
                 room.updateRoomAvailabilities(
-                    this.state.rooms.availability.filter(dispo => dispo !== this.state.date),
+                    this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)),
                     this.state.roomId
                 ).then(res =>{
                     window.location = "./profile-page";

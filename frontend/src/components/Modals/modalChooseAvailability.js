@@ -10,6 +10,7 @@ import {
 import api from '../../utils/booking';
 import auth from '../../utils/auth';
 import {FormControl, FormGroup, Form} from "react-bootstrap"
+import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
 
 // core components
 
@@ -33,15 +34,18 @@ class availabilityModal extends React.Component {
 
 
     send = event => {
-        console.log("id : ", this.props._id);
-        api.createBooking(this.state.dispo, this.state.state, this.state.ownerId, this.state.userId, this.state._id).then(res => {
+        if (this.state.ownerId !== this.state.userId){
+            api.createBooking(this.state.dispo, this.state.state, this.state.ownerId, this.state.userId, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
                 window.location = "profile-page"
             }, error => {
                 console.log(error.response.data.error);
-                this.setState({error:error.response.data.error});
+                this.setState({error:error.response.data.errors});
             });
+        } else {
+            this.setState({error:"Désolé vous ne pouvez pas réserver votre propre salle... :)"})
+        }
 
     };
 
@@ -98,9 +102,9 @@ class availabilityModal extends React.Component {
                         </button>
                         <h4 className="title title-up">Je choisi une date pour la réservation</h4>
                         {this.state.error ?
-                            <Alert color="danger">
+                            <UncontrolledAlert color="danger">
                                 {this.state.error}
-                            </Alert> : false
+                            </UncontrolledAlert> : false
                         }
                     </div>
                     <ModalBody>
