@@ -22,8 +22,8 @@ import {tokenHeaders} from "../../utils/headers";
 import RoomCard from "../../components/Cards/roomCard";
 import BookingCard from "../../components/Cards/bookingCard";
 import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
-const burl = "http://localhost:3000/api/room";
-const burlBooking = "http://localhost:3000/api/booking";
+
+const burl = process.env.REACT_APP_API_URL;
 
 
 function ProfilePage() {
@@ -44,7 +44,7 @@ function ProfilePage() {
   });
 
   useEffect(()=>{
-    axios.get(burl + '/byUser/' + userId, {
+    axios.get(burl + '/api/room/byUser/' + userId, {
       headers: tokenHeaders
     })
         .then(res => {
@@ -55,7 +55,7 @@ function ProfilePage() {
           console.log(data);
         });
 
-    axios.get(burlBooking + '/byUser/' + userId, {
+    axios.get(burl + '/api/booking/byUser/' + userId, {
       headers: tokenHeaders
     })
         .then(res => {
@@ -65,7 +65,7 @@ function ProfilePage() {
           console.log(data);
         });
 
-    axios.get(burlBooking + '/byOwner/' + userId, {
+    axios.get(burl + '/api/booking/byOwner/' + userId, {
       headers: tokenHeaders
     })
         .then(res => {

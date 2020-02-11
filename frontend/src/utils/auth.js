@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {basicHeaders} from './headers';
 
-const burl = "http://localhost:3000/api/auth";
+const burl = process.env.REACT_APP_API_URL;
 // this is the request for authentification
 export default {
     login : async (email,password) => {
-        return await axios.post(burl + '/login', {
+        return await axios.post(burl + '/api/auth/login', {
             'email': email,
             'password': password
         }, {
@@ -13,7 +13,7 @@ export default {
         });
     },
     signup : function(email,firstName,phoneNumber){
-        return axios.post(burl + '/signup',{
+        return axios.post(burl + '/api/auth/signup',{
             'email' : email,
             'phoneNumber' : phoneNumber,
             'firstName' : firstName,
@@ -23,7 +23,7 @@ export default {
     },
 
     sendEmail : function(email){
-       return axios.get(burl + '/hasPassword/' + email,{
+       return axios.get(burl + '/api/auth/hasPassword/' + email,{
        },{
            headers: basicHeaders
        })

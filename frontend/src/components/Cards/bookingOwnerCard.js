@@ -10,8 +10,7 @@ import api from "../../utils/booking";
 import {Button} from "reactstrap";
 import room from "../../utils/room";
 
-
-const burlRoom = "http://localhost:3000/api/room";
+const burl = process.env.REACT_APP_API_URL;
 
 
 
@@ -38,7 +37,7 @@ class bookingCard extends Component {
     }
 
     componentWillMount () {
-        axios.get(burlRoom + '/' + this.state.roomId, {
+        axios.get(burl + '/api/room/' + this.state.roomId, {
             headers: tokenHeaders
         })
             .then(res => {

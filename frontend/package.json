@@ -54,6 +54,7 @@
   "devDependencies": {
     "@material-ui/core": "^4.9.0",
     "axios": "^0.19.1",
+    "dotenv": "^8.2.0",
     "react-toastify": "^5.5.0",
     "semantic-ui-react": "^0.88.2"
   }

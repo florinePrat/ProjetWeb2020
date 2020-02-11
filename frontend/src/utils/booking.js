@@ -1,12 +1,12 @@
 import axios from "axios";
 import {tokenHeaders} from './headers';
 
-const burl = "http://localhost:3000/api/booking";
+const burl = process.env.REACT_APP_API_URL;
 
 export default {
 
     createBooking: function (date, state, ownerId, customerId, roomId) {
-        return axios.post(burl + '/', {
+        return axios.post(burl + '/api/booking/', {
             'date': date,
             'state': "awaitingValidation",
             'ownerId': ownerId,
@@ -18,7 +18,7 @@ export default {
     },
 
     requestBooking: function ({_id, state}) {
-        return axios.put(burl + '/' + _id, {
+        return axios.put(burl + '/api/booking/' + _id, {
             'state': state,
         }, {
             headers: tokenHeaders
@@ -26,7 +26,7 @@ export default {
     },
 
     deleteBooking:function(_id){
-        return axios.delete(burl + '/' + _id , {
+        return axios.delete(burl + '/api/booking/' + _id , {
             headers: tokenHeaders
         })
     },

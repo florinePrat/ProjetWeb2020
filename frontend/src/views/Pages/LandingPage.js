@@ -1,6 +1,5 @@
 import React from "react";
 
-// reactstrap components
 // core components
 import LandingPageHeader from "../../components/Headers/LandingPageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
@@ -11,7 +10,7 @@ import RoomCard from "../../components/Cards/roomCardForLanding";
 import {Col, Container, Row} from "react-bootstrap";
 import room from "../../utils/room";
 
-const burl = "http://localhost:3000/api/room";
+const burl = process.env.REACT_APP_API_URL;
 
 class LandingPage extends React.Component {
 
@@ -42,7 +41,7 @@ class LandingPage extends React.Component {
 
     componentDidMount() {
 
-        axios.get(burl + '/', {
+        axios.get(burl + '/api/room/', {
             headers: tokenHeaders
         })
             .then(res => {

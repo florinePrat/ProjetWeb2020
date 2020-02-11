@@ -8,7 +8,7 @@ import Javascript from "../../components/Modals/modalCreatePassword";
 
 // core components
 let pageHeader= React.createRef();
-const burl = "http://localhost:3000/images";
+const burl = process.env.REACT_APP_API_URL;
 
 class ProfilePageHeader extends React.Component{
 
@@ -87,7 +87,7 @@ class ProfilePageHeader extends React.Component{
                   id="photoInitiale"
                   onClick={this.upload}
                   alt="..."
-                  src={(burl + this.state.imageUrl)}
+                  src={(burl + '/images/' + this.state.imageUrl)}
               />
           </div>
 

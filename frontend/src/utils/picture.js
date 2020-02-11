@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const burl = "http://localhost:3000/images";
+const burl = process.env.REACT_APP_API_URL;
 // this is the request for authentification
 export default {
 
     sendPicture : function (avatar) {
-        return axios.put(burl + '/addPicture', {
+        return axios.put(burl + '/images/addPicture', {
             'imageUrl' : avatar
         },{
             headers:{

@@ -10,9 +10,7 @@ import axios from "axios";
 import {tokenHeaders} from "../../utils/headers";
 import {Button} from "reactstrap";
 
-const burlUser = "http://localhost:3000/api/auth";
-const burlRoom = "http://localhost:3000/api/room";
-
+const burl = process.env.REACT_APP_API_URL;
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -40,7 +38,7 @@ class bookingCard extends Component {
     componentDidMount() {
         if (this.state.state === "accepted") {
 
-            axios.get(burlUser + '/getUser/' + this.state.userId, {
+            axios.get(burl + '/api/auth/getUser/' + this.state.userId, {
                 headers: tokenHeaders
             })
                 .then(res => {
@@ -57,7 +55,7 @@ class bookingCard extends Component {
 
     deleteBooking = event => {
         if (this.state.state !== "refused") {
-            axios.get(burlRoom + '/' + this.state.roomId, {
+            axios.get(burl + '/api/room/' + this.state.roomId, {
                 headers: tokenHeaders
             })
                 .then(res => {
