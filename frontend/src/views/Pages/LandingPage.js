@@ -49,8 +49,8 @@ class LandingPage extends React.Component {
             .then(res => {
                 const rooms = res.data;
                 console.log('my data', rooms);
-                this.setState({rooms});
-                localStorage.setItem("roomUrl", rooms[0].imageUrl)
+                this.setState({rooms:rooms});
+                localStorage.setItem("roomUrl", rooms[0].imageUrl);
             }, function (data) {
                 console.log(data);
             })
@@ -60,7 +60,7 @@ class LandingPage extends React.Component {
         return (
             <>
                 <div className="wrapper">
-                    <LandingPageHeader update={this.myCallback}/>
+                    <LandingPageHeader update={this.myCallback} rooms={this.state.rooms}/>
                     <div className="wrapper">
                         <br/>
                         <Container>

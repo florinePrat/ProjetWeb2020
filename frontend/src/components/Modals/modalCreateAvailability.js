@@ -35,7 +35,6 @@ class availabilityModal extends React.Component {
             api.updateRoomAvailabilities(this.state.dispo, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error:error.response.data.errors});

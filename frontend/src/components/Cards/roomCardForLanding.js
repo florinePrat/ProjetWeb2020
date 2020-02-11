@@ -23,7 +23,6 @@ class roomCard extends Component {
     }
 
     render() {
-        console.log("my props : ", this.props);
         return (
             this.state.isDeployed
                 ?

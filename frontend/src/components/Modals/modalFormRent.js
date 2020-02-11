@@ -23,15 +23,10 @@ class createRoom extends React.Component {
             modal: false,
             userId: localStorage.getItem("userId"),
             title:"",
-            description:"",
-            price:"",
             address:"",
             city:"",
             region:"",
             postalCode:"",
-            category:"",
-            bail:"",
-            imageUrl:" ",
             error: false,
         };
         this.send.bind(this);

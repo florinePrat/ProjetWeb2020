@@ -15,6 +15,7 @@ class LandingPageHeader extends React.Component {
         super(props);
         this.state = {
             isAuth: auth.isAuth(),
+            rooms:this.props.rooms,
         };
     }
 
@@ -23,7 +24,10 @@ class LandingPageHeader extends React.Component {
     };
 
 
+
+
     render() {
+
         return (
             <>
 
@@ -48,7 +52,7 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                        <SearchComponent callbackFromParent={this.myCallback}/>
+                        <SearchComponent callbackFromParent={this.myCallback} rooms={this.props.rooms}/>
 
                     </Container>
 

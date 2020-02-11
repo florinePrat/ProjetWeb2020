@@ -62,10 +62,11 @@ class availabilityModal extends React.Component {
         let availability = this.state.availability;
         let options = availability.map((data)=>
             <option
-            key={data}>
+                key={data}>
                 {data}
             </option>
         );
+
 
         return (
             <>

@@ -13,6 +13,7 @@ import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import CardText from "reactstrap/es/CardText";
 import api from "../../utils/room";
+import categories from "../../utils/categories";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
 import Javascript from "../Modals/modalCreateAvailability";
@@ -45,7 +46,19 @@ class roomCard extends Component {
             error: false,
             rooms: [],
             state: this.props.state,
+            categories:[],
         };
+    }
+
+    componentWillMount(){
+       categories.getAllCategories()
+           .then(res => {
+               const categories = res.data;
+               console.log('my category 1', categories);
+               this.setState({categories:categories});
+           }, function (data) {
+               console.log(data);
+           })
     }
 
     deleteRoom = event => {
@@ -135,6 +148,12 @@ class roomCard extends Component {
     };
 
     render() {
+        let options = this.state.categories.map((data)=>
+            <option
+                key={data.name}>
+                {data.name}
+            </option>
+        );
         return (
             this.state.isDeployed
                 ?
@@ -263,13 +282,7 @@ class roomCard extends Component {
                                                 onChange={this.handleChange}
                                                 type="text"
                                             >
-                                                <option>{this.state.category}</option>
-                                                <option>Salle de fêtes (mariages, soirée, anniverssaire..)</option>
-                                                <option>Salle de réunions pro</option>
-                                                <option>Salle de coworking</option>
-                                                <option>Salle de restaurant</option>
-                                                <option>Garage</option>
-                                                <option>Hangar</option>
+                                                {options}
                                             </FormControl>
                                         </FormGroup>
                                         <FormGroup controlId="description">

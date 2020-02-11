@@ -1,6 +1,7 @@
 import React from "react";
 import {FormGroup, Button} from "reactstrap";
 import CustomInput from "reactstrap/es/CustomInput";
+import categories from "../utils/categories";
 // reactstrap components
 
 
@@ -13,9 +14,21 @@ class SearchComponent extends React.Component {
             category: 'null',
             city: 'null',
             rooms:[],
+            categories:[],
         };
         this.handleChange = this.handleChange.bind(this);
         this.mySearch = this.mySearch.bind(this);
+    }
+
+    componentWillMount(){
+        categories.getAllCategories()
+            .then(res => {
+                const categories = res.data;
+                console.log('my category 1', categories);
+                this.setState({categories:categories});
+            }, function (data) {
+                console.log(data);
+            })
     }
 
     mySearch = () => {
@@ -35,6 +48,33 @@ class SearchComponent extends React.Component {
 
 
     render() {
+
+        console.log("affichage de rooms : ", this.props.rooms);
+
+        let categories = this.state.categories;
+        let optionsCategory = categories.map((data)=>
+            <option
+                key={data.name}>
+                {data.name}
+            </option>
+        );
+
+        const uniqueTags = [];
+        this.props.rooms.map(data => {
+            if (uniqueTags.indexOf(data.city) === -1) {
+                uniqueTags.push(data.city)
+            }
+        });
+
+        let optionsCities = uniqueTags.map((data)=>
+            <option
+                key={data}>
+                {data}
+            </option>
+        );
+
+        console.log("test des villes en bd", uniqueTags);
+
         return (
             <>
 
@@ -49,9 +89,8 @@ class SearchComponent extends React.Component {
                                     value={this.state.city}
                                     onChange={this.handleChange}
                                 >
-                                    <option>Où ?</option>
-                                    <option>Montpellier</option>
-                                    <option>Ales</option>
+                                    <option>Ville</option>
+                                    {optionsCities}
                                 </CustomInput>
                             </FormGroup>
                         </div>
@@ -65,14 +104,8 @@ class SearchComponent extends React.Component {
                                     value={this.state.category}
                                     onChange={this.handleChange}
                                 >
-                                    <option>Type de salle</option>
-                                    <option>Salle de fêtes (soirée, anniverssaire..)</option>
-                                    <option>Salle de réunions pro</option>
-                                    <option>Salle de coworking</option>
-                                    <option>Salle de restaurant</option>
-                                    <option>Mariage</option>
-                                    <option>Garage</option>
-                                    <option>Hangar</option>
+                                    <option>Catégorie</option>
+                                    {optionsCategory}
                                 </CustomInput>
 
                             </FormGroup>
