@@ -50,15 +50,16 @@ exports.getOneBooking = (req, res, next) => {
         .catch(error => res.status(404).json({error}));
 };
 
+let recentDate = new Date();
 
 exports.getBookingByUser = (req, res, next) => {
-    Booking.find({customerId: req.params.id})
+    Booking.find({$and : [{customerId: req.params.id}, {date : {$gt: recentDate}}]})
         .then(bookings => res.status(200).json(bookings))
         .catch(error => res.status(400).json({error}));
 };
 
 exports.getBookingByOwner = (req, res, next) => {
-    Booking.find({$and : [{ownerId: req.params.id}, {state: "awaitingValidation"}]})
+    Booking.find({$and : [{ownerId: req.params.id}, {state: "awaitingValidation"}, {date : {$gt: recentDate}}]})
         .then(bookings => res.status(200).json(bookings))
         .catch(error => res.status(400).json({error}));
 };

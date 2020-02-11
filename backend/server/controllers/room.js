@@ -2,7 +2,7 @@ const Room = require('../models/room');
 const fs = require('fs');
 
 exports.createRoom = (req, res, next) => {
-    console.log('createRoom : req.body :', req.body)
+    console.log('createRoom : req.body :', req.body);
     const roomObject = req.body;
     const room = new Room({
         ...roomObject,
@@ -58,7 +58,7 @@ exports.getAllRooms = (req, res, next) => {
 };
 
 exports.getAllSearchRooms = (req, res, next) => {
-    console.log(req.params)
+    console.log(req.params);
     if (req.params.category !== 'null' && req.params.city !== 'null') {
         console.log("j'effectue une recherche à 2 entrée");
         Room.find(
