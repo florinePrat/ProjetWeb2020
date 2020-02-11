@@ -33,8 +33,7 @@ class LandingPage extends React.Component {
             console.log(this.state.category);
             console.log(this.state.city);
             console.log("room : ", rooms);
-            this.setState({rooms});
-            localStorage.setItem("roomUrl", rooms[0].imageUrl)
+            this.setState({rooms:rooms});
         }, error => {
             console.log(error)
         })
