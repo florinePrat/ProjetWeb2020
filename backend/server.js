@@ -37,6 +37,14 @@ const errorHandler = error => {
 
 const server = http.createServer(app);
 
+//app.use(express.static(path.join(__dirname,"..", "frontend", "build")));
+
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname,"..", "frontend", "build", "index.html"));
+});
+
+
 server.on('error', errorHandler);
 server.on('listening', () => {
     const address = server.address();

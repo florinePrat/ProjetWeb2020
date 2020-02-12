@@ -5,6 +5,7 @@ const userRoutes = require('./server/routes/user');
 const roomRoutes = require('./server/routes/room');
 const bookingRoutes = require('./server/routes/booking');
 const categoryRoutes = require('./server/routes/categories');
+const favicon = require('serve-favicon');
 const app = express();
 const path = require('path');
 
@@ -15,6 +16,8 @@ mongoose.connect('mongodb+srv://Florine:florine@cluster0-hqmob.mongodb.net/test?
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(bodyParser.json());
+
+app.use(favicon(path.join(__dirname, '..', 'frontend', 'public', 'favicon.png')));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
