@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const userController = require('./userController');
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
 const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
 exports.signup = async (req, res, next) => {
@@ -29,6 +31,17 @@ exports.signup = async (req, res, next) => {
                 firstName: user.firstName
             };
             const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const msg = {
+                to: user.email.toString(),
+                from: 'louer-ma-salle@locatme.com',
+                subject: 'Vous êtes bien inscrit',
+                text: 'Félicitations',
+                html: "<strong>Félicitations, vous venez de vous inscrire sur louer ma salle. </strong>",
+            };
+
+            await sgMail.send(msg);
+            console.log("envoi réussi");
             return res.status(200).json({
                 success: true,
                 message: 'Connected !',

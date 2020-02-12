@@ -2,7 +2,6 @@ const Room = require('../models/room');
 const fs = require('fs');
 
 exports.createRoom = (req, res, next) => {
-    console.log('createRoom : req.body :', req.body);
     const roomObject = req.body;
     const room = new Room({
         ...roomObject,

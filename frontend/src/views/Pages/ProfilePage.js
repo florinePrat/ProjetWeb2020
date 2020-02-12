@@ -50,7 +50,6 @@ function ProfilePage() {
         .then(res => {
           const rooms = res.data;
           setRooms(rooms);
-          localStorage.setItem("roomUrl" , rooms[0].imageUrl)
         }, function (data) {
           console.log(data);
         });
