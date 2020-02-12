@@ -2,6 +2,7 @@ import React from "react";
 import {FormGroup, Button} from "reactstrap";
 import CustomInput from "reactstrap/es/CustomInput";
 import categories from "../utils/categories";
+import room from "../utils/room";
 // reactstrap components
 
 
@@ -101,16 +102,18 @@ class SearchComponent extends React.Component {
                                     type="select"
                                     id="category"
                                     name="customSelect"
-                                    value={this.state.category}
+                                    value = {this.state.category}
                                     onChange={this.handleChange}
                                 >
-                                    <option>Catégorie</option>
+                                    <option >Categorie</option>
                                     {optionsCategory}
                                 </CustomInput>
 
                             </FormGroup>
                         </div>
+
                         <div className="form-group col-md-1">
+
                             <FormGroup>
                                 <Button
                                     className='btn-round'

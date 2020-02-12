@@ -24,6 +24,7 @@ class LandingPage extends React.Component {
     }
 
     myCallback = (search) => {
+
         this.state = {category: search[0], city: search[1]};
 
         room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
@@ -38,28 +39,47 @@ class LandingPage extends React.Component {
         })
     };
 
-
-    componentDidMount() {
-
-        axios.get(burl + '/api/room/', {
-            headers: tokenHeaders
-        })
+    reload = () => {
+        room.getAllRooms()
             .then(res => {
                 const rooms = res.data;
-                console.log('my data', rooms);
                 this.setState({rooms:rooms});
                 localStorage.setItem("roomUrl", rooms[0].imageUrl);
             }, function (data) {
                 console.log(data);
             })
+    };
+
+
+    componentDidMount() {
+        room.getAllRooms()
+            .then(res => {
+            const rooms = res.data;
+            this.setState({rooms:rooms});
+            localStorage.setItem("roomUrl", rooms[0].imageUrl);
+        }, function (data) {
+            console.log(data);
+        })
     }
 
     render() {
         return (
             <>
                 <div className="wrapper">
-                    <LandingPageHeader update={this.myCallback} rooms={this.state.rooms}/>
+                    <LandingPageHeader
+                        update={this.myCallback}
+                        rooms={this.state.rooms}
+                    />
+
                     <div className="wrapper">
+                        <br/>
+                        <button
+                            className={"btn-round"}
+                            onClick={this.reload}
+                        >
+                            <i className="now-ui-icons arrows-1_refresh-69"/>  Réinitialiser la recherche
+                        </button>
+                        <br/>
                         <br/>
                         <Container>
                             <Row>
