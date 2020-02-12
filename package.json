@@ -1,0 +1,27 @@
+{
+  "name": "louer-ma-salle",
+  "version": "1.0.0",
+  "description": "projet web ig3 2020",
+  "engines": {
+    "node": "13.5.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd backend  &&  node serveur.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/florinePrat/ProjetWeb2020.git"
+  },
+  "author": "florine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/florinePrat/ProjetWeb2020/issues"
+  },
+  "homepage": "https://github.com/florinePrat/ProjetWeb2020#readme",
+  "dependencies": {
+    "mongoose-trigger": "^1.0.1"
+  }
+}
