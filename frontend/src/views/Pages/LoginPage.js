@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 // reactstrap components
 import {
@@ -30,11 +30,6 @@ function Signup() {
     const [password, setPassword] = React.useState("");
     const [step, setStep] = React.useState(true);
 
-    send = send.bind(this);
-    sendLog = sendLog.bind(this);
-    sendEmail = sendEmail.bind(this);
-    handleLoginClick = handleLoginClick.bind(this);
-    handleLogoutClick = handleLogoutClick.bind(this);
 
     React.useEffect(() => {
         document.body.classList.add("login-page");
@@ -217,13 +212,12 @@ function Signup() {
                                             }
                                             <div className="pull-left">
                                                 <h6>
-                                                    <a
-                                                        className="link"
-                                                        href="#"
+                                                    <Button
+                                                        className={"btn-round"}
                                                         onClick={handleLoginClick}
                                                     >
                                                         S'inscrire
-                                                    </a>
+                                                    </Button>
                                                 </h6>
                                             </div>
 
@@ -319,13 +313,12 @@ function Signup() {
                                             </Button>
                                             <div className="pull-left">
                                                 <h6>
-                                                    <a
-                                                        className="link"
-                                                        href="#"
+                                                    <Button
+                                                        className={"btn-round"}
                                                         onClick={handleLogoutClick}
                                                     >
                                                         Se connecter
-                                                    </a>
+                                                    </Button>
                                                 </h6>
                                             </div>
 

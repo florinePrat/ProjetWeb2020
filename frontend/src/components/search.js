@@ -2,7 +2,6 @@ import React from "react";
 import {FormGroup, Button} from "reactstrap";
 import CustomInput from "reactstrap/es/CustomInput";
 import categories from "../utils/categories";
-import room from "../utils/room";
 // reactstrap components
 
 

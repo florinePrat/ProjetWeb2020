@@ -4,13 +4,10 @@ import React from "react";
 import LandingPageHeader from "../../components/Headers/LandingPageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import auth from "../../utils/auth";
-import axios from "axios";
-import {tokenHeaders} from "../../utils/headers";
 import RoomCard from "../../components/Cards/roomCardForLanding";
 import {Col, Container, Row} from "react-bootstrap";
 import room from "../../utils/room";
 
-const burl = process.env.REACT_APP_API_URL;
 
 class LandingPage extends React.Component {
 
