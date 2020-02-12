@@ -18,6 +18,7 @@ mongoose.connect('mongodb+srv://Florine:florine@cluster0-hqmob.mongodb.net/test?
 app.use(bodyParser.json());
 
 app.use(favicon(path.join(__dirname, '..', 'frontend', 'public', 'favicon.png')));
+app.use(express.static(path.join(__dirname,"..", "frontend", "build")));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
