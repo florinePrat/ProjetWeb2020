@@ -10,7 +10,6 @@ import LoginPage from "views/Pages/LoginPage.js";
 import LandingPage from "views/Pages/LandingPage.js";
 import ProfilePage from "views/Pages/ProfilePage.js";
 import { PrivateRoute } from './components/PrivateRoute.js';
-import TestS3 from './components/testS3'
 
 
 // class App call all components and verify if login for some pages with PrivateRoute
@@ -24,7 +23,6 @@ class App extends Component{
                 <div className="App-content">
                     <Switch>
                         <PrivateRoute path='/profile-page' component={ProfilePage}/>
-                        <PrivateRoute path='/test-s3' component={TestS3}/>
                     </Switch>
                 </div>
 
