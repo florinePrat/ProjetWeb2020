@@ -4,7 +4,6 @@ exports.createBooking = (req, res, next) => {
     if (req.body.ownerId === req.body.userId) {
         return res.status(400).json({error: "Impossible de réserver sa propre salle..."});
     }else{
-        console.log('createbooking : req.body :', req.body);
         const bookingObject = req.body;
         const booking = new Booking({
             ...bookingObject,

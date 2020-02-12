@@ -34,7 +34,7 @@ exports.signup = async (req, res, next) => {
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
                 to: user.email.toString(),
-                from: 'louer-ma-salle@locatme.com',
+                from: 'louer-ma-salle@gmail.com',
                 subject: 'Vous êtes bien inscrit',
                 text: 'Félicitations',
                 html: "<strong>Félicitations, vous venez de vous inscrire sur louer ma salle. </strong>",
