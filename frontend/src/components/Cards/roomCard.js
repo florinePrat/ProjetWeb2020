@@ -158,7 +158,7 @@ class roomCard extends Component {
             this.state.isDeployed
                 ?
                 <Card style={{width: '18rem'}}>
-                    <CardImg top width="100%" src={burl + '/images/' + this.state.imageUrl} alt="Card image cap" />
+                    <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
                     <CardBody>
                         <CardTitle>{this.props.title}</CardTitle>
                         <CardText>Catégorie : {this.props.category}</CardText>

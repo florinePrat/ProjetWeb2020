@@ -1,23 +1,21 @@
-//import {basicHeaders} from "../../frontend/src/utils/headers";
-//import axios from 'axios';
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var server = require('../App');
-var should = chai.should();
-var User = require('../server/controllers/userController');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../App');
+const should = chai.should();
 
 chai.use(chaiHttp);
+const userController = require('../server/controllers/userController');
 const expect = chai.expect;
-var _token;
-var _userId;
-var _user2Id;
+let _token;
+let _userId;
+let _user2Id;
 
-describe('Start Tests', function() {
-    describe('User Initialisation', function(){
+describe('Start Tests', function () {
+    describe('User Initialisation', function () {
 
         const new_user2 = {
             "email": "john2@doe2.com",
-            "firstName"  : "John",
+            "firstName": "John",
             "phoneNumber": "0000000000"
         };
         //send request to the app
@@ -35,7 +33,7 @@ describe('Start Tests', function() {
             //mock valid user input
             const new_user = {
                 "email": "john@doe.com",
-                "firstName"  : "John",
+                "firstName": "John",
                 "phoneNumber": "0000000000"
             };
             //send request to the app
@@ -44,21 +42,23 @@ describe('Start Tests', function() {
                 .then((res) => {
                     _userId = res.body.userId;
                     _token = res.body.token;
+                    console.log('token mal forme : ', _token);
                     //assertions
                     expect(res).to.have.status(200);
                     expect(res.body.success).to.be.equal(true);
                     expect(res.body.message).to.be.equal("Connected !");
                     done();
                 }).catch(err => {
+                console.log('token mal forme : ', _token);
                 console.log(err.message);
             })
         });
-
+        console.log('token mal forme : ', _token);
         it('#User - Connexion OK', (done) => {
             //mock valid user input
             const new_user = {
                 "email": "john@doe.com",
-                "password"  : "doe",
+                "password": "doe",
             };
             //send request to the app
             chai.request(server).post('/api/auth/login')
@@ -75,8 +75,8 @@ describe('Start Tests', function() {
         });
     });
 
-    describe('Rooms', function() {
-        var _roomId;
+    describe('Rooms', function () {
+        let _roomId;
         it('#Room - Created OK', (done) => {
             //mock valid user input
             const new_room = {
@@ -107,6 +107,7 @@ describe('Start Tests', function() {
                     expect(res.body.message).to.be.equal("Objet enregistré !");
                     done();
                 }).catch(err => {
+                console.log('token mal forme : ', _token);
                 console.log(err.message);
             })
         });
@@ -130,7 +131,7 @@ describe('Start Tests', function() {
                 "userId": _userId
             };
             //send request to the app
-            chai.request(server).put('/api/room/'+ _roomId)
+            chai.request(server).put('/api/room/' + _roomId)
                 .set({'Authorization': 'Bearer ' + _token})
                 .send(room)
                 .then((res) => {
@@ -199,8 +200,8 @@ describe('Start Tests', function() {
                 console.log(err.message);
             })
         });
-        describe('Booking', function() {
-            var _bookingId;
+        describe('Booking', function () {
+            let _bookingId;
             it('#Booking - Created OK', (done) => {
                 //mock valid user input
                 const new_booking = {
@@ -237,7 +238,7 @@ describe('Start Tests', function() {
                     "customerId": _user2Id
                 };
                 //send request to the app
-                chai.request(server).put('/api/booking/'+ _bookingId)
+                chai.request(server).put('/api/booking/' + _bookingId)
                     .set({'Authorization': 'Bearer ' + _token})
                     .send(booking)
                     .then((res) => {
@@ -294,7 +295,6 @@ describe('Start Tests', function() {
             });
 
 
-
             it('#Booking - Suppression OK', (done) => {
                 //mock valid user input
                 //send request to the app
@@ -328,7 +328,7 @@ describe('Start Tests', function() {
 
     });
 
-    describe('Delete User', function() {
+    describe('Delete User', function () {
 
         chai.request(server).delete('/api/auth/' + _user2Id)
             .then((res) => {
@@ -337,7 +337,7 @@ describe('Start Tests', function() {
             console.log(err.message);
         });
 
-        it('#User - Suppression USER  OK', (done) => {
+        /*it('#User - Suppression USER  OK', (done) => {
             //mock valid user input
             //send request to the app
             chai.request(server).delete('/api/auth/' + _userId)
@@ -361,9 +361,16 @@ describe('Start Tests', function() {
                 }).catch(err => {
                 console.log(err.message);
             });
-        });
+        });*/
     });
 
+    after('#cleaning database', (done) => {
+        console.log('je suis dans le after');
+        Promise.all([
+            userController.deleteUser(_userId),
+            userController.deleteUser(_user2Id)
+        ]).then(() => done())
+    });
 });
 
 

@@ -1,3 +1,4 @@
+
 const Booking = require('../models/booking');
 
 exports.createBooking = (req, res, next) => {
@@ -62,5 +63,4 @@ exports.getBookingByOwner = (req, res, next) => {
         .then(bookings => res.status(200).json(bookings))
         .catch(error => res.status(400).json({error}));
 };
-
 

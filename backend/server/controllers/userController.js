@@ -48,10 +48,20 @@ const createPassword = async (_id,password) => {
     }
 };
 
+const deleteUser = async (_id) => {
+    try{
+        return await User.deleteOne({_id})
+    }catch (error) {
+        console.log(error.message);
+        throw error
+    }
+};
+
 
 module.exports = {
     getUserById,
     createUser,
     getUserByEmail,
     createPassword,
+    deleteUser,
 };

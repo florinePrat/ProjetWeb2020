@@ -85,7 +85,7 @@ export default {
     },
 
     getAllSearchRooms: function (category, city) {
-        console.log(burl + '/api/room/' + category + '/' + city);
+        console.log(burl + '/room/' + category + '/' + city);
         return axios.get (burl + '/api/room/' + category + '/' + city , {
         },{
             headers: basicHeaders

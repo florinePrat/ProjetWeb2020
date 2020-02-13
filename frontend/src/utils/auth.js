@@ -5,7 +5,7 @@ const burl = process.env.REACT_APP_API_URL;
 // this is the request for authentification
 export default {
     login : async (email,password) => {
-        return await axios.post(burl + '/api/auth/login', {
+        return await axios.post(burl + '/auth/login', {
             'email': email,
             'password': password
         }, {
@@ -13,7 +13,7 @@ export default {
         });
     },
     signup : function(email,firstName,phoneNumber){
-        return axios.post(burl + '/api/auth/signup',{
+        return axios.post(burl + '/auth/signup',{
             'email' : email,
             'phoneNumber' : phoneNumber,
             'firstName' : firstName,
@@ -23,7 +23,7 @@ export default {
     },
 
     sendEmail : function(email){
-       return axios.get(burl + '/api/auth/hasPassword/' + email,{
+       return axios.get(burl + '/auth/hasPassword/' + email,{
        },{
            headers: basicHeaders
        })

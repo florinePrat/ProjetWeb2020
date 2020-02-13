@@ -4,7 +4,6 @@ const userController = require('./userController');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-
 exports.signup = async (req, res, next) => {
     try {
         const { email, firstName, phoneNumber} = req.body;
@@ -30,7 +29,7 @@ exports.signup = async (req, res, next) => {
                 email: user.email,
                 firstName: user.firstName
             };
-            const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
+            const token = jwt.sign(tokenUser, process.env.tokenkey, {expiresIn: '200000h'});
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
                 to: user.email.toString(),
@@ -84,7 +83,7 @@ exports.login = async (req, res, next) => {
                         email: user.email,
                         firstName: user.firstName
                     };
-                    const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
+                    const token = jwt.sign(tokenUser, process.env.tokenkey, {expiresIn: '200000h'});
                     //return satuts OK with token
                     return  res.status(200).json({
                         success: true,
@@ -108,7 +107,7 @@ exports.login = async (req, res, next) => {
                     email: user.email,
                     firstName: user.firstName
                 };
-                const token = jwt.sign(tokenUser, 'RANDOM_TOKEN_SECRET', {expiresIn: '200000h'});
+                const token = jwt.sign(tokenUser, process.env.tokenkey, {expiresIn: '200000h'});
                 //return satuts OK with token
                 return  res.status(200).json({
                     success: true,
@@ -126,20 +125,6 @@ exports.login = async (req, res, next) => {
             error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
         });
     }
-};
-
-
-exports.addPicture = async (req, res, next) => {
-    console.log(req.file);
-    const userObject = req.file ?
-        {
-            ...JSON.parse(req.body.user),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : {... req.body};
-
-    User.updateOne({_id: req.params.id}, { ...userObject, _id: req.params.id})
-        .then(() => res.status(200).json({ message: 'Image ajouté !'}))
-        .catch(error => res.status(400).json({ error }));
 };
 
 
@@ -168,14 +153,11 @@ exports.sendEmail = async (req, res, next) => {
 
 
 exports.deleteUserForMochaTest = (req, res, next) => {
-    User.findOne({_id: req.params.id})
-        .then(user => {
-            User.deleteOne({_id: req.params.id})
-                .then(() => res.status(200).json({message: 'User deleted !'}))
-                .catch(error => res.status(400).json({error}));
-            //})
-        })
-        .catch(error => res.status(500).json({error}))
+
+    User.deleteOne({_id: req.params.id})
+        .then(() => res.status(200).json({message: 'User deleted !'}))
+        .catch(error => res.status(400).json({error}));
+
 };
 
 exports.getUserById = async (req, res, next) => {

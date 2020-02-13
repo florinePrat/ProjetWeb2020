@@ -118,6 +118,7 @@ class availabilityModal extends React.Component {
                                     onChange={this.handleChange}
                                     type="text"
                                 >
+                                    <option>Choisir une date</option>
                                     {options}
                                 </FormControl>
 

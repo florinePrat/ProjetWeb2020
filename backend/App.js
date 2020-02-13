@@ -1,10 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const userRoutes = require('./server/routes/user');
-const roomRoutes = require('./server/routes/room');
-const bookingRoutes = require('./server/routes/booking');
-const categoryRoutes = require('./server/routes/categories');
 const favicon = require('serve-favicon');
 const app = express();
 const path = require('path');
@@ -27,10 +23,17 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/room/categories', categoryRoutes);
-app.use('/api/auth', userRoutes);
+//routes accessible without being authenticated are redirected in routes
+app.use("/api",  require('./server/routes/publicRoutes'));
+
+//All routes with retricted content pass trough the isAuth middleware to verify authentication
+app.use('/api', require('./server/middleware/auth'), require('./server/routes/privateRoutes'));
+
+
+
+/*app.use('/api/room/categories', categoryRoutes);
+app.use('/auth', userRoutes);
 app.use('/api/room', roomRoutes);
-app.use('/api/booking', bookingRoutes);
-app.use('/images', express.static(path.join(__dirname, 'server/images')));
+app.use('/api/booking', bookingRoutes);*/
 
 module.exports = app;

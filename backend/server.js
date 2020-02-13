@@ -1,5 +1,6 @@
 const http = require('http');
 const app = require('./app');
+const path = require('path');
 
 const normalizePort = val => {
     const port = parseInt(val, 10);
@@ -36,9 +37,6 @@ const errorHandler = error => {
 };
 
 const server = http.createServer(app);
-
-
-
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname,"..", "frontend", "build", "index.html"));

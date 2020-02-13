@@ -1,6 +1,3 @@
-const jwt = require('jsonwebtoken');
-
-
 module.exports = async (req,res,next) => {
     try {
         const jwt = require('jsonwebtoken');
@@ -9,7 +6,8 @@ module.exports = async (req,res,next) => {
         if (typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(" ");
             bearerToken = bearer[1];
-            jwt.verify(bearerToken, 'RANDOM_TOKEN_SECRET', function (err) {
+            console.log('token before verify', bearerHeader);
+            jwt.verify(bearerToken, process.env.tokenkey, function (err) {
                 if (err) {
                     console.log("Impossible d'accéder à cette page protégée 12");
                     res.sendStatus(403);
@@ -29,6 +27,4 @@ module.exports = async (req,res,next) => {
         console.log("try / catch ");
         res.sendStatus(401);
     }
-
-
-}
+};

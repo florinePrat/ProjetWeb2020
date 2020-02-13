@@ -2,7 +2,6 @@ const Room = require('../models/room');
 const fs = require('fs');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
-
 exports.createRoom = (req, res, next) => {
     const roomObject = req.body;
     const room = new Room({
@@ -75,12 +74,12 @@ exports.getAllSearchRooms = (req, res, next) => {
             })
             .then(rooms => {console.log(rooms), res.status(200).json(rooms)})
             .catch(error => res.status(400).json({error}));
-    }};
+    }
+};
 
 exports.getRoomByUser = (req, res, next) => {
     Room.find({userId: req.params.id})
         .then(rooms => res.status(200).json(rooms))
         .catch(error => res.status(400).json({error}));
 };
-
 
