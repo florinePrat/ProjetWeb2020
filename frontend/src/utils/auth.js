@@ -23,7 +23,7 @@ export default {
     },
 
     sendEmail : function(email){
-       return axios.get(burl + '/api/auth/hasPassword/' + email,{
+       return axios.get(`${burl}/api/auth/hasPassword?email=${email}`,{
        },{
            headers: basicHeaders
        })
