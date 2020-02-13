@@ -1,5 +1,5 @@
 const http = require('http');
-const app = require('./app');
+const app = require('./App');
 const path = require('path');
 require('dotenv').config();
 
