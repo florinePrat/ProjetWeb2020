@@ -9,7 +9,7 @@ const roomSchema = mongoose.Schema({
     postalCode:{type:String, required:true},
     category:{type:String,  default:''},
     bail:{type:Number,  default:'100'},
-    imageUrl:{type:String, default:'/room.jpg'},
+    imageUrl:{type:String, default:'https://imageslocatme.s3.eu-west-3.amazonaws.com/room.jpg'},
     availability:{type:Array,  default:''},
     review:{type:Array, default:''},
     userId:{type:String, required:true},

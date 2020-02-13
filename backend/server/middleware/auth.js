@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = async (req,res,next) => {
     try {
         const jwt = require('jsonwebtoken');
@@ -6,11 +7,10 @@ module.exports = async (req,res,next) => {
         if (typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(" ");
             bearerToken = bearer[1];
-            console.log('token before verify', bearerHeader);
             jwt.verify(bearerToken, process.env.tokenkey, function (err) {
                 if (err) {
                     console.log("Impossible d'accéder à cette page protégée 12");
-                    res.sendStatus(403);
+                    res.send({status:403});
                     return false;
                 } else {
                     next();
@@ -20,11 +20,11 @@ module.exports = async (req,res,next) => {
         }
         else
         {
-            console.log("Aucun token ");
-            res.sendStatus(401);
+            console.log("Aucun token ici");
+            res.send({status : 401,message : "mon message d'erreur de token"})
         }
     } catch(error){
         console.log("try / catch ");
-        res.sendStatus(401);
+        res.send({status:403});
     }
 };

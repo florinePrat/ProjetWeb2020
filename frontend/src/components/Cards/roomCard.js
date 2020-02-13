@@ -18,7 +18,6 @@ import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
 import Javascript from "../Modals/modalCreateAvailability";
 
-const burl = process.env.REACT_APP_API_URL;
 
 // this class send a answer to back for verify the answer and done the card of the day
 class roomCard extends Component {
@@ -409,7 +408,7 @@ class roomCard extends Component {
                 </Card>
                 :
                         <Card style={{width: '18rem'}} >
-                            <CardImg top width="100%" src={burl + '/images/' + this.state.imageUrl} alt="Card image cap" />
+                            <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
                             <CardBody>
                                 <CardTitle>{this.props.title}</CardTitle>
                                 <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>

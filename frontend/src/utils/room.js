@@ -27,7 +27,7 @@ export default {
     },
 
     getAllRooms:function(){
-        return axios.get(burl + '/api/room/',{
+        return axios.get(burl + '/api/publicRoom/',{
             headers: basicHeaders
         })
     },
@@ -85,8 +85,8 @@ export default {
     },
 
     getAllSearchRooms: function (category, city) {
-        console.log(burl + '/room/' + category + '/' + city);
-        return axios.get (burl + '/api/room/' + category + '/' + city , {
+        console.log(burl + '/api/publicRoom/' + category + '/' + city);
+        return axios.get (burl + '/api/publicRoom/' + category + '/' + city , {
         },{
             headers: basicHeaders
         })

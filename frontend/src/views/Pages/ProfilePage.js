@@ -50,6 +50,7 @@ function ProfilePage() {
         .then(res => {
           const rooms = res.data;
           setRooms(rooms);
+          console.log(rooms)
         }, function (data) {
           console.log(data);
         });

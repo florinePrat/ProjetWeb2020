@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/room', require("./rooms"));
+router.use('/publicRoom', require("./rooms"));
 router.use('/auth', require("./auth"));
 
 

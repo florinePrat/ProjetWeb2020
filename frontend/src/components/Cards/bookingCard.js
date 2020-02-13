@@ -38,7 +38,7 @@ class bookingCard extends Component {
     componentDidMount() {
         if (this.state.state === "accepted") {
 
-            axios.get(burl + '/auth/getUser/' + this.state.userId, {
+            axios.get(burl + '/api/auth/getUser/' + this.state.userId, {
                 headers: tokenHeaders
             })
                 .then(res => {

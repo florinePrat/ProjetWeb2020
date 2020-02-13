@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../App');
-const should = chai.should();
 
 chai.use(chaiHttp);
 const userController = require('../server/controllers/userController');
@@ -162,7 +161,7 @@ describe('Start Tests', function () {
         it('#Room - GetAll OK', (done) => {
             //mock valid user input
             //send request to the app
-            chai.request(server).get('/api/room/')
+            chai.request(server).get('/api/publicRoom/')
                 .set({'Authorization': 'Bearer ' + _token})
                 .then((res) => {
                     //assertions
@@ -190,7 +189,7 @@ describe('Start Tests', function () {
         it('#Room - GetAllSearchRooms OK', (done) => {
             //mock valid user input
             //send request to the app
-            chai.request(server).get('/api/room/category/mycity/')
+            chai.request(server).get('/api/publicRoom/category/mycity/')
                 .set({'Authorization': 'Bearer ' + _token})
                 .then((res) => {
                     //assertions
@@ -336,32 +335,6 @@ describe('Start Tests', function () {
             }).catch(err => {
             console.log(err.message);
         });
-
-        /*it('#User - Suppression USER  OK', (done) => {
-            //mock valid user input
-            //send request to the app
-            chai.request(server).delete('/api/auth/' + _userId)
-                .then((res) => {
-                    //assertions
-                    expect(res.body.message).to.be.equal("User deleted !");
-                    done();
-                }).catch(err => {
-                console.log(err.message);
-            })
-        });
-
-        it('#User - Suppression USER2  OK', (done) => {
-            //mock valid user input
-            //send request to the app
-            chai.request(server).delete('/api/auth/' + _user2Id)
-                .then((res) => {
-                    //assertions
-                    expect(res.body.message).to.be.equal("User deleted !");
-                    done();
-                }).catch(err => {
-                console.log(err.message);
-            });
-        });*/
     });
 
     after('#cleaning database', (done) => {

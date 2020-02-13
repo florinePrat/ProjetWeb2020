@@ -3,12 +3,10 @@ import React from "react";
 import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
-import pict from '../../utils/picture';
 import Javascript from "../../components/Modals/modalCreatePassword";
 
 // core components
 let pageHeader= React.createRef();
-const burl = process.env.REACT_APP_API_URL;
 
 class ProfilePageHeader extends React.Component{
 
@@ -39,11 +37,11 @@ class ProfilePageHeader extends React.Component{
     const formData = new FormData();
     formData.append("imageUrl", this.state.avatar);
     console.log("image",this.state.avatar.value);
-    pict.sendPicture(this.state.avatar).then(res => {
+    /*pict.sendPicture(this.state.avatar).then(res => {
         console.log(res.data);
       }, error => {
         console.log(error)
-      })
+      })*/
   };
 
 
@@ -87,7 +85,7 @@ class ProfilePageHeader extends React.Component{
                   id="photoInitiale"
                   onClick={this.upload}
                   alt="..."
-                  src={(burl + '/images/' + this.state.imageUrl)}
+                  src={this.state.imageUrl}
               />
           </div>
 

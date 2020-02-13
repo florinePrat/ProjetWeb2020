@@ -39,8 +39,8 @@ class availabilityModal extends React.Component {
                 console.log('je suis dans créer room');
                 window.location = "profile-page"
             }, error => {
-                console.log(error.response.data.error);
-                this.setState({error:error.response.data.errors});
+                console.log(error);
+                this.setState({error:error.response.error});
             });
         } else {
             this.setState({error:"Désolé vous ne pouvez pas réserver votre propre salle... :)"})
