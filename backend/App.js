@@ -5,7 +5,7 @@ const favicon = require('serve-favicon');
 const app = express();
 const path = require('path');
 
-mongoose.connect('mongodb+srv://Florine:florine@cluster0-hqmob.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGODB_URI,
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
