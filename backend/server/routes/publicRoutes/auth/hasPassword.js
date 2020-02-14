@@ -4,7 +4,6 @@ const regEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-
 module.exports = async (req, res, next) => {
     try{
         const email = req.query.email;
-        console.log(email);
         if(!email) {
             //if data is empty we return 400 status
             return res.status(400).json({error : "Aucun email saisi"});
@@ -19,7 +18,7 @@ module.exports = async (req, res, next) => {
         }
 
     } catch(error) {
-        console.log(error)
+        console.log(error);
         return  res.status(401).json({
             error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
         });

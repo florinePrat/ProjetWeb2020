@@ -64,7 +64,7 @@ module.exports = async (req, res, next) => {
 
         }
     } catch(error) {
-        console.log(error)
+        console.log(error);
         return  res.status(401).json({
             error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
         });

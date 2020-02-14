@@ -41,7 +41,6 @@ describe('Start Tests', function () {
                 .then((res) => {
                     _userId = res.body.userId;
                     _token = res.body.token;
-                    console.log('token mal forme : ', _token);
                     //assertions
                     expect(res).to.have.status(200);
                     expect(res.body.success).to.be.equal(true);
@@ -338,7 +337,6 @@ describe('Start Tests', function () {
     });
 
     after('#cleaning database', (done) => {
-        console.log('je suis dans le after');
         Promise.all([
             userController.deleteUser(_userId),
             userController.deleteUser(_user2Id)
