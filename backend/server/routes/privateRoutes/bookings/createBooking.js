@@ -1,17 +1,17 @@
 require('dotenv').config();
-const sgMail = require('@sendgrid/mail');
+//const sgMail = require('@sendgrid/mail');
 const bookingController = require('../../../controllers/bookingController');
-const userController = require('../../../controllers/userController');
+//const userController = require('../../../controllers/userController');
 
 module.exports = async (req, res, next) => {
 
     try{
         const bookingObject = req.body;
         const booking = await bookingController.createBooking(bookingObject);
-        const user = await userController.getUserById(booking.userId);
-        const owner = await userController.getUserById(booking.ownerId);
-        console.log('testgetmail', user.email);
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        //const user = await userController.getUserById(booking.userId);
+        //const owner = await userController.getUserById(booking.ownerId);
+        console.log('testgetmail', booking);
+        /*sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
             to: user.email.toString(),
             from: 'louer-ma-salle@gmail.com',
@@ -21,6 +21,17 @@ module.exports = async (req, res, next) => {
         };
         await sgMail.send(msg);
         console.log("envoi user réussi");
+
+        console.log('testgetmailowner', owner.email);
+        const msgOwner = {
+            to: owner.email.toString(),
+            from: 'louer-ma-salle@gmail.com',
+            subject: 'Votre salle viens d être réservé' ,
+            text: 'Félicitations',
+            html: "<strong>Félicitations, Votre salle viens d être réservé le locataire devrait vous contacter sous peux.</strong>"
+        };
+        await sgMail.send(msgOwner);
+        console.log("envoi owner réussi");*/
 
         return res.status(201).json({
             success: true,
