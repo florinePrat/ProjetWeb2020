@@ -1,6 +1,16 @@
-const Booking = require('../../../models/booking');
-module.exports = (req, res, next) => {
-    Booking.findOne({_id: req.params.id})
-        .then(booking => res.status(200).json(booking))
-        .catch(error => res.status(404).json({error}));
+const bookingController = require('../../../controllers/bookingController');
+module.exports = async (req, res, next) => {
+
+    try{
+        const booking = await bookingController.getOneBooking(req.params.id);
+        return res.status(200).json({
+            success: true,
+            booking : booking
+        });
+    }catch{
+        return res.status(500).json({
+            error : "Impossible de récupérer cette reservation"
+        }) ;
+    }
+
 };

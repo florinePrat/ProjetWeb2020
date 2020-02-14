@@ -1,6 +1,15 @@
-const Room = require('../../../models/room');
-module.exports = (req, res, next) => {
-    Room.find({state:"published"})
-        .then(rooms => res.status(200).json(rooms))
-        .catch(error => res.status(400).json({error}));
+const roomController = require('../../../controllers/roomController');
+module.exports = async (req, res, next) => {
+
+    try{
+        const room = await roomController.getAllRooms();
+        return res.status(200).json({
+            success: true,
+            room : room
+        });
+    }catch{
+        return res.status(500).json({
+            error : "Impossible de récupérer les salles"
+        }) ;
+    }
 };

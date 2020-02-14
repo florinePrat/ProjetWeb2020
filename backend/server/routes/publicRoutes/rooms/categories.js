@@ -1,7 +1,15 @@
-const Category = require('../../../models/categories');
+const categoryController = require('../../../controllers/categoriesController');
 
-module.exports = (req, res, next) => {
-    Category.find()
-        .then(categories => res.status(200).json(categories))
-        .catch(error => res.status(400).json({error}));
+module.exports = async (req, res, next) => {
+    try{
+        const category = await categoryController.getAllCategories();
+        return res.status(200).json({
+            success: true,
+            category: category,
+        });
+    }catch{
+        return res.status(500).json({
+            error : "Impossible de récupérer les categories"
+        }) ;
+    }
 };

@@ -15,6 +15,9 @@ module.exports = async (req, res, next) => {
             return res.status(400).json({error : "Format de l'email incorrect"});
         } else {
             const user = await userController.getUserByEmail(email.toLowerCase());
+            if (!user){
+                return res.status(401).json({error : "Cet email n'est pas dans notre base de données, essayez de vous inscrire."});
+            }
             if(user.password !== null){
                 //comparing encrypted password of user
                 const bcrypt = require('bcryptjs');
@@ -64,9 +67,10 @@ module.exports = async (req, res, next) => {
 
         }
     } catch(error) {
-        console.log(error);
-        return  res.status(401).json({
-            error: "Cet email n'est pas dans notre base de données, essayez de vous inscrire."
+        console.log(error.message);
+        return  res.status(500).json({
+            error: "Internal error.",
+            message : error.message
         });
     }
 };

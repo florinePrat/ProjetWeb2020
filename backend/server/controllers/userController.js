@@ -18,8 +18,7 @@ const createUser = async (email, firstName, phoneNumber) => {
             email: email,
             phoneNumber : phoneNumber
         });
-        const savedUser= await user.save();
-        return savedUser
+        return await user.save();
     } catch (error) {
         console.log(error.message);
         throw error

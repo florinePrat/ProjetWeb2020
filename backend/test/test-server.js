@@ -292,6 +292,21 @@ describe('Start Tests', function () {
                 })
             });
 
+            describe('Categories', function () {
+                    it('#Category - getAllCategories OK', (done) => {
+                        //mock valid user input
+                        //send request to the app
+                        chai.request(server).get('/api/publicRoom/categories/')
+                            .then((res) => {
+                                //assertions
+                                expect(res).to.have.status(200);
+                                done();
+                            }).catch(err => {
+                            console.log(err.message);
+                        })
+                    });
+            });
+
 
             it('#Booking - Suppression OK', (done) => {
                 //mock valid user input
@@ -300,6 +315,7 @@ describe('Start Tests', function () {
                     .set({'Authorization': 'Bearer ' + _token})
                     .then((res) => {
                         //assertions
+                        expect(res).to.have.status(200);
                         expect(res.body.message).to.be.equal("Objet supprimé !");
                         done();
                     }).catch(err => {
@@ -317,6 +333,7 @@ describe('Start Tests', function () {
                 .set({'Authorization': 'Bearer ' + _token})
                 .then((res) => {
                     //assertions
+                    expect(res).to.have.status(200);
                     expect(res.body.message).to.be.equal("Objet supprimé !");
                     done();
                 }).catch(err => {
@@ -326,15 +343,6 @@ describe('Start Tests', function () {
 
     });
 
-    describe('Delete User', function () {
-
-        chai.request(server).delete('/api/auth/' + _user2Id)
-            .then((res) => {
-                console.log("user2 deleted")
-            }).catch(err => {
-            console.log(err.message);
-        });
-    });
 
     after('#cleaning database', (done) => {
         Promise.all([

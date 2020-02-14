@@ -1,8 +1,16 @@
-const Booking = require('../../../models/booking');
-let recentDate = new Date();
+const bookingController = require('../../../controllers/bookingController');
 
-module.exports = (req, res, next) => {
-    Booking.find({$and : [{ownerId: req.params.id}, {state: "awaitingValidation"}, {date : {$gt: recentDate}}]})
-        .then(bookings => res.status(200).json(bookings))
-        .catch(error => res.status(400).json({error}));
+module.exports = async (req, res, next) => {
+
+    try{
+        const booking = await bookingController.getBookingByOwner(req.params.id);
+        return res.status(200).json({
+            success: true,
+            booking : booking
+        });
+    }catch{
+        return res.status(500).json({
+            error : "Impossible de récupérer la reservation de ce owner"
+        }) ;
+    }
 };

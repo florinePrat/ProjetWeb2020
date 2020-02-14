@@ -1,15 +1,31 @@
-const Room = require('../../../models/room');
-module.exports = (req, res, next) => {
-    const roomObject = req.body;
-    const room = new Room({
-        ...roomObject,
-    });
-    room.save()
-        .then(() => res.status(201).json({
-            message: 'Objet enregistré !',
-            success: true,
-            roomId: room._id,
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+const roomController = require('../../../controllers/roomController');
+const userController = require('../../../controllers/userController');
+module.exports = async (req, res, next) => {
 
-        }))
-        .catch(error => res.status(400).json({error}));
+    try{
+        const roomObject = req.body;
+        const room = await roomController.createRoom(roomObject);
+        const user = await userController.getUserById(room.userId);
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        const msg = {
+            to: user.email.toString(),
+            from: 'louer-ma-salle@gmail.com',
+            subject: 'Vous avez bien créer votre salle',
+            text: 'Félicitations',
+            html: "<strong>Félicitations, vous venez de créer une salle sur louer ma salle. Il ne vous reste plus qu'à lui ajouter des disponiblités et des photos pour la publier ;) </strong>",
+        };
+        await sgMail.send(msg);
+        console.log("envoi réussi");
+        return res.status(201).json({
+            success: true,
+            message: 'Objet enregistré !',
+            roomId: room._id,
+        });
+    }catch{
+        return res.status(500).json({
+            error : "Impossible de créer cette salle"
+        }) ;
+    }
 };
