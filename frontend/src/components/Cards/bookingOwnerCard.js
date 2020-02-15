@@ -41,10 +41,10 @@ class bookingCard extends Component {
             headers: tokenHeaders
         })
             .then(res => {
-                const room = res.data;
+                const room = res.data.room;
                 this.setState({rooms: room});
                 console.log(this.state._id);
-                console.log('room', room)
+                console.log('room', this.state.rooms)
             }, function (data) {
                 console.log(data);
             });
@@ -66,7 +66,7 @@ class bookingCard extends Component {
 
 
             if (this.state.state === "accepted"){
-                console.log("je suis dans le if");
+                console.log("je suis dans le if", this.state.rooms.availability);
                 console.log("nouvelles dispo : ", this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)));
                 room.updateRoomAvailabilities(
                     this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)),

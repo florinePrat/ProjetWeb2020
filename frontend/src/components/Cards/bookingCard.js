@@ -59,7 +59,7 @@ class bookingCard extends Component {
                 headers: tokenHeaders
             })
                 .then(res => {
-                        const room = res.data;
+                        const room = res.data.room;
                         this.setState({availability: room.availability});
                         console.log('availability', this.state.availability);
 
