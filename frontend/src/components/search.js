@@ -23,7 +23,7 @@ class SearchComponent extends React.Component {
     componentWillMount(){
         categories.getAllCategories()
             .then(res => {
-                const categories = res.data;
+                const categories = res.data.category;
                 console.log('my category 1', categories);
                 this.setState({categories:categories});
             }, function (data) {

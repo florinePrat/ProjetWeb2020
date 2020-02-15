@@ -59,7 +59,6 @@ import {FormGroup, FormControl}  from "react-bootstrap";
           console.log(res.data.firstName);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('firstName', res.data.firstName);
-          localStorage.setItem('imageUrl', res.data.imageUrl);
           localStorage.setItem('userId', res.data.userId);
           console.log("signup",localStorage);
           window.location = "./profile-page"

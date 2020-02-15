@@ -16,7 +16,7 @@ class roomCard extends Component {
         super(props);
         this.state = {
             isDeployed: false,
-            imageUrl: localStorage.getItem("roomUrl"),
+            imageUrl:this.props.imageUrl,
             availability: this.props.availability,
         };
     }

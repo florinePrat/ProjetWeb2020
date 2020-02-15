@@ -60,6 +60,14 @@ export default {
         })
     },
 
+    addPictureRoom: function ({imageUrl, _id}) {
+        return axios.put(burl + '/api/room/' + _id, {
+            'imageUrl': imageUrl,
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
     updateRoomAvailabilities: function (dispo, _id) {
         return axios.put(burl + '/api/room/' + _id, {
             'availability': dispo,

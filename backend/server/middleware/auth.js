@@ -20,7 +20,7 @@ module.exports = async (req,res,next) => {
         }
         else
         {
-            console.log("Aucun token ici");
+            console.log("Aucun token");
             res.send({status : 401,message : "mon message d'erreur de token"})
         }
     } catch(error){

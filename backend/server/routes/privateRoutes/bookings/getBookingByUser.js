@@ -5,7 +5,6 @@ module.exports = async (req, res, next) => {
     try{
         const booking = await bookingController.getBookingByUser(req.params.id);
         return res.status(200).json({
-            success: true,
             booking : booking
         });
     }catch{

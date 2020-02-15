@@ -4,7 +4,6 @@ module.exports = async (req, res, next) => {
     try{
         const room = await roomController.getAllRooms();
         return res.status(200).json({
-            success: true,
             room : room
         });
     }catch{

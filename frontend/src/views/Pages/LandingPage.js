@@ -41,7 +41,6 @@ class LandingPage extends React.Component {
             .then(res => {
                 const rooms = res.data;
                 this.setState({rooms:rooms});
-                localStorage.setItem("roomUrl", rooms[0].imageUrl);
             }, function (data) {
                 console.log(data);
             })
@@ -51,9 +50,8 @@ class LandingPage extends React.Component {
     componentDidMount() {
         room.getAllRooms()
             .then(res => {
-            const rooms = res.data;
+            const rooms = res.data.room;
             this.setState({rooms:rooms});
-            localStorage.setItem("roomUrl", rooms[0].imageUrl);
         }, function (data) {
             console.log(data);
         })

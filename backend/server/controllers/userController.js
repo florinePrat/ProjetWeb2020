@@ -56,6 +56,15 @@ const deleteUser = async (_id) => {
     }
 };
 
+const changeAvatar = async (userObject,_id) => {
+    try{
+        return await User.updateOne({_id: _id}, {...userObject, _id: _id})
+    }catch (error) {
+        console.log(error.message);
+        throw error
+    }
+};
+
 
 module.exports = {
     getUserById,
@@ -63,4 +72,5 @@ module.exports = {
     getUserByEmail,
     createPassword,
     deleteUser,
+    changeAvatar
 };

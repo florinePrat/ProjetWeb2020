@@ -8,7 +8,6 @@ module.exports = async (req, res, next) => {
             } : {...req.body};
         await roomController.modifyRoom(roomObject,req.params.id);
         return res.status(200).json({
-            success: true,
             message: 'Objet modifié !',
         });
     }catch{

@@ -34,7 +34,6 @@ module.exports = async (req, res, next) => {
         console.log("envoi owner réussi");*/
 
         return res.status(201).json({
-            success: true,
             message: 'Objet enregistré !',
             bookingId: booking._id,
         });

@@ -19,7 +19,6 @@ module.exports = async (req, res, next) => {
         await sgMail.send(msg);
         console.log("envoi réussi");
         return res.status(201).json({
-            success: true,
             message: 'Objet enregistré !',
             roomId: room._id,
         });

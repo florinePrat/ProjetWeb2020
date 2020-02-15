@@ -66,7 +66,6 @@ function Signup() {
                 console.log(res.data.firstName);
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('firstName', res.data.firstName);
-                localStorage.setItem('imageUrl', res.data.imageUrl);
                 localStorage.setItem('userId', res.data.userId);
                 localStorage.setItem('statePassword', res.data.statePassword);
                 console.log("signup", localStorage);
@@ -106,7 +105,6 @@ function Signup() {
                 console.log(res.data.firstName);
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('firstName', res.data.firstName);
-                localStorage.setItem('imageUrl', res.data.imageUrl);
                 localStorage.setItem('userId', res.data.userId);
                 localStorage.setItem('statePassword', res.data.statePassword);
                 console.log("res", localStorage);

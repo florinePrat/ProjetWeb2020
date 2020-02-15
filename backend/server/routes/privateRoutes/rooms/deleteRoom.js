@@ -4,7 +4,6 @@ module.exports = async (req, res, next) => {
     try{
         await roomController.deleteRoom(req.params.id);
         return res.status(200).json({
-            success: true,
             message: 'Objet supprimé !'
         });
     }catch{

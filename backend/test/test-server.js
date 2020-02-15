@@ -101,7 +101,6 @@ describe('Start Tests', function () {
                     _roomId = res.body.roomId;
                     //assertions
                     expect(res).to.have.status(201);
-                    expect(res.body.success).to.be.equal(true);
                     expect(res.body.message).to.be.equal("Objet enregistré !");
                     done();
                 }).catch(err => {
@@ -135,7 +134,6 @@ describe('Start Tests', function () {
                 .then((res) => {
                     //assertions
                     expect(res).to.have.status(200);
-                    expect(res.body.success).to.be.equal(true);
                     expect(res.body.message).to.be.equal("Objet modifié !");
                     done();
                 }).catch(err => {
@@ -217,7 +215,6 @@ describe('Start Tests', function () {
                         _bookingId = res.body.bookingId;
                         //assertions
                         expect(res).to.have.status(201);
-                        expect(res.body.success).to.be.equal(true);
                         expect(res.body.message).to.be.equal("Objet enregistré !");
                         done();
                     }).catch(err => {
@@ -242,7 +239,6 @@ describe('Start Tests', function () {
                     .then((res) => {
                         //assertions
                         expect(res).to.have.status(200);
-                        expect(res.body.success).to.be.equal(true);
                         expect(res.body.message).to.be.equal("Objet modifié !");
                         done();
                     }).catch(err => {

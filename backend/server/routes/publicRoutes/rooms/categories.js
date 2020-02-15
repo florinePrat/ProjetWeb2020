@@ -4,7 +4,6 @@ module.exports = async (req, res, next) => {
     try{
         const category = await categoryController.getAllCategories();
         return res.status(200).json({
-            success: true,
             category: category,
         });
     }catch{

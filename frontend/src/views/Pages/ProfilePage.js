@@ -48,7 +48,7 @@ function ProfilePage() {
       headers: tokenHeaders
     })
         .then(res => {
-          const rooms = res.data;
+          const rooms = res.data.room;
           setRooms(rooms);
           console.log(rooms)
         }, function (data) {
@@ -59,7 +59,7 @@ function ProfilePage() {
       headers: tokenHeaders
     })
         .then(res => {
-          const booking = res.data;
+          const booking = res.data.booking;
           setBooking(booking);
         }, function (data) {
           console.log(data);
@@ -69,7 +69,7 @@ function ProfilePage() {
       headers: tokenHeaders
     })
         .then(res => {
-          const bookingOwner = res.data;
+          const bookingOwner = res.data.booking;
           setBookingOwner(bookingOwner);
           console.log('booking', bookingOwner);
         }, function (data) {

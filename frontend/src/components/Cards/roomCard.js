@@ -17,6 +17,7 @@ import categories from "../../utils/categories";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
 import Javascript from "../Modals/modalCreateAvailability";
+import imageUpload from "../../utils/image-upload";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -40,19 +41,20 @@ class roomCard extends Component {
             postalCode: this.props.postalCode,
             category: this.props.category,
             bail: this.props.bail,
-            imageUrl: localStorage.getItem("roomUrl"),
+            imageUrl: this.props.imageUrl,
             _id: this.props._id,
             error: false,
             rooms: [],
             state: this.props.state,
             categories:[],
         };
+        this.handlePictureChange = this.handlePictureChange.bind(this);
     }
 
     componentWillMount(){
        categories.getAllCategories()
            .then(res => {
-               const categories = res.data;
+               const categories = res.data.category;
                console.log('my category 1', categories);
                this.setState({categories:categories});
            }, function (data) {
@@ -132,13 +134,33 @@ class roomCard extends Component {
             }).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
-                window.location = "./profile-page"
             }, error => {
                 console.log(error.response.data.error);
                 this.setState({error: error.response.data.error});
             })
         }
     };
+
+    upload(){
+        document.getElementById("selectImageRoom").click();
+    };
+
+    handlePictureChange(e) {
+        this.state = {picture: e.target.files[0]};
+        console.log("image",this.state.picture);
+        imageUpload.upload(this.state.picture).then(res => {
+            this.setState({imageUrl : res.data.imageUrl});
+            console.log(this.state.imageUrl);
+            api.addPictureRoom({imageUrl : this.state.imageUrl, _id : this.state._id}).then(res =>{
+                console.log(this.state.imageUrl);
+            }, error => {
+                console.log(error)
+            })
+        }, error => {
+            console.log(error)
+        })
+    };
+
 
     handleChange = event => {
         this.setState({
@@ -300,7 +322,18 @@ class roomCard extends Component {
                                     <Javascript
                                         _id={this.state._id}
                                     />
-
+                                    <div>
+                                        <input type="file" name="avatar" id="selectImageRoom" hidden={true} value={this.state.picture} onChangeCapture={this.handlePictureChange}/>
+                                        <Button
+                                            className="btn-round"
+                                            color="info"
+                                            type="button"
+                                            onClick={this.upload}
+                                        >
+                                            <i className="now-ui-icons arrows-1_cloud-upload-94"/>
+                                            Ajouter une image
+                                        </Button>
+                                    </div>
                                 </form>
                             </ModalBody>
                             <div className="modal-footer">
