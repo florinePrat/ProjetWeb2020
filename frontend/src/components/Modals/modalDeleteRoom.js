@@ -34,7 +34,6 @@ class deleteRoom extends React.Component {
                     supprimer
                 </Button>
 
-
                 <Modal isOpen={this.state.modalDelete} toggle={() => this.setState({modalDelete: false})}>
                     <div className="modal-header justify-content-center">
                         <button
