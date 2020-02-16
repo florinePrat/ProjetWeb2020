@@ -25,7 +25,7 @@ class LandingPage extends React.Component {
         this.state = {category: search[0], city: search[1]};
 
         room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
-            const rooms = res.data;
+            const rooms = res.data.room;
             console.log('je suis bien dans la requette send ! ');
             console.log(this.state.category);
             console.log(this.state.city);
@@ -39,7 +39,7 @@ class LandingPage extends React.Component {
     reload = () => {
         room.getAllRooms()
             .then(res => {
-                const rooms = res.data;
+                const rooms = res.data.room;
                 this.setState({rooms:rooms});
             }, function (data) {
                 console.log(data);
@@ -52,6 +52,7 @@ class LandingPage extends React.Component {
             .then(res => {
             const rooms = res.data.room;
             this.setState({rooms:rooms});
+            console.log("roomlanding : ", this.state.rooms)
         }, function (data) {
             console.log(data);
         })
