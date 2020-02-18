@@ -20,14 +20,14 @@ export default {
         })
     },
 
-    deleteRoom:function(_id){
-        return axios.delete(burl + '/api/room/' + _id , {
+    deleteRoom: function (_id) {
+        return axios.delete(burl + '/api/room/' + _id, {
             headers: tokenHeaders
         })
     },
 
-    getAllRooms:function(){
-        return axios.get(burl + '/api/publicRoom/',{
+    getAllRooms: function () {
+        return axios.get(burl + '/api/publicRoom/', {
             headers: basicHeaders
         })
     },
@@ -44,7 +44,7 @@ export default {
         })
     },
 
-    updateRoom: function ({title , description, address, category, city, postalCode, price, bail, _id, state}) {
+    updateRoom: function ({title, description, address, category, city, postalCode, price, bail, _id, state}) {
         return axios.put(burl + '/api/room/' + _id, {
             'title': title,
             'address': address,
@@ -78,39 +78,49 @@ export default {
     },
 
     publishRoom: function ({state, _id}) {
-        return axios.put (burl + '/api/room/' +_id, {
+        return axios.put(burl + '/api/room/' + _id, {
             'state': state,
-        },{
+        }, {
             headers: tokenHeaders
         })
     },
 
     unPublishRoom: function ({state, _id}) {
-        return axios.put (burl + '/api/room/' +_id, {
+        return axios.put(burl + '/api/room/' + _id, {
             'state': state,
-        },{
+        }, {
             headers: tokenHeaders
         })
     },
 
     getAllSearchRooms: function (category, city) {
         console.log(burl + '/api/publicRoom/' + category + '/' + city);
-        return axios.get (burl + '/api/publicRoom/' + category + '/' + city ,{
+        return axios.get(burl + '/api/publicRoom/' + category + '/' + city, {
             headers: basicHeaders
         })
     },
 
-    getOneRoom:function(roomId){
-        return axios.get(burl + '/api/room/'+ roomId,{
+    getOneRoom: function (roomId) {
+        return axios.get(burl + '/api/room/' + roomId, {
             headers: tokenHeaders
         })
     },
 
-    getRoomByUser : function(userId){
-        return axios.get(burl + '/api/room/byUser/'+ userId,{
-            headers: tokenHeaders
-        })
-    },
+    getRoomByUser: async function (userId) {
+        try {
+            const res = await axios.get(burl + '/api/room/byUser/' + userId, {
+                headers: tokenHeaders
+            });
+            return res && res.data && res.data.room
+                ? res.data.room
+                : {error: 'erreur lors de la récupération des salles'};
 
+        } catch (error) {
+
+        }
+    },
 
 }
+
+
+

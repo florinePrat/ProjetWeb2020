@@ -31,16 +31,30 @@ export default {
         })
     },
 
-    getByUser : function(userId){
-        return axios.get(burl + '/api/booking/byUser/' + userId, {
-            headers: tokenHeaders
-        })
+    getByUser: async function (userId) {
+        try {
+            const res = await axios.get(burl + '/api/booking/byUser/' + userId, {
+                headers: tokenHeaders
+            });
+            return res && res.data && res.data.booking
+                ? res.data.booking
+                : {error : 'erreur lors de la récupération des réservations'}
+        } catch (error) {
+
+        }
     },
 
-    getByOwner : function (ownerId){
-        return axios.get(burl + '/api/booking/byOwner/' + ownerId, {
-            headers: tokenHeaders
-        })
+    getByOwner : async function (ownerId){
+        try {
+            const res = await axios.get(burl + '/api/booking/byOwner/' + ownerId, {
+                headers: tokenHeaders
+            });
+            return res && res.data && res.data.booking
+                ? res.data.booking
+                : {error : 'erreur lors de la récupération des réservations'}
+        }catch(error){
+            return error
+        }
     }
 
 }

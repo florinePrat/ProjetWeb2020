@@ -11,6 +11,7 @@ import api from '../../utils/room';
 import {FormControl, FormGroup, Form} from "react-bootstrap"
 import DateRangePicker from 'react-daterange-picker';
 import moment from 'moment';
+import 'react-daterange-picker/dist/css/react-calendar.css'
 
 // core components
 
@@ -53,13 +54,6 @@ class availabilityModal extends React.Component {
         this.handleChange.bind(this);
     };
 
-    handleSelect(range, states) {
-        // range is a moment-range object
-        this.setState({
-            value: range,
-            states: states,
-        });
-    };
 
 
     send = event => {
@@ -83,7 +77,7 @@ class availabilityModal extends React.Component {
         });
     };
 
-
+    onSelect = dispo => this.setState({dispo});
 
 
 
@@ -121,36 +115,22 @@ class availabilityModal extends React.Component {
                     <ModalBody>
                         <Form>
                             <FormGroup controlId="dispo">
-                                <i className="now-ui-icons location_bookmark"/> disponibilités :
-                                <FormControl
-                                    placeholder="Categorie *"
-                                    as="select"
-                                    value={this.state.dispo}
-                                    onChange={this.handleChange}
-                                    type="text"
-                                >
-                                    <option>Tous les jours</option>
-                                    <option>Certains jours</option>
-                                </FormControl>
-                                {this.state.dispo === "Certains jours"
-                                    ? <div>
+
+                                 <div>
                                         <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles :
                                         <DateRangePicker
                                             firstOfWeek={1}
-                                            numberOfCalendars={2}
+                                            numberOfCalendars={1}
                                             selectionType='range'
                                             minimumDate={new Date()}
                                             stateDefinitions={stateDefinitions}
                                             dateStates={dateRanges}
                                             defaultState="available"
                                             showLegend={true}
-                                            value={this.state.value}
-                                            onSelect={this.handleSelect}
-                                            onSubmit={dates => this.setState({dispo : dates})}
+                                            value={this.state.dispo}
+                                            onSelect={this.onSelect}
                                         />
                                     </div>
-                                : null
-                                }
 
                             </FormGroup>
 
