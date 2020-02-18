@@ -68,9 +68,10 @@ export default {
         })
     },
 
-    updateRoomAvailabilities: function (dispo, _id) {
-        return axios.put(burl + '/api/room/' + _id, {
-            'availability': dispo,
+    updateRoomAvailabilities: function (dispo, roomId) {
+        return axios.post(burl + '/api/availability/', {
+            dispo,
+            roomId
         }, {
             headers: tokenHeaders
         })
@@ -94,10 +95,22 @@ export default {
 
     getAllSearchRooms: function (category, city) {
         console.log(burl + '/api/publicRoom/' + category + '/' + city);
-        return axios.get (burl + '/api/publicRoom/' + category + '/' + city , {
-        },{
+        return axios.get (burl + '/api/publicRoom/' + category + '/' + city ,{
             headers: basicHeaders
         })
-    }
+    },
+
+    getOneRoom:function(roomId){
+        return axios.get(burl + '/api/room/'+ roomId,{
+            headers: tokenHeaders
+        })
+    },
+
+    getRoomByUser : function(userId){
+        return axios.get(burl + '/api/room/byUser/'+ userId,{
+            headers: tokenHeaders
+        })
+    },
+
 
 }

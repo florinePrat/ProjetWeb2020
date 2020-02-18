@@ -4,14 +4,9 @@ import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
-import axios from "axios";
-import {tokenHeaders} from "../../utils/headers";
 import api from "../../utils/booking";
 import {Button} from "reactstrap";
 import room from "../../utils/room";
-
-const burl = process.env.REACT_APP_API_URL;
-
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -37,9 +32,7 @@ class bookingCard extends Component {
     }
 
     componentWillMount () {
-        axios.get(burl + '/api/room/' + this.state.roomId, {
-            headers: tokenHeaders
-        })
+        room.getOneRoom(this.state.roomId)
             .then(res => {
                 const room = res.data.room;
                 this.setState({rooms: room});
@@ -92,7 +85,7 @@ class bookingCard extends Component {
 
 
 
-deleteRoom = event => {
+    deleteRoom = event => {
         api.deleteRoom(this.props._id)
             .then(res => {
                 window.location = "/profile-page";

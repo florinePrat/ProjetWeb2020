@@ -31,4 +31,16 @@ export default {
         })
     },
 
+    getByUser : function(userId){
+        return axios.get(burl + '/api/booking/byUser/' + userId, {
+            headers: tokenHeaders
+        })
+    },
+
+    getByOwner : function (ownerId){
+        return axios.get(burl + '/api/booking/byOwner/' + ownerId, {
+            headers: tokenHeaders
+        })
+    }
+
 }

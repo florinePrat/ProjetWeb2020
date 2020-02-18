@@ -5,12 +5,9 @@ import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import api from "../../utils/booking";
 import apiRoom from "../../utils/room";
+import auth from "../../utils/auth";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
-import axios from "axios";
-import {tokenHeaders} from "../../utils/headers";
 import {Button} from "reactstrap";
-
-const burl = process.env.REACT_APP_API_URL;
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -38,9 +35,7 @@ class bookingCard extends Component {
     componentDidMount() {
         if (this.state.state === "accepted") {
 
-            axios.get(burl + '/api/auth/getUser/' + this.state.userId, {
-                headers: tokenHeaders
-            })
+            auth.getUser(this.state.userId)
                 .then(res => {
                     const user = res.data;
                     this.setState({user: user});
@@ -50,14 +45,13 @@ class bookingCard extends Component {
                 }, function (data) {
                     console.log('je suis dans data erreur', data);
                 });
+
         }
     }
 
     deleteBooking = event => {
         if (this.state.state !== "refused") {
-            axios.get(burl + '/api/room/' + this.state.roomId, {
-                headers: tokenHeaders
-            })
+            apiRoom.getOneRoom(this.state.roomId)
                 .then(res => {
                         const room = res.data.room;
                         this.setState({availability: room.availability});
@@ -82,7 +76,6 @@ class bookingCard extends Component {
         }
 
     };
-
 
 
     render() {

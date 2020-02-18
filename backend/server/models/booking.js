@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const bookingSchema = mongoose.Schema({
     date:{type:Date, required: true},
     state:{type:String,required:true}, // [valid, awaitingValidation, refused]
-    roomId : {type:String, required:true},
-    ownerId : {type:String, required:true},
-    customerId : {type:String, required:true},
+    roomId : {type:mongoose.Schema.Types.ObjectId, ref : 'Room', required:true},
+    ownerId : {type:mongoose.Schema.Types.ObjectId, ref : 'User', required:true},
+    customerId : {type:mongoose.Schema.Types.ObjectId, ref : 'User', required:true},
 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

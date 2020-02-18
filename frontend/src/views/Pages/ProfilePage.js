@@ -17,13 +17,13 @@ import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "../../components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
 import Javascript from "../../components/Modals/modalCreateOtherRoom";
-import axios from "axios";
-import {tokenHeaders} from "../../utils/headers";
 import RoomCard from "../../components/Cards/roomCard";
 import BookingCard from "../../components/Cards/bookingCard";
 import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
+import auth from "../../utils/auth";
+import roomApi from "../../utils/room";
+import bookingApi from "../../utils/booking";
 
-const burl = process.env.REACT_APP_API_URL;
 
 
 function ProfilePage() {
@@ -32,6 +32,10 @@ function ProfilePage() {
   const [booking, setBooking] = React.useState([]);
   const [bookingOwner, setBookingOwner] = React.useState([]);
   const [userId] = React.useState(localStorage.getItem("userId"));
+  const [bookingHidden, setBookingHidden] = React.useState(true);
+  const [bookingOwnerHidden, setBookingOwnerHidden] = React.useState(true);
+  //const [btnBooking, setBtnBooking] = React.useState(false);
+  //const [btnRoom, setBtnRoom] = React.useState(false);
 
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -44,37 +48,41 @@ function ProfilePage() {
   });
 
   useEffect(()=>{
-    axios.get(burl + '/api/room/byUser/' + userId, {
-      headers: tokenHeaders
-    })
+      roomApi.getRoomByUser(userId)
         .then(res => {
           const rooms = res.data.room;
           setRooms(rooms);
-          console.log(rooms)
+          console.log('room taille : ', rooms.length);
         }, function (data) {
           console.log(data);
         });
 
-    axios.get(burl + '/api/booking/byUser/' + userId, {
-      headers: tokenHeaders
-    })
+
+      bookingApi.getByUser(userId)
         .then(res => {
           const booking = res.data.booking;
           setBooking(booking);
+          console.log('booking taille user : ', booking.length);
         }, function (data) {
           console.log(data);
         });
 
-    axios.get(burl + '/api/booking/byOwner/' + userId, {
-      headers: tokenHeaders
-    })
+
+      bookingApi.getByOwner(userId)
         .then(res => {
           const bookingOwner = res.data.booking;
           setBookingOwner(bookingOwner);
-          console.log('booking', bookingOwner);
+          console.log('booking taille owner : ', bookingOwner.length);
         }, function (data) {
           console.log(data);
         });
+
+
+      {(booking.length > 0 || bookingOwner.length > 0) && rooms.length === 0
+          ? setPills("1")
+          : setPills("2")
+      }
+
 
 
   }, [userId]);
@@ -83,6 +91,7 @@ function ProfilePage() {
   return (
 
     <>
+
       <ExamplesNavbar />
       <div className="wrapper">
         <ProfilePageHeader />
@@ -92,8 +101,6 @@ function ProfilePage() {
             <div className="button-container">
               <Javascript/>
               {/* Button to propose a room => pop a form modal : call a modalCreateOtherRoom*/ }
-
-
             </div>
 
             <Row>
@@ -105,32 +112,44 @@ function ProfilePage() {
                     role="tablist"
                   >
                     <NavItem>
-                      <Button
-                          className={pills === "1" ? "active" : ""}
-                          href="!#"
-                          color='info'
-                          onClick={e => {
-                            e.preventDefault();
-                            setPills("1");
-                          }}
-                      >
-                        <i className="now-ui-icons education_paper"/>
-                        Mes réservations
-                      </Button>
+                      {/*{booking.length === 0 && bookingOwner.length === 0
+                          ? setBtnBooking(true)
+                          : null
+                      }
+                      {rooms.length === 0
+                          ? setBtnRoom(true)
+                          : null
+                      }*/}
+                      <div>
+                        <Button
+                            className={pills === "1" ? "active" : ""}
+                            href="!#"
+                            color='info'
+                            onClick={e => {
+                              e.preventDefault();
+                              setPills("1");
+                            }}
+                        >
+                          <i className="now-ui-icons education_paper"/>
+                          Mes réservations
+                        </Button>
+                      </div>
                     </NavItem>
                     <NavItem>
-                      <Button
-                          className={pills === "2" ? "active" : ""}
-                          href="!#"
-                          color='success'
-                          onClick={e => {
-                            e.preventDefault();
-                            setPills("2");
-                          }}
-                      >
-                        <i className="now-ui-icons shopping_shop"/>
-                        Mes salles
-                      </Button>
+                    <div>
+                        <Button
+                            className={pills === "2" ? "active" : ""}
+                            href="!#"
+                            color='success'
+                            onClick={e => {
+                              e.preventDefault();
+                              setPills("2");
+                            }}
+                        >
+                          <i className="now-ui-icons shopping_shop"/>
+                          Mes salles
+                        </Button>
+                      </div>
                     </NavItem>
 
                   </Nav>
@@ -138,6 +157,15 @@ function ProfilePage() {
               </Col>
               <TabContent className="gallery" activeTab={"pills" + pills}>
                 <TabPane tabId="pills1">
+                  {(booking.length > 0)
+                      ? setBookingHidden(false)
+                      : null
+                  }
+                  {(bookingOwner.length > 0)
+                      ? setBookingOwnerHidden(false)
+                      : null
+                  }
+                  <div hidden={bookingHidden}>
                   <h2>------ Mes réservations ------</h2>
                   <Container>
                     <Row>
@@ -155,7 +183,8 @@ function ProfilePage() {
                       ))}
                     </Row>
                   </Container>
-
+                  </div>
+                  <div hidden={bookingOwnerHidden}>
                   <h2>------  Gestion de mes réservations ------</h2>
                   <Container>
                     <Row>
@@ -173,6 +202,7 @@ function ProfilePage() {
                       ))}
                     </Row>
                   </Container>
+                  </div>
                 </TabPane>
                 <TabPane tabId="pills2">
                   <Container>

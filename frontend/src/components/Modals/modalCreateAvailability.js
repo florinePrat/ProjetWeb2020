@@ -9,11 +9,36 @@ import {
 
 import api from '../../utils/room';
 import {FormControl, FormGroup, Form} from "react-bootstrap"
-import MultipleDatePicker from 'react-multiple-datepicker';
+import DateRangePicker from 'react-daterange-picker';
+import moment from 'moment';
 
 // core components
 
+const stateDefinitions = {
+    available: {
+        color: null,
+        label: 'Available',
+    },
+    unavailable: {
+        selectable: false,
+        color: '#78818b',
+        label: 'Unavailable',
+    },
+};
+
+const dateRanges = [
+    {
+        state: 'unavailable',
+        range: moment.range(
+            moment().add(3, 'weeks'),
+            moment().add(3, 'weeks').add(5, 'days')
+        ),
+    },
+];
+
+
 class availabilityModal extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -22,9 +47,18 @@ class availabilityModal extends React.Component {
             error: false,
             dispo:[],
             _id: this.props._id,
+            value : null
         };
         this.send.bind(this);
         this.handleChange.bind(this);
+    };
+
+    handleSelect(range, states) {
+        // range is a moment-range object
+        this.setState({
+            value: range,
+            states: states,
+        });
     };
 
 
@@ -48,6 +82,8 @@ class availabilityModal extends React.Component {
             [event.target.id]: event.target.value
         });
     };
+
+
 
 
 
@@ -99,7 +135,17 @@ class availabilityModal extends React.Component {
                                 {this.state.dispo === "Certains jours"
                                     ? <div>
                                         <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles :
-                                        <MultipleDatePicker
+                                        <DateRangePicker
+                                            firstOfWeek={1}
+                                            numberOfCalendars={2}
+                                            selectionType='range'
+                                            minimumDate={new Date()}
+                                            stateDefinitions={stateDefinitions}
+                                            dateStates={dateRanges}
+                                            defaultState="available"
+                                            showLegend={true}
+                                            value={this.state.value}
+                                            onSelect={this.handleSelect}
                                             onSubmit={dates => this.setState({dispo : dates})}
                                         />
                                     </div>
@@ -107,7 +153,6 @@ class availabilityModal extends React.Component {
                                 }
 
                             </FormGroup>
-
 
                         </Form>
                     </ModalBody>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {basicHeaders} from './headers';
+import {basicHeaders, tokenHeaders} from './headers';
 
 const burl = process.env.REACT_APP_API_URL;
 // this is the request for authentification
@@ -38,5 +38,11 @@ export default {
     logout : function() {
         localStorage.clear();
         return true;
+    },
+
+    getUser : function(userId){
+        return axios.get(burl + '/api/auth/getUser/' + userId, {
+            headers: tokenHeaders
+        })
     }
 }

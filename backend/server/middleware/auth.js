@@ -25,6 +25,6 @@ module.exports = async (req,res,next) => {
         }
     } catch(error){
         console.log("try / catch ");
-        res.send({status:403});
+        res.send({status:403, message : "Bad news token wrong"});
     }
 };
