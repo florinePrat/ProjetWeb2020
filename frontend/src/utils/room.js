@@ -68,9 +68,9 @@ export default {
         })
     },
 
-    updateRoomAvailabilities: function (dispo, roomId) {
+    updateRoomAvailabilities: function (availability, roomId) {
         return axios.post(burl + '/api/availability/', {
-            dispo,
+            dispo : availability,
             roomId
         }, {
             headers: tokenHeaders

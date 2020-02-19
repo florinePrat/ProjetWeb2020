@@ -8,9 +8,10 @@ import {
 } from "reactstrap";
 
 import api from '../../utils/room';
-import {FormControl, FormGroup, Form} from "react-bootstrap"
+import {FormControl,FormGroup, Form} from "react-bootstrap"
 import DateRangePicker from 'react-daterange-picker';
 import moment from 'moment';
+import DateTimeRangeContainer from 'react-advanced-datetimerange-picker'
 import 'react-daterange-picker/dist/css/react-calendar.css'
 
 // core components
@@ -20,13 +21,14 @@ const stateDefinitions = {
         color: null,
         label: 'Available',
     },
-    unavailable: {
+   /* unavailable: {
         selectable: false,
         color: '#78818b',
         label: 'Unavailable',
-    },
+    },*/
 };
 
+/*
 const dateRanges = [
     {
         state: 'unavailable',
@@ -36,31 +38,44 @@ const dateRanges = [
         ),
     },
 ];
+*/
 
 
 class availabilityModal extends React.Component {
 
     constructor(props) {
         super(props);
+        let now = new Date();
+        let start = moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0));
+        let end = moment(start).add(1, "days").subtract(1, "seconds");
         this.state = {
+            start : start,
+            end : end,
             modal: false,
             userId: localStorage.getItem("userId"),
             error: false,
             dispo:[],
+            availability :[],
             _id: this.props._id,
             value : null
         };
         this.send.bind(this);
-        this.handleChange.bind(this);
+        this.applyCallback = this.applyCallback.bind(this);
     };
 
-
+    applyCallback(startDate, endDate){
+        this.setState({
+                start: startDate,
+                end : endDate
+            }
+        )
+    }
 
     send = event => {
         if (this.state.dispo.length === 0) {
             this.setState({error: "disponibilités vide"});
         } else {
-            api.updateRoomAvailabilities(this.state.dispo, this.state._id).then(res => {
+            api.updateRoomAvailabilities(this.state.availability, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
             }, error => {
@@ -71,17 +86,38 @@ class availabilityModal extends React.Component {
         }
     };
 
-    handleChange = event => {
+    /*handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
-    };
+    };*/
 
-    onSelect = dispo => this.setState({dispo});
+   /* onSelect = dispo => {
+        this.setState({dispo: dispo});
+        console.log("selected date : ", this.state.dispo);
+        this.setState({availability : {start : this.state.dispo.start._i, end : this.state.dispo.end._i}});
+        console.log("selected range : start : ",this.state.dispo.start._i, "end : ", this.state.dispo.end._i);
+        console.log("envoie : ", this.state.availability)
+    };*/
 
 
 
     render() {
+
+        let now = new Date();
+        let start = moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0));
+        let end = moment(start).add(1, "days").subtract(1, "seconds");
+        let ranges = {
+            "Today Only": [moment(start), moment(end)],
+            "3 Days": [moment(start), moment(end).add(3, "days")]
+        };
+        let local = {
+            "format":"DD-MM-YYYY HH:mm",
+            "sundayFirst" : false
+        };
+        let minDate = moment(start);
+        let maxDate = moment(start).add(2, "year");
+
         return (
             <>
 
@@ -118,18 +154,23 @@ class availabilityModal extends React.Component {
 
                                  <div>
                                         <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles :
-                                        <DateRangePicker
-                                            firstOfWeek={1}
-                                            numberOfCalendars={1}
-                                            selectionType='range'
-                                            minimumDate={new Date()}
-                                            stateDefinitions={stateDefinitions}
-                                            dateStates={dateRanges}
-                                            defaultState="available"
-                                            showLegend={true}
-                                            value={this.state.dispo}
-                                            onSelect={this.onSelect}
-                                        />
+
+                                         <DateTimeRangeContainer
+                                             ranges={ranges}
+                                             start={this.state.start}
+                                             end={this.state.end}
+                                             local={local}
+                                             minDate = {minDate}
+                                             maxDate={maxDate}
+                                             applyCallback={this.applyCallback}
+                                         >
+                                             <FormControl
+                                                 id="formControlsTextB"
+                                                 type="text"
+                                                 label="Text"
+                                                 placeholder="Enter text"
+                                             />
+                                         </DateTimeRangeContainer>
                                     </div>
 
                             </FormGroup>
