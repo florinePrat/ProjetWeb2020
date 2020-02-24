@@ -8,37 +8,13 @@ import {
 } from "reactstrap";
 
 import api from '../../utils/room';
-import {FormControl,FormGroup, Form} from "react-bootstrap"
-import DateRangePicker from 'react-daterange-picker';
+import {FormControl,FormGroup, Form, FormLabel} from "react-bootstrap";
 import moment from 'moment';
-import DateTimeRangeContainer from 'react-advanced-datetimerange-picker'
-import 'react-daterange-picker/dist/css/react-calendar.css'
+import DateTimeRangeContainer from 'react-advanced-datetimerange-picker';
+import 'react-daterange-picker/dist/css/react-calendar.css';
+
 
 // core components
-
-const stateDefinitions = {
-    available: {
-        color: null,
-        label: 'Available',
-    },
-   /* unavailable: {
-        selectable: false,
-        color: '#78818b',
-        label: 'Unavailable',
-    },*/
-};
-
-/*
-const dateRanges = [
-    {
-        state: 'unavailable',
-        range: moment.range(
-            moment().add(3, 'weeks'),
-            moment().add(3, 'weeks').add(5, 'days')
-        ),
-    },
-];
-*/
 
 
 class availabilityModal extends React.Component {
@@ -54,28 +30,58 @@ class availabilityModal extends React.Component {
             modal: false,
             userId: localStorage.getItem("userId"),
             error: false,
-            dispo:[],
+            openedDates:[],
             availability :[],
             _id: this.props._id,
-            value : null
+            value : null,
+            day: 0,
+            startHours : now,
+            endHours : now
+
         };
         this.send.bind(this);
+        this.sendOpenedWeek.bind(this);
         this.applyCallback = this.applyCallback.bind(this);
+        this.handleChange.bind(this);
     };
 
     applyCallback(startDate, endDate){
-        this.setState({
-                start: startDate,
-                end : endDate
+        console.log('iciiii',startDate, endDate);
+        this.state ={
+                starter: startDate,
+                ender : endDate
             }
-        )
+        ;
+        this.setState({openedDates : {start : this.state.starter._d, end : this.state.ender._d}});
+        console.log('openedDays',this.state.openedDates);
     }
 
+    setWeekDays(){
+        this.state={openedWeekDays : {day: this.state.day, startHours : this.state.startHours, endHours : this.state.endHours}, _id:this.props._id};
+        console.log("openedWeekDays : ", this.state.openedWeekDays);
+        console.log('id : ', this.state._id)
+    }
+
+    sendOpenedWeek = event => {
+
+        console.log("openedWeekDays : ", this.state.openedWeekDays);
+        api.createOpenedWeekDays(this.state.openedWeekDays, this.state._id).then(res => {
+            console.log(res.data);
+            console.log("openedWeekDays : ", this.state.openedWeekDays);
+            console.log('je suis dans créer room');
+        }, error => {
+            console.log(error.response.data.error);
+            this.setState({error:error.response.data.errors});
+        })
+
+    };
+
     send = event => {
-        if (this.state.dispo.length === 0) {
+        if (this.state.start.length === 0) {
             this.setState({error: "disponibilités vide"});
         } else {
-            api.updateRoomAvailabilities(this.state.availability, this.state._id).then(res => {
+            console.log('openedDays',this.state.openedDates);
+            api.createOpenedDates(this.state.openedDates, this.state._id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
             }, error => {
@@ -86,11 +92,13 @@ class availabilityModal extends React.Component {
         }
     };
 
-    /*handleChange = event => {
+
+    handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
-    };*/
+        console.log('target : ', event.target.id , event.target.value);
+    };
 
    /* onSelect = dispo => {
         this.setState({dispo: dispo});
@@ -99,6 +107,11 @@ class availabilityModal extends React.Component {
         console.log("selected range : start : ",this.state.dispo.start._i, "end : ", this.state.dispo.end._i);
         console.log("envoie : ", this.state.availability)
     };*/
+
+
+
+
+
 
 
 
@@ -116,7 +129,11 @@ class availabilityModal extends React.Component {
             "sundayFirst" : false
         };
         let minDate = moment(start);
-        let maxDate = moment(start).add(2, "year");
+        //let maxDate = moment(start).add(2, "year");
+        let disabled = false;
+        let value = `${this.state.start.format(
+            "DD-MM-YYYY HH:mm"
+        )} - ${this.state.end.format("DD-MM-YYYY HH:mm")}`;
 
         return (
             <>
@@ -152,8 +169,43 @@ class availabilityModal extends React.Component {
                         <Form>
                             <FormGroup controlId="dispo">
 
+                                <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
+
+                                <div className={"row"}>
+                                    <FormGroup controlId="day">
+                                        <FormLabel>Jour de la semaine</FormLabel>
+                                        <FormControl as="select" onChange={this.handleChange}>
+                                            <option value={0}>Lundi</option>
+                                            <option value={1}>Mardi</option>
+                                            <option value={2}>Mercredi</option>
+                                            <option value={3}>Jeudi</option>
+                                            <option value={4}>Vendredi</option>
+                                            <option value={5}>Samedi</option>
+                                            <option value={6}>Dimanche</option>
+                                        </FormControl>
+                                            <FormLabel>De</FormLabel>
+                                            <input type={"date-time"} id={"startHours"} value={this.state.startHours}
+                                                   onChange={this.handleChange}/>
+                                            <FormLabel>à</FormLabel>
+                                            <input type={"date-time"} id={"endHours"} value={this.state.endHours}
+                                                   onChange={this.handleChange}/>
+                                        <Button
+                                            color="info"
+                                            type="button"
+                                            onClick={() => {this.setWeekDays(); this.sendOpenedWeek()}}
+                                        >
+                                            Valider
+                                        </Button>
+                                    </FormGroup>
+
+
+                                </div>
+
+
+
+
                                  <div>
-                                        <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles :
+                                        <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles en plus dans l'année :
 
                                          <DateTimeRangeContainer
                                              ranges={ranges}
@@ -161,14 +213,17 @@ class availabilityModal extends React.Component {
                                              end={this.state.end}
                                              local={local}
                                              minDate = {minDate}
-                                             maxDate={maxDate}
                                              applyCallback={this.applyCallback}
+                                             smartMode
                                          >
                                              <FormControl
                                                  id="formControlsTextB"
                                                  type="text"
                                                  label="Text"
                                                  placeholder="Enter text"
+                                                 style={{ cursor: "pointer" }}
+                                                 disabled={disabled}
+                                                 value={value}
                                              />
                                          </DateTimeRangeContainer>
                                     </div>

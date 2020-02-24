@@ -10,19 +10,6 @@ const roomSchema = mongoose.Schema({
     category:{type:String,  default:''},
     bail:{type:Number,  default:'100'},
     imageUrl:{type:String, default:'https://imageslocatme.s3.eu-west-3.amazonaws.com/room.jpg'},
-    openedDates:[{
-        start: Date,
-        end: Date,
-    }],
-    closedDates:[{
-        start: Date,
-        end: Date,
-    }],
-    openedWeekDays:[{
-        day: {type: Number, min: 0, max: 6},
-        startHours: Date,
-        endHours: Date,
-    }],
     rangeReservationParams: {
         periodicity: {type: String, enum: ["minutes", "hours", "day"]},
         number: {type: Number, min: 1},

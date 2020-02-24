@@ -60,6 +60,22 @@ export default {
         })
     },
 
+    createOpenedDates: function (openedDates, roomId) {
+        return axios.put(burl + '/api/room/' + roomId, {
+            openedDates
+        }, {
+            headers: tokenHeaders
+        })
+    },
+    createOpenedWeekDays: function (openedWeekDays, roomId) {
+        return axios.put(burl + '/api/room/' + roomId, {
+            'openedWeekDays' : openedWeekDays
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
+
     addPictureRoom: function ({imageUrl, _id}) {
         return axios.put(burl + '/api/room/' + _id, {
             'imageUrl': imageUrl,
