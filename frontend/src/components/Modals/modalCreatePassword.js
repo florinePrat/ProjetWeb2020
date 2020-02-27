@@ -12,7 +12,7 @@ import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-class createPassword extends React.Component {
+class CreatePassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -123,4 +123,4 @@ class createPassword extends React.Component {
         );
     }
 }
-export default createPassword;
+export default CreatePassword;

@@ -2,22 +2,24 @@ import React from "react";
 // reactstrap components
 import {
     Alert,
-    Button,
+    Button, Container,
     Modal,
     ModalBody,
 } from "reactstrap";
 
 import api from '../../utils/room';
-import {FormControl,FormGroup, Form, FormLabel} from "react-bootstrap";
+import {FormGroup, Form} from "react-bootstrap";
 import moment from 'moment';
-import DateTimeRangeContainer from 'react-advanced-datetimerange-picker';
 import 'react-daterange-picker/dist/css/react-calendar.css';
+import OpenedDatesPickerContainer from "../AvailabilityForm/Container/OpenedDatesPickerContainer";
+import ClosedDatesPickerContainer from "../AvailabilityForm/Container/ClosedDatesPickerContainer";
+import OpenedWeekDaysPicker from "../AvailabilityForm/OpenedWeekDaysPicker";
 
 
-// core components
 
 
-class availabilityModal extends React.Component {
+
+class AvailabilityModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -35,8 +37,11 @@ class availabilityModal extends React.Component {
             _id: this.props._id,
             value : null,
             day: 0,
-            startHours : now,
-            endHours : now
+            openedWeekDays : [],
+            startHours :  [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))],
+            endHours :  [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))],
+
+            availabilityId : null,
 
         };
         this.send.bind(this);
@@ -47,57 +52,65 @@ class availabilityModal extends React.Component {
 
     applyCallback(startDate, endDate){
         console.log('iciiii',startDate, endDate);
-        this.state ={
-                starter: startDate,
-                ender : endDate
-            }
-        ;
-        this.setState({openedDates : {start : this.state.starter._d, end : this.state.ender._d}});
-        console.log('openedDays',this.state.openedDates);
+        this.setState({openedDates : {start : startDate, end : endDate}}, () => console.log('openedDays',this.state.openedDates));
     }
 
-    setWeekDays(){
-        this.state={openedWeekDays : {day: this.state.day, startHours : this.state.startHours, endHours : this.state.endHours}, _id:this.props._id};
-        console.log("openedWeekDays : ", this.state.openedWeekDays);
-        console.log('id : ', this.state._id)
+    getWeekDays(){
+        return {openedWeekDays : [{day: this.state.day, startHours : this.state.startHours._d, endHours : this.state.endHours._d}]}
     }
 
-    sendOpenedWeek = event => {
-
-        console.log("openedWeekDays : ", this.state.openedWeekDays);
-        api.createOpenedWeekDays(this.state.openedWeekDays, this.state._id).then(res => {
+    sendOpenedWeek = (weekDays) => {
+        console.log("openedWeekDays : ", weekDays);
+        api.createOpenedWeekDays(weekDays, this.state._id).then(res => {
             console.log(res.data);
-            console.log("openedWeekDays : ", this.state.openedWeekDays);
+            console.log("openedWeekDays : ", weekDays);
             console.log('je suis dans créer room');
+            this.setState({availabilityId : res.data.availabilityId})
         }, error => {
             console.log(error.response.data.error);
             this.setState({error:error.response.data.errors});
         })
-
     };
+
 
     send = event => {
         if (this.state.start.length === 0) {
             this.setState({error: "disponibilités vide"});
-        } else {
-            console.log('openedDays',this.state.openedDates);
-            api.createOpenedDates(this.state.openedDates, this.state._id).then(res => {
-                console.log(res.data);
-                console.log('je suis dans créer room');
-            }, error => {
-                console.log(error.response.data.error);
-                this.setState({error:error.response.data.errors});
-            })
+        } else if (this.state.availabilityId !== null){
 
-        }
+                console.log('openedDays',this.state.openedDates);
+                api.addOpenedDates(this.state.openedDates, this.state.availabilityId).then(res => {
+                    console.log(res.data);
+                    console.log('je suis dans créer room');
+                }, error => {
+                    console.log(error.response.data.error);
+                    this.setState({error:error.response.data.errors});
+                })
+        } else {
+
+                console.log('openedDays',this.state.openedDates);
+                api.createOpenedDates(this.state.openedDates, this.state._id).then(res => {
+                    console.log(res.data);
+                    console.log('je suis dans créer room');
+                }, error => {
+                    console.log(error.response.data.error);
+                    this.setState({error:error.response.data.errors});
+                })
+            }
     };
 
 
     handleChange = event => {
+        //ajouter la valeur start hours à l'élément [id] du tableau
+        // id input est modifié => tableaudeshoraires[id]={startHours,endHours}
+        const splitValue = event.target.value;
+        const hours = splitValue[0];
+        const minutes = splitValue[1];
+        console.log('target : ', event.target.id ,  hours, minutes);
+        const startHoursToSend = moment(this.state.startHours).set("hours", hours).set("minutes", minutes);
         this.setState({
-            [event.target.id]: event.target.value
+            [event.target.id]: this.state.startHours
         });
-        console.log('target : ', event.target.id , event.target.value);
     };
 
    /* onSelect = dispo => {
@@ -108,13 +121,6 @@ class availabilityModal extends React.Component {
         console.log("envoie : ", this.state.availability)
     };*/
 
-
-
-
-
-
-
-
     render() {
 
         let now = new Date();
@@ -122,14 +128,12 @@ class availabilityModal extends React.Component {
         let end = moment(start).add(1, "days").subtract(1, "seconds");
         let ranges = {
             "Today Only": [moment(start), moment(end)],
-            "3 Days": [moment(start), moment(end).add(3, "days")]
         };
         let local = {
             "format":"DD-MM-YYYY HH:mm",
             "sundayFirst" : false
         };
         let minDate = moment(start);
-        //let maxDate = moment(start).add(2, "year");
         let disabled = false;
         let value = `${this.state.start.format(
             "DD-MM-YYYY HH:mm"
@@ -149,7 +153,7 @@ class availabilityModal extends React.Component {
                 </Button>
 
 
-                <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
+                <Modal size={"lg"} style={{maxWidth: '1600px', width: '80%'}} isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
                     <div className="modal-header justify-content-center">
                         <button
                             className="close"
@@ -171,62 +175,12 @@ class availabilityModal extends React.Component {
 
                                 <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
 
-                                <div className={"row"}>
-                                    <FormGroup controlId="day">
-                                        <FormLabel>Jour de la semaine</FormLabel>
-                                        <FormControl as="select" onChange={this.handleChange}>
-                                            <option value={0}>Lundi</option>
-                                            <option value={1}>Mardi</option>
-                                            <option value={2}>Mercredi</option>
-                                            <option value={3}>Jeudi</option>
-                                            <option value={4}>Vendredi</option>
-                                            <option value={5}>Samedi</option>
-                                            <option value={6}>Dimanche</option>
-                                        </FormControl>
-                                            <FormLabel>De</FormLabel>
-                                            <input type={"date-time"} id={"startHours"} value={this.state.startHours}
-                                                   onChange={this.handleChange}/>
-                                            <FormLabel>à</FormLabel>
-                                            <input type={"date-time"} id={"endHours"} value={this.state.endHours}
-                                                   onChange={this.handleChange}/>
-                                        <Button
-                                            color="info"
-                                            type="button"
-                                            onClick={() => {this.setWeekDays(); this.sendOpenedWeek()}}
-                                        >
-                                            Valider
-                                        </Button>
-                                    </FormGroup>
+                                <OpenedWeekDaysPicker/>
 
-
-                                </div>
-
-
-
-
-                                 <div>
-                                        <i className="now-ui-icons location_bookmark"/> choisir les jours disponibles en plus dans l'année :
-
-                                         <DateTimeRangeContainer
-                                             ranges={ranges}
-                                             start={this.state.start}
-                                             end={this.state.end}
-                                             local={local}
-                                             minDate = {minDate}
-                                             applyCallback={this.applyCallback}
-                                             smartMode
-                                         >
-                                             <FormControl
-                                                 id="formControlsTextB"
-                                                 type="text"
-                                                 label="Text"
-                                                 placeholder="Enter text"
-                                                 style={{ cursor: "pointer" }}
-                                                 disabled={disabled}
-                                                 value={value}
-                                             />
-                                         </DateTimeRangeContainer>
-                                    </div>
+                                <i className="now-ui-icons location_bookmark"/> J'ajoute des disponibilités exeptionelles
+                                <OpenedDatesPickerContainer/>
+                                <i className="now-ui-icons location_bookmark"/> J'ajoute des fermetures exeptionelles
+                                <ClosedDatesPickerContainer/>
 
                             </FormGroup>
 
@@ -251,9 +205,8 @@ class availabilityModal extends React.Component {
                     </div>
                 </Modal>
 
-
             </>
         );
     }
 }
-export default availabilityModal;
+export default AvailabilityModal;

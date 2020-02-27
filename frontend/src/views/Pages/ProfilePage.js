@@ -16,13 +16,14 @@ import {
 import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "../../components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
-import Javascript from "../../components/Modals/modalCreateOtherRoom";
+import CreateRoom from "../../components/Modals/modalCreateOtherRoom";
 import RoomCard from "../../components/Cards/roomCard";
 import BookingCard from "../../components/Cards/bookingCard";
 import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
-import auth from "../../utils/auth";
 import roomApi from "../../utils/room";
 import bookingApi from "../../utils/booking";
+import {ClosedDatesPickerContainer,OpenedDatesPickerContainer}  from "../../components/AvailabilityForm/OpenedDatesPicker";
+import OpenedWeekDaysPicker from "../../components/AvailabilityForm/OpenedWeekDaysPicker";
 
 
 function ProfilePage() {
@@ -51,6 +52,7 @@ function ProfilePage() {
             .then(async rooms => {
                 setRooms(rooms);
                 console.log('room taille : ', rooms.length);
+                console.log('room iddddd : ', rooms);
                 const bookingUser = await bookingApi.getByUser(userId);
                 setBookingUser(bookingUser);
                 console.log('booking taille user : ', bookingUser.length);
@@ -102,7 +104,7 @@ function ProfilePage() {
                     <Container>
 
                         <div className="button-container">
-                            <Javascript/>
+                            <CreateRoom/>
                             {/* Button to propose a room => pop a form modal : call a modalCreateOtherRoom*/}
                         </div>
 
@@ -196,20 +198,20 @@ function ProfilePage() {
                                 <TabPane tabId="pills2">
                                     <Container>
                                         <Row>
-                                            {rooms.map(room => (
+                                            {rooms.map(rooms => (
                                                 <Col xs={4}>
                                                     <RoomCard
-                                                        _id={room._id}
-                                                        title={room.title}
-                                                        price={room.price}
-                                                        city={room.city}
-                                                        postalCode={room.postalCode}
-                                                        address={room.address}
-                                                        category={room.category}
-                                                        bail={room.bail}
-                                                        description={room.description}
-                                                        imageUrl={room.imageUrl}
-                                                        state={room.state}
+                                                        _id={rooms._id}
+                                                        title={rooms.title}
+                                                        price={rooms.price}
+                                                        city={rooms.city}
+                                                        postalCode={rooms.postalCode}
+                                                        address={rooms.address}
+                                                        category={rooms.category}
+                                                        bail={rooms.bail}
+                                                        description={rooms.description}
+                                                        imageUrl={rooms.imageUrl}
+                                                        state={rooms.state}
                                                     />
                                                 </Col>
                                             ))}

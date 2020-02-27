@@ -23,15 +23,6 @@ const modifyAvailability = async (AvailabilityObject,_id) => {
     }
 };
 
-const addOpenedWeekDays = async (openedWeekDay,_id) => {
-    try{
-        return await AvailabilityController.updateOne({_id: _id}, {$push:{openedWeekDays : openedWeekDay}})
-    }catch (error) {
-        console.log(error.message);
-        throw error
-    }
-};
-
 
 const deleteAvailability = async (_id) => {
     try{
@@ -64,7 +55,6 @@ const getAvailability = async (roomId) => {
 module.exports = {
     deleteAvailability,
     //getAvailabilityBySearch,
-    addOpenedWeekDays,
     getAvailability,
     modifyAvailability,
     createAvailability

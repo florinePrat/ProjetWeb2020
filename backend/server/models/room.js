@@ -10,10 +10,6 @@ const roomSchema = mongoose.Schema({
     category:{type:String,  default:''},
     bail:{type:Number,  default:'100'},
     imageUrl:{type:String, default:'https://imageslocatme.s3.eu-west-3.amazonaws.com/room.jpg'},
-    rangeReservationParams: {
-        periodicity: {type: String, enum: ["minutes", "hours", "day"]},
-        number: {type: Number, min: 1},
-    },
     bookings: [{type:mongoose.Schema.Types.ObjectId, ref : 'Booking'}],
     review:{type:Array, default:''},
     userId:{type:mongoose.Schema.Types.ObjectId, ref : 'User', required:true},

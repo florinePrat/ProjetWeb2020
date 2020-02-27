@@ -2,7 +2,7 @@ import React from "react";
 import {Container} from "reactstrap";
 import auth from "../../utils/auth";
 import ExamplesNavbar from "../Navbars/ExamplesNavbar";
-import Javascript from "../Modals/modalFormRent";
+import CreateRoom from "../Modals/modalFormRent";
 import AccueilNavbar from "../Navbars/AccueilNavbar";
 import SearchComponent from "../search";
 // reactstrap components
@@ -60,7 +60,7 @@ class LandingPageHeader extends React.Component {
                         {this.state.isAuth ?
                             null
                             : <div className="button-container">
-                                <Javascript/>
+                                <CreateRoom/>
                                 {/* Button to propose a room => pop a form modal*/}
                             </div>}
 

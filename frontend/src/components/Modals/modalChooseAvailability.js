@@ -13,7 +13,7 @@ import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
 
 // core components
 
-class availabilityModal extends React.Component {
+class AvailabilityModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -151,4 +151,4 @@ class availabilityModal extends React.Component {
         );
     }
 }
-export default availabilityModal;
+export default AvailabilityModal;

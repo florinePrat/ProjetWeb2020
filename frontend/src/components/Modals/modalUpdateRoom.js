@@ -1,12 +1,12 @@
 import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import {FormControl, FormGroup} from "react-bootstrap";
-import Javascript from "./modalCreateAvailability";
+import AvailabilityModal from "./modalCreateAvailability";
 import React from "react";
 import categories from "../../utils/categories";
 import api from "../../utils/room";
 import imageUpload from "../../utils/image-upload";
 
-class updateRoom extends React.Component {
+class UpdateRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,6 +14,7 @@ class updateRoom extends React.Component {
             userId: localStorage.getItem("userId"),
             error: false,
             categories:[],
+            _id : this.props._id
         };
         this.update.bind(this);
         this.upload.bind(this);
@@ -77,14 +78,15 @@ class updateRoom extends React.Component {
         document.getElementById("selectImageRoom").click();
     };
 
-    handlePictureChange(e) {
-        this.state = {picture: e.target.files[0]};
-        console.log("image",this.state.picture);
-        imageUpload.upload(this.state.picture).then(res => {
-            this.setState({imageUrl : res.data.imageUrl});
-            console.log(this.props.imageUrl);
-            api.addPictureRoom({imageUrl : this.props.imageUrl, _id : this.props._id}).then(res =>{
-                console.log(this.props.imageUrl);
+    handlePictureChange = (e) => {
+        console.log("image look", e.target.files[0]);
+        console.log("image",e.target.files[0]);
+        console.log("test de roomId : ", this.state._id);
+        imageUpload.upload(e.target.files[0]).then(res => {
+            console.log('test',res.data.imageUrl);
+            api.addPictureRoom({imageUrl :res.data.imageUrl, _id : this.state._id}).then(res =>{
+                console.log(res.data);
+                window.location = "profile-page";
             }, error => {
                 console.log(error)
             })
@@ -107,6 +109,7 @@ class updateRoom extends React.Component {
                 {data.name}
             </option>
         );
+
         return (
             <>
 
@@ -241,7 +244,7 @@ class updateRoom extends React.Component {
                                 </FormGroup>
                             </div>
 
-                            <Javascript
+                            <AvailabilityModal
                                 _id={this.props._id}
                             />
 
@@ -292,4 +295,4 @@ class updateRoom extends React.Component {
         );
     }
 }
-export default updateRoom;
+export default UpdateRoom;

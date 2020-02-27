@@ -3,7 +3,7 @@ import React from "react";
 import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
-import Javascript from "../../components/Modals/modalCreatePassword";
+import CreatePassword from "../../components/Modals/modalCreatePassword";
 import imageUpload from "../../utils/image-upload";
 import user from "../../utils/users";
 
@@ -105,7 +105,7 @@ class ProfilePageHeader extends React.Component{
           <div className="content">
 
             {this.state.statePassword === 'false'
-                ? <Javascript/>
+                ? <CreatePassword/>
                 : null
             }
             <div className="social-description">

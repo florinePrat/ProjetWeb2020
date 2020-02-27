@@ -2,7 +2,7 @@ import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import React from "react";
 import api from "../../utils/room";
 
-class deleteRoom extends React.Component {
+class DeleteRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -86,4 +86,4 @@ class deleteRoom extends React.Component {
         );
     }
 }
-export default deleteRoom;
+export default DeleteRoom;

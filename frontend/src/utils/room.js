@@ -61,15 +61,26 @@ export default {
     },
 
     createOpenedDates: function (openedDates, roomId) {
-        return axios.put(burl + '/api/room/' + roomId, {
+        return axios.post(burl + '/api/availability/', {
+            openedDates,
+            roomId
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
+    addOpenedDates: function (openedDates, availabilityId) {
+        return axios.put(burl + '/api/availability/' + availabilityId, {
             openedDates
         }, {
             headers: tokenHeaders
         })
     },
+
     createOpenedWeekDays: function (openedWeekDays, roomId) {
-        return axios.put(burl + '/api/room/' + roomId, {
-            'openedWeekDays' : openedWeekDays
+        return axios.post(burl + '/api/availability/', {
+            openedWeekDays,
+            roomId
         }, {
             headers: tokenHeaders
         })
@@ -127,6 +138,7 @@ export default {
             const res = await axios.get(burl + '/api/room/byUser/' + userId, {
                 headers: tokenHeaders
             });
+            console.log("attention utils : ", res.data.room);
             return res && res.data && res.data.room
                 ? res.data.room
                 : {error: 'erreur lors de la récupération des salles'};

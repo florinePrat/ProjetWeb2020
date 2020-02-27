@@ -22,13 +22,11 @@ class LandingPage extends React.Component {
 
     myCallback = (search) => {
 
-        this.state = {category: search[0], city: search[1]};
-
-        room.getAllSearchRooms(this.state.category, this.state.city).then(res => {
+        room.getAllSearchRooms(search[0], search[1]).then(res => {
             const rooms = res.data.room;
             console.log('je suis bien dans la requette send ! ');
-            console.log(this.state.category);
-            console.log(this.state.city);
+            console.log(search[0]);
+            console.log(search[1]);
             console.log("room : ", rooms);
             this.setState({rooms:rooms});
         }, error => {

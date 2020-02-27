@@ -13,7 +13,7 @@ import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-class createRoom extends React.Component {
+class CreateRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -236,4 +236,4 @@ class createRoom extends React.Component {
         );
     }
 }
-export default createRoom;
+export default CreateRoom;

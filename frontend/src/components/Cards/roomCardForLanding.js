@@ -6,7 +6,7 @@ import CardTitle from "reactstrap/es/CardTitle";
 import {Card} from "react-bootstrap";
 import CardText from "reactstrap/es/CardText";
 import CardImg from "react-bootstrap/CardImg";
-import Javascript from "../../components/Modals/modalChooseAvailability";
+import AvailabilityModal from "../../components/Modals/modalChooseAvailability";
 
 // this class send a answer to back for verify the answer and done the card of the day
 class roomCard extends Component {
@@ -34,7 +34,7 @@ class roomCard extends Component {
                                     <CardText> Adresse : {this.props.address}</CardText>
                                     <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
 
-                                    <Javascript
+                                    <AvailabilityModal
                                         _id={this.props._id}
                                         ownerId={this.props.userId}
                                         availability={this.state.availability}

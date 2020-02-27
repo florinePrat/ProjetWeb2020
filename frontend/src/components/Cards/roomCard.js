@@ -9,8 +9,8 @@ import CardText from "reactstrap/es/CardText";
 import api from "../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CardImg from "react-bootstrap/CardImg";
-import Javascript from "../Modals/modalUpdateRoom";
-import Javascript2 from "../Modals/modalDeleteRoom";
+import UpdateRoom from "../Modals/modalUpdateRoom";
+import DeleteRoom from "../Modals/modalDeleteRoom";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -99,7 +99,7 @@ class roomCard extends Component {
                         {/* ------------------------------------------------------------------------------------ modalUpdate*/}
 
 
-                        <Javascript
+                        <UpdateRoom
                             _id = {this.state._id}
                             title = {this.state.title}
                             address = {this.state.address}
@@ -117,7 +117,7 @@ class roomCard extends Component {
 
                         {/* ------------------------------------------------------------------------------------ modalDelete*/}
 
-                        <Javascript2
+                        <DeleteRoom
                             _id = {this.state._id}
                         />
 
