@@ -1,14 +1,26 @@
 import React, {useState} from "react";
 import {Button} from "reactstrap";
 import MyDatesPicker from '../OpenedDatesPicker';
+import API from "../../../utils/room";
 
-export default (props) =>{
+export default (roomId) =>{
         const [dates, setDates] = useState([]);
+        const [id] = useState(roomId.roomId);
+
+        function send  (event) {
+            console.log('id : ', id);
+            API.createClosedDates(dates, id).then(res => {
+                console.log("closedDates send")
+            }, error => {
+                console.log(error.response.data.error);
+            })
+        }
+
         return <div>
             <MyDatesPicker
                 dates={dates}
                 setDates={setDates}
             />
-            <Button color={'success'} onClick={() => console.log(dates)}>Envoyer ces dates</Button>
+            <Button color={'success'} onClick={send}>Envoyer ces dates</Button>
         </div>
 };

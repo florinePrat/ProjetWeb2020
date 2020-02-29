@@ -4,6 +4,7 @@ module.exports = async (req, res, next) => {
 
     try{
         const availabilityObject = req.body;
+        console.log('availability object : ', availabilityObject);
         const availability = await availabilityController.createAvailability(availabilityObject);
         console.log(availability);
         console.log(req.body);

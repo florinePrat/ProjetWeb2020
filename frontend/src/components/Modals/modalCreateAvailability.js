@@ -13,7 +13,7 @@ import moment from 'moment';
 import 'react-daterange-picker/dist/css/react-calendar.css';
 import OpenedDatesPickerContainer from "../AvailabilityForm/Container/OpenedDatesPickerContainer";
 import ClosedDatesPickerContainer from "../AvailabilityForm/Container/ClosedDatesPickerContainer";
-import OpenedWeekDaysPicker from "../AvailabilityForm/OpenedWeekDaysPicker";
+import OpenedWeekDaysPicker from "../AvailabilityForm/Container/OpenedWeekDaysContainer";
 
 
 
@@ -46,18 +46,8 @@ class AvailabilityModal extends React.Component {
         };
         this.send.bind(this);
         this.sendOpenedWeek.bind(this);
-        this.applyCallback = this.applyCallback.bind(this);
-        this.handleChange.bind(this);
     };
 
-    applyCallback(startDate, endDate){
-        console.log('iciiii',startDate, endDate);
-        this.setState({openedDates : {start : startDate, end : endDate}}, () => console.log('openedDays',this.state.openedDates));
-    }
-
-    getWeekDays(){
-        return {openedWeekDays : [{day: this.state.day, startHours : this.state.startHours._d, endHours : this.state.endHours._d}]}
-    }
 
     sendOpenedWeek = (weekDays) => {
         console.log("openedWeekDays : ", weekDays);
@@ -100,44 +90,7 @@ class AvailabilityModal extends React.Component {
     };
 
 
-    handleChange = event => {
-        //ajouter la valeur start hours à l'élément [id] du tableau
-        // id input est modifié => tableaudeshoraires[id]={startHours,endHours}
-        const splitValue = event.target.value;
-        const hours = splitValue[0];
-        const minutes = splitValue[1];
-        console.log('target : ', event.target.id ,  hours, minutes);
-        const startHoursToSend = moment(this.state.startHours).set("hours", hours).set("minutes", minutes);
-        this.setState({
-            [event.target.id]: this.state.startHours
-        });
-    };
-
-   /* onSelect = dispo => {
-        this.setState({dispo: dispo});
-        console.log("selected date : ", this.state.dispo);
-        this.setState({availability : {start : this.state.dispo.start._i, end : this.state.dispo.end._i}});
-        console.log("selected range : start : ",this.state.dispo.start._i, "end : ", this.state.dispo.end._i);
-        console.log("envoie : ", this.state.availability)
-    };*/
-
     render() {
-
-        let now = new Date();
-        let start = moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0));
-        let end = moment(start).add(1, "days").subtract(1, "seconds");
-        let ranges = {
-            "Today Only": [moment(start), moment(end)],
-        };
-        let local = {
-            "format":"DD-MM-YYYY HH:mm",
-            "sundayFirst" : false
-        };
-        let minDate = moment(start);
-        let disabled = false;
-        let value = `${this.state.start.format(
-            "DD-MM-YYYY HH:mm"
-        )} - ${this.state.end.format("DD-MM-YYYY HH:mm")}`;
 
         return (
             <>
@@ -175,12 +128,18 @@ class AvailabilityModal extends React.Component {
 
                                 <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
 
-                                <OpenedWeekDaysPicker/>
+                                <OpenedWeekDaysPicker
+                                    roomId = {this.state._id}
+                                />
 
                                 <i className="now-ui-icons location_bookmark"/> J'ajoute des disponibilités exeptionelles
-                                <OpenedDatesPickerContainer/>
+                                <OpenedDatesPickerContainer
+                                    roomId = {this.state._id}
+                                />
                                 <i className="now-ui-icons location_bookmark"/> J'ajoute des fermetures exeptionelles
-                                <ClosedDatesPickerContainer/>
+                                <ClosedDatesPickerContainer
+                                    roomId = {this.state._id}
+                                />
 
                             </FormGroup>
 

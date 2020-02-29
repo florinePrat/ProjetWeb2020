@@ -61,8 +61,19 @@ export default {
     },
 
     createOpenedDates: function (openedDates, roomId) {
+        console.log("openedDates : ", openedDates ,' et room id : ', roomId);
         return axios.post(burl + '/api/availability/', {
             openedDates,
+            roomId
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
+    createClosedDates: function (closedDates, roomId) {
+        console.log("closedDates : ", closedDates ,' et room id : ', roomId);
+        return axios.post(burl + '/api/availability/', {
+            closedDates,
             roomId
         }, {
             headers: tokenHeaders
@@ -78,6 +89,7 @@ export default {
     },
 
     createOpenedWeekDays: function (openedWeekDays, roomId) {
+        console.log("openedWeekDays : ", openedWeekDays ,' et room id : ', roomId);
         return axios.post(burl + '/api/availability/', {
             openedWeekDays,
             roomId

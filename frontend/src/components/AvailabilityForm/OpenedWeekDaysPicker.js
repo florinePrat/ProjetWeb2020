@@ -19,7 +19,7 @@ const DayPicker = ({id, label, onStartTimeChange, onEndTimeChange}) => {
                        const splitValue = event.target.value.split(":");
                        const hours = splitValue[0];
                        const minutes = splitValue[1];
-                       setTimeRange({...timeRange, start:  moment().set("hours", hours).set("minutes", minutes)})
+                       setTimeRange({...timeRange, start:  moment().set("hours", hours).set("minutes", minutes)});
                        onStartTimeChange(moment().set("hours", hours).set("minutes", minutes))
                    }}/></td>
         <td><input type={"time"}
@@ -28,13 +28,14 @@ const DayPicker = ({id, label, onStartTimeChange, onEndTimeChange}) => {
                        const splitValue = event.target.value.split(":");
                        const hours = splitValue[0];
                        const minutes = splitValue[1];
-                       setTimeRange({...timeRange, end:  moment().set("hours", hours).set("minutes", minutes)})
+                       setTimeRange({...timeRange, end:  moment().set("hours", hours).set("minutes", minutes)});
                        onEndTimeChange(moment().set("hours", hours).set("minutes", minutes))
                    }}/></td>
     </tr>
 };
 
 const OpenedWeekDayPicker = ({weekDays, setWeekDays}) => {
+    console.log("weekdays : ", weekDays);
     return <Table responsive>
         <thead>
         <tr>
@@ -61,7 +62,7 @@ const OpenedWeekDayPicker = ({weekDays, setWeekDays}) => {
 const OpenedDayPickerContainer = (props) => {
     const [weekDays, setWeekDays] = useState([
         {id: 0, label: "Lundi", startTime: false, endTime: false},
-        {id:1, label: "Mardi", startTime: false, endTime: false},
+        {id: 1, label: "Mardi", startTime: false, endTime: false},
         {id: 2, label: "Mercredi", startTime: false, endTime: false},
         {id: 3, label: "Jeudi", startTime: false, endTime: false},
         {id: 4, label: "Vendredi", startTime: false, endTime: false},
@@ -69,8 +70,8 @@ const OpenedDayPickerContainer = (props) => {
         {id: 6, label: "Dimanche", startTime: false, endTime: false},
     ]);
     return <OpenedWeekDayPicker
-    weekDays={weekDays}
-    setWeekDays={setWeekDays}
+        weekDays={weekDays}
+        setWeekDays={setWeekDays}
     />
 };
 
