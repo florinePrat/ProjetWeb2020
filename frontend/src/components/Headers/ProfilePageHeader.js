@@ -1,61 +1,50 @@
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 // reactstrap components
 import {Container, UncontrolledTooltip} from "reactstrap";
 import {Nav} from "react-bootstrap";
 import auth from "../../utils/auth";
-import CreatePassword from "../../components/Modals/modalCreatePassword";
 import imageUpload from "../../utils/image-upload";
 import user from "../../utils/users";
 
 // core components
-let pageHeader= React.createRef();
+let pageHeader = React.createRef();
 
-class ProfilePageHeader extends React.Component{
+function ProfilePageHeader() {
+  const [firstName] = React.useState(localStorage.getItem("firstName"));
+  const [imageUrl, setImageUrl] = React.useState("");
+  const [userId] = React.useState(localStorage.getItem("userId"));
 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuth : auth.isAuth(),
-      firstName:localStorage.getItem("firstName"),
-      imageUrl:"",
-      userId:localStorage.getItem("userId"),
-    };
-    this.logout.bind(this);
-    this.handleAvatarChange = this.handleAvatarChange.bind(this);
-  }
-
-  componentDidMount() {
-    user.getUser(this.state.userId)
+  useEffect(() => {
+    user.getUser(userId)
       .then(res =>{
       const user = res.data;
       console.log("my user ; ",user);
-      this.setState({imageUrl: user.imageUrl});
-      console.log('my user image :', this.state.imageUrl);
+      setImageUrl(user.imageUrl);
+      console.log('my user image :', imageUrl);
     }, function (data) {
       console.log('je suis dans data erreur', data);
     });
-  }
+  },[]);
 
 
-  logout = event => {
+  const logout = event => {
     console.log("logout called");
     auth.logout();
     window.location= '/';
   };
 
-  upload(){
+  const upload = () => {
     document.getElementById("selectImage").click();
   };
 
-  handleAvatarChange(e) {
-    this.state = ({avatar: e.target.files[0]});
-    console.log("image",this.state.avatar);
-    imageUpload.upload(this.state.avatar).then(res => {
-      this.setState({imageUrl : res.data.imageUrl});
-      console.log(this.state.imageUrl);
-      user.changeAvatar(this.state.imageUrl, this.state.userId).then(res =>{
-        console.log(this.state.imageUrl);
+  const handleAvatarChange = (e) => {
+    console.log("image", e.target.files[0]);
+   imageUpload.upload(e.target.files[0]).then(res => {
+      setImageUrl(res.data.imageUrl);
+      console.log(imageUrl);
+      user.changeAvatar(res.data.imageUrl, userId).then(res =>{
+        console.log(imageUrl);
       }, error => {
         console.log(error)
       })
@@ -65,9 +54,6 @@ class ProfilePageHeader extends React.Component{
   };
 
 
-
-
-  render(){
   return (
     <>
 
@@ -84,7 +70,7 @@ class ProfilePageHeader extends React.Component{
         />
         <Container>
           <div className="photo-container">
-            <input type="file" name="avatar" id="selectImage" hidden={true} value={this.state.avatar} onChangeCapture={this.handleAvatarChange}/>
+            <input type="file" name="avatar" id="selectImage" hidden={true} onChange={handleAvatarChange}/>
             <UncontrolledTooltip
                 delay={0}
                 placement="bottom"
@@ -94,20 +80,16 @@ class ProfilePageHeader extends React.Component{
             </UncontrolledTooltip>
               <img
                   id="photoInitiale"
-                  onClick={this.upload}
+                  onClick={upload}
                   alt="..."
-                  src={this.state.imageUrl}
+                  src={imageUrl}
               />
           </div>
 
 
-          <h3 className="title">{this.state.firstName}</h3>
+          <h3 className="title">{firstName}</h3>
           <div className="content">
 
-            {this.state.statePassword === 'false'
-                ? <CreatePassword/>
-                : null
-            }
             <div className="social-description">
 
 
@@ -124,14 +106,13 @@ class ProfilePageHeader extends React.Component{
             </div>
 
             <div className="social-description">
-              <Nav.Link onClick={this.logout} >Logout</Nav.Link>
+              <Nav.Link onClick={logout} >Logout</Nav.Link>
             </div>
           </div>
         </Container>
       </div>
     </>
   );
-}
 }
 
 export default ProfilePageHeader;

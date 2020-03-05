@@ -2,19 +2,12 @@ import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import React from "react";
 import api from "../../utils/room";
 
-class DeleteRoom extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalDelete: false,
-            userId: localStorage.getItem("userId"),
-            error: false,
-        };
-        this.deleteRoom.bind(this);
-    };
+function DeleteRoom({_id}) {
+    const [modalDelete, setModalDelete] = React.useState(false);
+    const [error] = React.useState(false);
 
-    deleteRoom = event => {
-        api.deleteRoom(this.props._id)
+    const deleteRoom = event => {
+        api.deleteRoom(_id)
             .then(res => {
                 window.location = "/profile-page";
                 console.log('objet supprimer !')
@@ -22,31 +15,30 @@ class DeleteRoom extends React.Component {
     };
 
 
-    render() {
         return (
             <>
                 <Button
                     className="btn-round"
                     color="danger"
-                    onClick={() => this.setState({modalDelete: true})}
+                    onClick={() => setModalDelete( true)}
                     bssize="large"
                 >
                     supprimer
                 </Button>
 
-                <Modal isOpen={this.state.modalDelete} toggle={() => this.setState({modalDelete: false})}>
+                <Modal isOpen={modalDelete} toggle={() => setModalDelete( false)}>
                     <div className="modal-header justify-content-center">
                         <button
                             className="close"
                             type="button"
-                            onClick={() => this.setState({modalDelete: false})}
+                            onClick={() => setModalDelete( false)}
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
                         <h4 className="title title-up">Je supprime ma salle</h4>
-                        {this.state.error ?
+                        {error ?
                             <Alert color="danger">
-                                {this.state.error}
+                                {error}
                             </Alert> : false
                         }
                     </div>
@@ -59,7 +51,7 @@ class DeleteRoom extends React.Component {
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modalDelete: false})}
+                            onClick={() => setModalDelete( false)}
                         >
                             Non
                         </Button>
@@ -74,7 +66,7 @@ class DeleteRoom extends React.Component {
                             color="info"
                             type="button"
                             id="delete"
-                            onClick={this.deleteRoom}
+                            onClick={deleteRoom}
                         >
                             Oui
                         </Button>
@@ -84,6 +76,5 @@ class DeleteRoom extends React.Component {
 
             </>
         );
-    }
 }
 export default DeleteRoom;

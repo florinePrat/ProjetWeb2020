@@ -3,8 +3,8 @@ import {Button} from "reactstrap";
 import MyDatesWeeksPicker from '../OpenedWeekDaysPicker';
 import API from "../../../utils/room";
 
-export default ({roomId, weekDays, setWeekDays}) =>{
-    console.log("week end set week ", weekDays, setWeekDays);
+export default (roomId) =>{
+    const [weekDays, setWeekDays] = useState([]);
     const [id] = useState(roomId.roomId);
 
     function send  (event) {
@@ -18,8 +18,8 @@ export default ({roomId, weekDays, setWeekDays}) =>{
 
     return <div>
         <MyDatesWeeksPicker
-            dates={weekDays}
-            setDates={setWeekDays}
+            weekDays={weekDays}
+            setWeekDays={setWeekDays}
         />
         <Button color={'success'} onClick={send}>Envoyer ces dates reccurentes</Button>
     </div>

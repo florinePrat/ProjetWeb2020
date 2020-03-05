@@ -22,8 +22,6 @@ import BookingCard from "../../components/Cards/bookingCard";
 import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
 import roomApi from "../../utils/room";
 import bookingApi from "../../utils/booking";
-import {ClosedDatesPickerContainer,OpenedDatesPickerContainer}  from "../../components/AvailabilityForm/OpenedDatesPicker";
-import OpenedWeekDaysPicker from "../../components/AvailabilityForm/OpenedWeekDaysPicker";
 
 
 function ProfilePage() {

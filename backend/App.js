@@ -31,10 +31,4 @@ app.use("/api",  require('./server/routes/publicRoutes'));
 app.use('/api', require('./server/middleware/auth'), require('./server/routes/privateRoutes'));
 
 
-
-/*app.use('/api/room/categories', categoryRoutes);
-app.use('/auth', userRoutes);
-app.use('/api/room', roomRoutes);
-app.use('/api/booking', bookingRoutes);*/
-
 module.exports = app;

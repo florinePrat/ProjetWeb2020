@@ -59,7 +59,7 @@ const OpenedWeekDayPicker = ({weekDays, setWeekDays}) => {
     </Table>
 };
 
-const OpenedDayPickerContainer = (props) => {
+const OpenedDayPickerContainer = ({defWeekDays, defSetWeekDays}) => {
     const [weekDays, setWeekDays] = useState([
         {id: 0, label: "Lundi", startTime: false, endTime: false},
         {id: 1, label: "Mardi", startTime: false, endTime: false},
@@ -69,6 +69,7 @@ const OpenedDayPickerContainer = (props) => {
         {id: 5, label: "Samedi", startTime: false, endTime: false},
         {id: 6, label: "Dimanche", startTime: false, endTime: false},
     ]);
+    console.log(weekDays);
     return <OpenedWeekDayPicker
         weekDays={weekDays}
         setWeekDays={setWeekDays}

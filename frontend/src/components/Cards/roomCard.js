@@ -1,4 +1,3 @@
-import {Component} from "react";
 import React from "react";
 import {Button} from "reactstrap";
 
@@ -14,42 +13,16 @@ import DeleteRoom from "../Modals/modalDeleteRoom";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
-class roomCard extends Component {
 
+function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, bail, state, description}) {
+    const [isDeployed, setIsDeployed] = React.useState(false);
+    const [setError] = React.useState(false);
+    
 
-    constructor(props) {
-        super(props);
-        console.log("propriete" + props._id);
-        this.state = {
-            isDeployed: false,
-            edit: false,
-            modalUpdate: false,
-            modalDelete: false,
-            userId: localStorage.getItem("userId"),
-            title: this.props.title,
-            description: this.props.description,
-            price: this.props.price,
-            address: this.props.address,
-            city: this.props.city,
-            postalCode: this.props.postalCode,
-            category: this.props.category,
-            bail: this.props.bail,
-            imageUrl: this.props.imageUrl,
-            _id: this.props._id,
-            error: false,
-            rooms: [],
-            state: this.props.state,
-        };
-        this.publish = this.publish.bind(this);
-        this.unPublish = this.unPublish.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-
-    publish = event => {
+    const publish = event => {
         api.publishRoom({
             state: "published",
-            _id: this.state._id,
+            _id: _id,
         }).then(res => {
             window.location = "./profile-page";
             {
@@ -57,14 +30,14 @@ class roomCard extends Component {
             }
         }, error => {
             console.log(error.response.data.error);
-            this.setState({error: error.response.data.error});
+            setError(error.response.data.error);
         })
     };
 
-    unPublish = event => {
+    const unPublish = event => {
         api.unPublishRoom({
             state: "publishable",
-            _id: this.state._id,
+            _id: _id,
         }).then(res => {
             window.location = "./profile-page";
             {
@@ -72,44 +45,38 @@ class roomCard extends Component {
             }
         }, error => {
             console.log(error.response.data.error);
-            this.setState({error: error.response.data.error});
+            setError(error.response.data.error);
         })
     };
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
 
-    render() {
 
         return (
-            this.state.isDeployed
+            isDeployed
                 ?
                 <Card style={{width: '18rem'}}>
-                    <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
+                    <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
                     <CardBody>
-                        <CardTitle>{this.props.title}</CardTitle>
-                        <CardText>Catégorie : {this.props.category}</CardText>
-                        <CardText> Prix : {this.props.price} / jours</CardText>
-                        <CardText> Adresse : {this.props.address}</CardText>
-                        <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
+                        <CardTitle>{title}</CardTitle>
+                        <CardText>Catégorie : {category}</CardText>
+                        <CardText> Prix : {price} / jours</CardText>
+                        <CardText> Adresse : {address}</CardText>
+                        <p>Ville : {city} ({postalCode}) </p>
 
                         {/* ------------------------------------------------------------------------------------ modalUpdate*/}
 
 
                         <UpdateRoom
-                            _id = {this.state._id}
-                            title = {this.state.title}
-                            address = {this.state.address}
-                            city = {this.state.city}
-                            postalCode = {this.state.postalCode}
-                            price = {this.state.price}
-                            bail = {this.state.bail}
-                            category = {this.state.category}
-                            description = {this.state.description}
-                            imageUrl = {this.state.imageUrl}
+                            _id = {_id}
+                            title = {title}
+                            address = {address}
+                            city = {city}
+                            postalCode = {postalCode}
+                            price = {price}
+                            bail = {bail}
+                            category = {category}
+                            description = {description}
+                            imageUrl = {imageUrl}
 
                         />
 
@@ -118,7 +85,7 @@ class roomCard extends Component {
                         {/* ------------------------------------------------------------------------------------ modalDelete*/}
 
                         <DeleteRoom
-                            _id = {this.state._id}
+                            _id = {_id}
                         />
 
 
@@ -126,7 +93,7 @@ class roomCard extends Component {
                         <Button
                             className="btn-round"
                             onClick={() => {
-                                this.setState({isDeployed: false});
+                                setIsDeployed(false);
 
                             }}
                             bssize="large"
@@ -137,37 +104,37 @@ class roomCard extends Component {
                 </Card>
                 :
                         <Card style={{width: '18rem'}} >
-                            <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
+                            <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
                             <CardBody>
-                                <CardTitle>{this.props.title}</CardTitle>
-                                <CardSubtitle>Prix : {this.props.price} €/jour </CardSubtitle>
+                                <CardTitle>{title}</CardTitle>
+                                <CardSubtitle>Prix : {price} €/jour </CardSubtitle>
                             </CardBody>
                             <CardBody>
                                 <Button
                                     className="btn-round"
                                     color="info"
                                     onClick={() => {
-                                        this.setState({isDeployed: true})
+                                        setIsDeployed(true)
                                     }}
                                     bssize="large"
                                 >
                                     Voir
                                 </Button>
-                                {this.state.state === "publishable"
+                                {state === "publishable"
                                     ? <Button
                                         className="btn-round"
                                         color="success"
-                                        onClick={this.publish}
+                                        onClick={publish}
                                         bssize="large"
                                     >
                                         Publier
                                     </Button>
 
-                                    : this.state.state === "published" ?
+                                    : state === "published" ?
 
                                         <Button
                                             className="btn-round"
-                                            onClick={this.unPublish}
+                                            onClick={unPublish}
                                             bssize="large"
                                         >
                                             Unpublish
@@ -176,9 +143,6 @@ class roomCard extends Component {
                             </CardBody>
                         </Card>
         )
-
-
-    }
 }
 
-export default roomCard;
+export default RoomCard;

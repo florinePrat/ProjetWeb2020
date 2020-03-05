@@ -1,75 +1,82 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // core components
 import LandingPageHeader from "../../components/Headers/LandingPageHeader.js";
 import DefaultFooter from "../../components/Footers/DefaultFooter.js";
-import auth from "../../utils/auth";
 import RoomCard from "../../components/Cards/roomCardForLanding";
 import {Col, Container, Row} from "react-bootstrap";
 import room from "../../utils/room";
+import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar";
+import AccueilNavbar from "../../components/Navbars/AccueilNavbar";
+import auth from "../../utils/auth";
 
+function LandingPage() {
+    const [rooms, setRooms] = React.useState([]);
+    const [isAuth] = React.useState(auth.isAuth());
 
-class LandingPage extends React.Component {
+    useEffect(() =>{
+        room.getAllRooms()
+            .then(res => {
+                const myRooms = res.data.room;
+                setRooms(myRooms);
+                console.log("roomlanding : ", rooms)
+            }, function (data) {
+                console.log(data);
+            })
+    }, []);
 
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAuth: auth.isAuth(),
-            rooms: []
+    React.useEffect(() => {
+        document.body.classList.add("landing-page");
+        document.body.classList.add("sidebar-collapse");
+        document.documentElement.classList.remove("nav-open");
+        return function cleanup() {
+            document.body.classList.remove("landing-page");
+            document.body.classList.remove("sidebar-collapse");
         };
-    }
+    });
 
-    myCallback = (search) => {
+    const myCallback = (search) => {
 
         room.getAllSearchRooms(search[0], search[1]).then(res => {
-            const rooms = res.data.room;
+            const myRooms = res.data.room;
             console.log('je suis bien dans la requette send ! ');
             console.log(search[0]);
             console.log(search[1]);
-            console.log("room : ", rooms);
-            this.setState({rooms:rooms});
+            console.log("room : ", myRooms);
+            setRooms(myRooms)
         }, error => {
             console.log(error)
         })
     };
 
-    reload = () => {
+    const reload = () => {
         room.getAllRooms()
             .then(res => {
-                const rooms = res.data.room;
-                this.setState({rooms:rooms});
+                const myRooms = res.data.room;
+                setRooms(myRooms)
             }, function (data) {
                 console.log(data);
             })
     };
 
 
-    componentDidMount() {
-        room.getAllRooms()
-            .then(res => {
-            const rooms = res.data.room;
-            this.setState({rooms:rooms});
-            console.log("roomlanding : ", this.state.rooms)
-        }, function (data) {
-            console.log(data);
-        })
-    }
 
-    render() {
+
         return (
             <>
+                {isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
+
                 <div className="wrapper">
                     <LandingPageHeader
-                        update={this.myCallback}
-                        rooms={this.state.rooms}
+                        update={myCallback}
+                        rooms={rooms}
                     />
 
                     <div className="wrapper">
                         <br/>
                         <button
                             className={"btn-round"}
-                            onClick={this.reload}
+                            onClick={reload}
                         >
                             <i className="now-ui-icons arrows-1_refresh-69"/>  Réinitialiser la recherche
                         </button>
@@ -77,7 +84,7 @@ class LandingPage extends React.Component {
                         <br/>
                         <Container>
                             <Row>
-                                {this.state.rooms.map(room => (
+                                {rooms.map(room => (
                                     <Col xs={4}>
                                         <RoomCard
                                             _id={room._id}
@@ -90,7 +97,6 @@ class LandingPage extends React.Component {
                                             category={room.category}
                                             state={room.state}
                                             description={room.description}
-                                            availability={room.availability}
                                             userId={room.userId}
                                         />
                                     </Col>
@@ -102,7 +108,7 @@ class LandingPage extends React.Component {
                 </div>
             </>
         );
-    }
+
 }
 
 export default LandingPage;

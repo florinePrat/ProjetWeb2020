@@ -70,6 +70,14 @@ export default {
         })
     },
 
+    getOpenedDates: function (roomId) {
+        console.log('room id : ', roomId);
+        return axios.get(burl + '/api/availability/' + roomId, {
+            headers: tokenHeaders
+        })
+    },
+
+
     createClosedDates: function (closedDates, roomId) {
         console.log("closedDates : ", closedDates ,' et room id : ', roomId);
         return axios.post(burl + '/api/availability/', {

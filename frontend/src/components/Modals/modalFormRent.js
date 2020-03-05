@@ -13,79 +13,62 @@ import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-class CreateRoom extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            firstName: "",
-            phoneNumber: "",
-            modal: false,
-            userId: localStorage.getItem("userId"),
-            title:"",
-            address:"",
-            city:"",
-            region:"",
-            postalCode:"",
-            error: false,
-        };
-        this.send.bind(this);
-        this.handleChange.bind(this);
-    };
+function CreateRoom() {
+    const [modal, setModal] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [title, setTitle] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [firstName, setFirstName] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [address, setAddress] = React.useState("");
+    const [city, setCity] = React.useState("");
+    const [postalCode, setPostalCode] = React.useState("");
+    const [userId, setUserId] = React.useState(localStorage.getItem("userId"));
 
-
-    send = event => {
-        if (this.state.title.length === 0) {
-            this.setState({error: "titre vide"});
-        } else if (this.state.address.length === 0) {
-            this.setState({error: "adresse vide"});
-        } else if (this.state.city.length === 0) {
-            this.setState({error: "ville vide"});
-        } else if (this.state.postalCode.length === 0) {
-            this.setState({error: "code postal vide"});
-        } else if (this.state.email.length === 0) {
-            this.setState({error: "email vide"});
-        } else if (this.state.phoneNumber.length === 0) {
-            this.setState({error: "numéro de téléphone vide"});
+    const send = event => {
+        if (title.length === 0) {
+            setError("titre vide");
+        } else if (address.length === 0) {
+            setError("adresse vide");
+        } else if (city.length === 0) {
+            setError("ville vide");
+        } else if (postalCode.length === 0) {
+            setError("code postal vide");
+        } else if (email.length === 0) {
+            setError("email vide");
+        } else if (phoneNumber.length === 0) {
+            setError("numéro de téléphone vide");
         } else {
 
-            auth.signup(this.state.email, this.state.firstName, this.state.phoneNumber).then(res => {
+            auth.signup(email, firstName, phoneNumber).then(res => {
                 console.log('je suis dans créer user');
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('firstName', res.data.firstName);
                 localStorage.setItem('imageUrl', res.data.imageUrl);
                 localStorage.setItem('userId', res.data.userId);
                 localStorage.setItem('statePassword', res.data.statePassword);
-                this.setState({userId: res.data.userId});
+                setUserId(res.data.userId);
                 console.log("signup",localStorage);
 
-                setTimeout(() => {this.setState({timePassed: true})}, 3000);
-                api.createRoom(this.state.title,this.state.address,this.state.city,this.state.postalCode,res.data.userId, res.data.token).then(res => {
+                setTimeout(() => console.log('setTimeoutOK'), 3000);
+                api.createRoom(title,address,city,postalCode,res.data.userId, res.data.token).then(res => {
                     console.log(res.data);
                     console.log('je suis dans créer room');
                     window.location = "./profile-page"
                 }, error => {
                     console.log(error.response.data.error);
-                    this.setState({error:error.response.data.errors});
+                    setError(error.response.data.errors);
                 })
 
             }, error => {
                 console.log(error.response.data.error);
-                this.setState({error:error.response.data.errors});
+                setError(error.response.data.errors);
             });
 
         }
     };
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
 
-
-
-    render() {
         return (
             <>
 
@@ -94,26 +77,26 @@ class CreateRoom extends React.Component {
                     color="neutral"
                     outline
                     type="button"
-                    onClick={() => this.setState({modal: true})}
+                    onClick={() =>setModal( true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                     Proposer une salle
                 </Button>
 
 
-                <Modal isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
+                <Modal isOpen={modal} toggle={() => setModal( false)}>
                     <div className="modal-header justify-content-center">
                         <button
                             className="close"
                             type="button"
-                            onClick={() => this.setState({modal: false})}
+                            onClick={() => setModal( false)}
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
                         <h4 className="title title-up">Je loue une salle</h4>
-                        {this.state.error ?
+                        {error ?
                             <Alert color="danger">
-                                {this.state.error}
+                                {error}
                             </Alert> : false
                         }
                     </div>
@@ -125,8 +108,8 @@ class CreateRoom extends React.Component {
                                         <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
                                         <FormControl
                                             placeholder= "Nom du lieu *"
-                                            value={this.state.title}
-                                            onChange={this.handleChange}
+                                            value={title}
+                                            onChange={e=> setTitle(e.target.value)}
                                             type="text"
                                         >
                                         </FormControl>
@@ -138,8 +121,8 @@ class CreateRoom extends React.Component {
                                     <i className="now-ui-icons location_pin"/> Adresse :
                                     <FormControl
                                         placeholder= "Adresse *"
-                                        value={this.state.address}
-                                        onChange={this.handleChange}
+                                        value={address}
+                                        onChange={e=>setAddress(e.target.value)}
                                         type="text"
                                     >
                                     </FormControl>
@@ -151,8 +134,8 @@ class CreateRoom extends React.Component {
                                         <i className="now-ui-icons location_map-big"/> Ville :
                                         <FormControl
                                             placeholder= "ville *"
-                                            value={this.state.city}
-                                            onChange={this.handleChange}
+                                            value={city}
+                                            onChange={e=>setCity(e.target.value)}
                                             type="text"
                                         >
                                         </FormControl>
@@ -164,8 +147,8 @@ class CreateRoom extends React.Component {
                                         <i className="now-ui-icons location_bookmark"/> CP :
                                         <FormControl
                                             placeholder= "Code postal *"
-                                            value={this.state.postalCode}
-                                            onChange={this.handleChange}
+                                            value={postalCode}
+                                            onChange={e=>setPostalCode(e.target.value)}
                                             type="text"
                                         >
                                         </FormControl>
@@ -177,8 +160,8 @@ class CreateRoom extends React.Component {
                                     <i className="now-ui-icons ui-1_email-85"/> E-mail :
                                     <FormControl
                                         placeholder= "E-mail *"
-                                        value={this.state.email}
-                                        onChange={this.handleChange}
+                                        value={email}
+                                        onChange={e=> setEmail(e.target.value)}
                                         type="text"
                                     >
                                     </FormControl>
@@ -190,8 +173,8 @@ class CreateRoom extends React.Component {
                                         <i className="now-ui-icons users_single-02"/> Prénom :
                                         <FormControl
                                             placeholder= "Prénom *"
-                                            value={this.state.firstName}
-                                            onChange={this.handleChange}
+                                            value={firstName}
+                                            onChange={e=>setFirstName(e.target.value)}
                                             type="text"
                                         >
                                         </FormControl>
@@ -202,8 +185,8 @@ class CreateRoom extends React.Component {
                                         <i className="now-ui-icons tech_mobile"/> Numéro de téléphone :
                                         <FormControl
                                             placeholder= "Poratble *"
-                                            value={this.state.phoneNumber}
-                                            onChange={this.handleChange}
+                                            value={phoneNumber}
+                                            onChange={e=>setPhoneNumber(e.target.value)}
                                             type="text"
                                         >
                                         </FormControl>
@@ -217,14 +200,14 @@ class CreateRoom extends React.Component {
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modal: false})}
+                            onClick={() =>setModal( false)}
                         >
                             Annuler
                         </Button>
                         <Button
                             color="info"
                             type="button"
-                            onClick={this.send}
+                            onClick={send}
                         >
                             Valider
                         </Button>
@@ -234,6 +217,5 @@ class CreateRoom extends React.Component {
 
             </>
         );
-    }
 }
 export default CreateRoom;

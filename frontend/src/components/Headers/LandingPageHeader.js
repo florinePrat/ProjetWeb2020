@@ -1,37 +1,22 @@
 import React from "react";
 import {Container} from "reactstrap";
-import auth from "../../utils/auth";
-import ExamplesNavbar from "../Navbars/ExamplesNavbar";
 import CreateRoom from "../Modals/modalFormRent";
-import AccueilNavbar from "../Navbars/AccueilNavbar";
 import SearchComponent from "../search";
+import auth from "../../utils/auth";
 // reactstrap components
 
 // core components
 
-class LandingPageHeader extends React.Component {
+function LandingPageHeader({update, rooms}) {
+    const [isAuth] = React.useState(auth.isAuth());
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAuth: auth.isAuth(),
-            rooms:this.props.rooms,
-        };
-    }
-
-    myCallback = (search) => {
-        this.props.update(search);
+    const myCallback = (search) => {
+        update(search);
     };
 
 
-
-
-    render() {
-
         return (
             <>
-
-                {this.state.isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
 
                 <div className="page-header page-header-small">
 
@@ -52,12 +37,12 @@ class LandingPageHeader extends React.Component {
                             </div>
                         </div>
 
-                        <SearchComponent callbackFromParent={this.myCallback} rooms={this.props.rooms}/>
+                        <SearchComponent callbackFromParent={myCallback} rooms={rooms}/>
 
                     </Container>
 
                     <Container>
-                        {this.state.isAuth ?
+                        {isAuth ?
                             null
                             : <div className="button-container">
                                 <CreateRoom/>
@@ -71,7 +56,6 @@ class LandingPageHeader extends React.Component {
 
             </>
         );
-    }
 }
 
 export default LandingPageHeader;

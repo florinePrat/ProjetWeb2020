@@ -1,4 +1,4 @@
-import {Component} from "react";
+import {Component, useEffect} from "react";
 import React from "react";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
@@ -10,108 +10,72 @@ import room from "../../utils/room";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
-class bookingCard extends Component {
+
+function BookingCard({ _id, date, roomId, ownerId, customerId, state}) {
+    const [edit, setEdit] = React.useState(false);
+    const [userId] = React.useState(localStorage.getItem("userId"));
+    const [error, setError] = React.useState(false);
+    const [rooms, setRooms] = React.useState([]);
+    const [user, setUser] = React.useState([]);
+    const [myState, setMyState] = React.useState([state]);
 
 
-    constructor(props) {
-        super(props);
-        console.log("propriete" + props._id);
-        this.state = {
-            edit: false,
-            userId: localStorage.getItem("userId"),
-            date: this.props.date.substring(0, 10),
-            _id: this.props._id,
-            roomId: this.props.roomId,
-            ownerId: this.props.ownerId,
-            customerId: this.props.customerId,
-            error: false,
-            rooms: [],
-            user:[],
-            state: this.props.state,
-        };
-    }
-
-    componentWillMount () {
-        room.getOneRoom(this.state.roomId)
+    useEffect (() => {
+        room.getOneRoom(roomId)
             .then(res => {
-                const room = res.data.room;
-                this.setState({rooms: room});
-                console.log(this.state._id);
-                console.log('room', this.state.rooms)
+                setRooms(res.data.room);
+                console.log(_id);
+                console.log('room', rooms)
             }, function (data) {
                 console.log(data);
             });
+    },[]);
 
-
-    }
-
-    requestBooking = status => {
+    const requestBooking = status => {
         api.requestBooking({
-            _id: this.state._id,
-            state: status,
+            _id: _id,
+            myState: status,
         }).then(res => {
 
             {
                 alert('La requête à bien été prise en compte, nous en informons le client.')
             }
-            this.setState({state : status});
-            console.log('booking status ', this.state.state);
+            setMyState(status);
+        })
+    };
 
-
-            if (this.state.state === "accepted"){
-                console.log("je suis dans le if", this.state.rooms.availability);
-                console.log("nouvelles dispo : ", this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)));
-                room.updateRoomAvailabilities(
-                    this.state.rooms.availability.filter(dispo => dispo !== this.state.date.substring(0, 10)),
-                    this.state.roomId
-                ).then(res =>{
-                    window.location = "./profile-page";
-                }, error => {
-                    console.log(error.response.data.error);
-                    this.setState({error: error.response.data.error});
-                });
-
-
-             } else {
+    useEffect(()=>{
+        console.log('booking status ', myState);
+        if (state === "accepted"){
+            console.log("je suis dans le if", rooms.availability);
+            console.log("nouvelles dispo : ", rooms.availability.filter(dispo => dispo !== date));
+            room.updateRoomAvailabilities(
+                rooms.availability.filter(dispo => dispo !== date),
+                roomId
+            ).then(res =>{
                 window.location = "./profile-page";
-            }
+            }, error => {
+                console.log(error.response.data.error);
+                setError(error.response.data.error);
+            });
 
-        }, error => {
-            console.log(error.response.data.error);
-            this.setState({error: error.response.data.error});
-        });
-
-    };
-
-
-
-    deleteRoom = event => {
-        api.deleteRoom(this.props._id)
-            .then(res => {
-                window.location = "/profile-page";
-                console.log('objet supprimer !')
-            })
-    };
+        } else {
+            window.location = "./profile-page";
+        }
+    }, [myState]);
 
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
-
-    render() {
 
         return (
 
                 <Card style={{width: '18rem'}} >
                     <CardBody>
-                        <CardTitle>Réservation pour : {this.state.rooms.title}</CardTitle>
-                        <CardSubtitle>Pour le : {this.props.date.substring(0, 10)} </CardSubtitle>
+                        <CardTitle>Réservation pour : {rooms.title}</CardTitle>
+                        <CardSubtitle>Pour le : {date} </CardSubtitle>
                             <Button
                                 color="danger"
                                 type="button"
-                                onClick={()=>this.requestBooking("refused")}
+                                onClick={()=>requestBooking("refused")}
                             >
                                 Refuser
                             </Button>
@@ -119,15 +83,13 @@ class bookingCard extends Component {
                                 color="success"
                                 type="button"
                                 id="published"
-                                    onClick={()=>this.requestBooking("accepted")}
+                                    onClick={()=>requestBooking("accepted")}
                             >
                                 Accepter
                             </Button>
                     </CardBody>
                 </Card>
         )
-
-    }
 }
 
-export default bookingCard;
+export default BookingCard;

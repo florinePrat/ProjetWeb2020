@@ -1,29 +1,24 @@
 import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import {FormControl, FormGroup} from "react-bootstrap";
 import AvailabilityModal from "./modalCreateAvailability";
-import React from "react";
-import categories from "../../utils/categories";
+import React, {useEffect} from "react";
+import myCategories from "../../utils/categories";
 import api from "../../utils/room";
 import imageUpload from "../../utils/image-upload";
 
-class UpdateRoom extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalUpdate: false,
-            userId: localStorage.getItem("userId"),
-            error: false,
-            categories:[],
-            _id : this.props._id
-        };
-        this.update.bind(this);
-        this.upload.bind(this);
-        this.handlePictureChange.bind(this);
-        this.handleChange.bind(this);
-    };
 
-    componentWillMount(){
-        categories.getAllCategories()
+
+function UpdateRoom(props) {
+    const {_id,title,address,city,postalCode,category,bail,price,description,picture} = props
+    const [modalUpdate, setModalUpdate] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [categories, setCategories] = React.useState([]);
+
+    const [data, setData] = React.useState(props);
+
+    useEffect(()=>{
+        setData(props);
+        myCategories.getAllCategories()
             .then(res => {
                 const categories = res.data.category;
                 console.log('my category 1', categories);
@@ -31,60 +26,60 @@ class UpdateRoom extends React.Component {
             }, function (data) {
                 console.log(data);
             })
-    }
+    },[]);
 
-    update = event => {
-        if (this.state.title.length === 0) {
-            this.setState({error: "nom du lieu vide"});
-        } else if (this.state.address.length === 0) {
-            this.setState({error: "adresse vide"});
-        } else if (this.state.city.length === 0) {
-            this.setState({error: "ville vide"});
-        } else if (this.state.postalCode.length === 0) {
-            this.setState({error: "code postal vide"});
-        } else if (this.state.category.length === 0) {
-            this.setState({error: "categorie vide"});
-        } else if (this.state.bail.length === 0) {
-            this.setState({error: "caution vide"});
-        } else if (this.state.price.length === 0) {
-            this.setState({error: "prix vide"});
-        } else if (this.state.description.length === 0) {
-            this.setState({error: "description vide"});
+    const update = event => {
+        if (title.length === 0) {
+            setError("titre vide");
+        } else if (address.length === 0) {
+            setError("adresse vide");
+        } else if (city.length === 0) {
+            setError("ville vide");
+        } else if (postalCode.length === 0) {
+            setError("code postal vide");
+        } else if (category.length === 0) {
+            setError("catégorie vide");
+        } else if (bail.length === 0) {
+            setError("caution vide");
+        } else if (price.length === 0) {
+            setError("prix vide");
+        } else if (description.length === 0) {
+            setError("description vide");
         } else {
-            console.log('roomid : ', this.state._id);
+            console.log('roomid : ', _id);
 
             api.updateRoom({
-                title: this.props.title,
-                description: this.props.description,
-                address: this.props.address,
-                city: this.props.city,
-                postalCode: this.props.postalCode,
-                category: this.props.category,
-                bail: this.props.bail,
-                _id: this.props._id,
-                price: this.props.price,
+                title: data.title,
+                description: data.description,
+                address: data.address,
+                city: data.city,
+                postalCode: data.postalCode,
+                category: data.category,
+                bail: data.bail,
+                _id: data._id,
+                price: data.price,
                 state: "publishable",
             }).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
             }, error => {
                 console.log(error.response.data.error);
-                this.setState({error: error.response.data.error});
+                setError(error.response.data.errors);
             })
         }
     };
 
-    upload(){
+    const upload = () => {
         document.getElementById("selectImageRoom").click();
     };
 
-    handlePictureChange = (e) => {
+    const handlePictureChange = (e) => {
         console.log("image look", e.target.files[0]);
         console.log("image",e.target.files[0]);
-        console.log("test de roomId : ", this.state._id);
+        console.log("test de roomId : ", _id);
         imageUpload.upload(e.target.files[0]).then(res => {
             console.log('test',res.data.imageUrl);
-            api.addPictureRoom({imageUrl :res.data.imageUrl, _id : this.state._id}).then(res =>{
+            api.addPictureRoom({imageUrl :res.data.imageUrl, _id : _id}).then(res =>{
                 console.log(res.data);
                 window.location = "profile-page";
             }, error => {
@@ -95,15 +90,12 @@ class UpdateRoom extends React.Component {
         })
     };
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
+    const handleChange = event => {
+        [event.target.id](event.target.value);
     };
 
 
-    render() {
-        let options = this.state.categories.map((data)=>
+        let options = categories.map((data)=>
             <option
                 key={data.name}>
                 {data.name}
@@ -117,28 +109,28 @@ class UpdateRoom extends React.Component {
                     className="btn-round"
                     color="info"
                     type="button"
-                    onClick={() => this.setState({modalUpdate: true})}
+                    onClick={() => setModalUpdate( true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                     Modifier salle
                 </Button>
 
 
-                <Modal isOpen={this.state.modalUpdate} toggle={() => this.setState({modalUpdate: false})}>
+                <Modal isOpen={modalUpdate} toggle={() => setModalUpdate( false)}>
                     <div className="modal-header justify-content-center">
                         <button
                             className="close"
                             type="button"
-                            onClick={() => this.setState({modalUpdate: false})}
+                            onClick={() => setModalUpdate( false)}
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
                         <h4 className="title title-up">Je modifie ma salle</h4>
 
                     </div>
-                    {this.state.error ?
+                    {error ?
                         <Alert color="danger">
-                            {this.state.error}
+                            {error}
                         </Alert> : false
                     }
                     <ModalBody>
@@ -149,8 +141,8 @@ class UpdateRoom extends React.Component {
                                         <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
                                         <FormControl
                                             placeholder="Nom du lieu *"
-                                            value={this.props.title}
-                                            onChange={this.handleChange}
+                                            value={title}
+                                            onChange={e=> setData({...data, title : e.target.value})}
                                             type="text"
                                         >
                                         </FormControl>
@@ -162,8 +154,8 @@ class UpdateRoom extends React.Component {
                                     <i className="now-ui-icons location_pin"/> Adresse :
                                     <FormControl
                                         placeholder="Adresse *"
-                                        value={this.props.address}
-                                        onChange={this.handleChange}
+                                        value={address}
+                                        onChange={e=> setData({...data, address : e.target.value})}
                                         type="text"
                                     >
                                     </FormControl>
@@ -175,8 +167,8 @@ class UpdateRoom extends React.Component {
                                         <i className="now-ui-icons location_map-big"/> Ville :
                                         <FormControl
                                             placeholder="ville *"
-                                            value={this.props.city}
-                                            onChange={this.handleChange}
+                                            value={city}
+                                            onChange={e=> setData({...data, city : e.target.value})}
                                             type="text"
                                         >
                                         </FormControl>
@@ -188,8 +180,8 @@ class UpdateRoom extends React.Component {
                                         <i className="now-ui-icons location_bookmark"/> CP :
                                         <FormControl
                                             placeholder="Code postal *"
-                                            value={this.props.postalCode}
-                                            onChange={this.handleChange}
+                                            value={postalCode}
+                                            onChange={e=> setData({...data, postalCode : e.target.value})}
                                             type="text"
                                         >
                                         </FormControl>
@@ -202,8 +194,8 @@ class UpdateRoom extends React.Component {
                                         <i className="now-ui-icons location_bookmark"/> Prix à la journée :
                                         <FormControl
                                             placeholder="Prix *"
-                                            value={this.props.price}
-                                            onChange={this.handleChange}
+                                            value={price}
+                                            onChange={e=> setData({...data, price : e.target.value})}
                                             type="number"
                                         >
                                         </FormControl>
@@ -213,8 +205,8 @@ class UpdateRoom extends React.Component {
                                         la journée :
                                         <FormControl
                                             placeholder="Caution *"
-                                            value={this.props.bail}
-                                            onChange={this.handleChange}
+                                            value={bail}
+                                            onChange={e=> setData({...data, bail : e.target.value})}
                                             type="number"
                                         >
                                         </FormControl>
@@ -225,10 +217,11 @@ class UpdateRoom extends React.Component {
                                     <FormControl
                                         placeholder="Categorie *"
                                         as="select"
-                                        value={this.props.category}
-                                        onChange={this.handleChange}
+                                        value={category}
+                                        onChange={e=> setData({...data, category : e.target.value})}
                                         type="text"
                                     >
+                                        <option>Choisir une catégorie</option>
                                         {options}
                                     </FormControl>
                                 </FormGroup>
@@ -236,8 +229,8 @@ class UpdateRoom extends React.Component {
                                     <i className="now-ui-icons location_bookmark"/> Description :
                                     <FormControl
                                         placeholder="Description *"
-                                        value={this.props.description}
-                                        onChange={this.handleChange}
+                                        value={description}
+                                        onChange={e=> setData({...data, description : e.target.value})}
                                         type="text"
                                     >
                                     </FormControl>
@@ -245,16 +238,16 @@ class UpdateRoom extends React.Component {
                             </div>
 
                             <AvailabilityModal
-                                _id={this.props._id}
+                                _id={_id}
                             />
 
                             <div>
-                                <input type="file" name="avatar" id="selectImageRoom" hidden={true} value={this.props.picture} onChangeCapture={this.handlePictureChange}/>
+                                <input type="file" name="avatar" id="selectImageRoom" hidden={true} value={picture} onChangeCapture={handlePictureChange}/>
                                 <Button
                                     className="btn-round"
                                     color="info"
                                     type="button"
-                                    onClick={this.upload}
+                                    onClick={upload}
                                 >
                                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                                     Ajouter une image
@@ -268,7 +261,7 @@ class UpdateRoom extends React.Component {
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modalUpdate: false})}
+                            onClick={() => setModalUpdate( false)}
                         >
                             Annuler
                         </Button>
@@ -283,7 +276,7 @@ class UpdateRoom extends React.Component {
                             color="info"
                             type="button"
                             id="published"
-                            onClick={this.update}
+                            onClick={update}
                         >
                             Enregistrer
                         </Button>
@@ -293,6 +286,5 @@ class UpdateRoom extends React.Component {
 
             </>
         );
-    }
 }
 export default UpdateRoom;

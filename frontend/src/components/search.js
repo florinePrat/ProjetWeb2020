@@ -1,57 +1,45 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {FormGroup, Button} from "reactstrap";
 import CustomInput from "reactstrap/es/CustomInput";
-import categories from "../utils/categories";
+import myCategories from "../utils/categories";
 // reactstrap components
 
 
 // core components
-class SearchComponent extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            category: 'null',
-            city: 'null',
-            rooms:[],
-            categories:[],
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.mySearch = this.mySearch.bind(this);
-    }
+function SearchComponent({callbackFromParent, rooms}) {
+    const [category, setCategory] = React.useState('null');
+    const [city, setCity] = React.useState('null');
+    const [categories, setCategories] = React.useState([]);
+    const [search, setSearch] = React.useState([category, city]);
 
-    componentWillMount(){
-        categories.getAllCategories()
+    useEffect(()=> {
+        myCategories.getAllCategories()
             .then(res => {
-                const categories = res.data.category;
+                setCategories(res.data.category);
                 console.log('my category 1', categories);
-                this.setState({categories:categories});
             }, function (data) {
                 console.log(data);
             })
-    }
+    },[]);
 
-    mySearch = () => {
-        console.log('cat : ',this.state.category);
-        console.log('cit : ',this.state.city);
-        this.state = {search :[ this.state.category, this.state.city]};
-        console.log('search : ',this.state.search);
-        this.props.callbackFromParent(this.state.search);
+    const mySearch = () => {
+        console.log('cat : ',category);
+        console.log('cit : ',city);
+        setSearch([category, city]);
     };
 
+    useEffect(()=>{
+        if (search){
+            console.log('search : ',search);
+            callbackFromParent(search);
+        }
+    },[search]);
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
 
 
-    render() {
+        console.log("affichage de rooms : ", rooms);
 
-        console.log("affichage de rooms : ", this.props.rooms);
-
-        let categories = this.state.categories;
         let optionsCategory = categories.map((data)=>
             <option
                 key={data.name}>
@@ -60,7 +48,7 @@ class SearchComponent extends React.Component {
         );
 
         const uniqueTags = [];
-        this.props.rooms.map(data => {
+        rooms.map(data => {
             if (uniqueTags.indexOf(data.city) === -1) {
                 uniqueTags.push(data.city)
             }
@@ -84,10 +72,10 @@ class SearchComponent extends React.Component {
                             <FormGroup controlId="city">
                                 <CustomInput
                                     type="select"
-                                    id="city"
+                                    id="setCity"
                                     name="customSelect"
-                                    value={this.state.city}
-                                    onChange={this.handleChange}
+                                    value={city}
+                                    onChange={e => setCity(e.target.value)}
                                 >
                                     <option>Ville</option>
                                     {optionsCities}
@@ -99,10 +87,10 @@ class SearchComponent extends React.Component {
                             <FormGroup controlId="category">
                                 <CustomInput
                                     type="select"
-                                    id="category"
+                                    id="setCategory"
                                     name="customSelect"
-                                    value = {this.state.category}
-                                    onChange={this.handleChange}
+                                    value = {category}
+                                    onChange={e => setCategory(e.target.value)}
                                 >
                                     <option >Categorie</option>
                                     {optionsCategory}
@@ -117,7 +105,7 @@ class SearchComponent extends React.Component {
                                 <Button
                                     className='btn-round'
                                     color='info'
-                                    onClick={this.mySearch}
+                                    onClick={mySearch}
                                 >Rechercher
                                 </Button>
                             </FormGroup>
@@ -127,7 +115,6 @@ class SearchComponent extends React.Component {
 
             </>
         );
-    }
 }
 
 export default SearchComponent;

@@ -1,4 +1,3 @@
-import {Component} from "react";
 import React from "react";
 import {Button} from "react-bootstrap";
 import CardBody from "reactstrap/es/CardBody";
@@ -9,42 +8,34 @@ import CardImg from "react-bootstrap/CardImg";
 import AvailabilityModal from "../../components/Modals/modalChooseAvailability";
 
 // this class send a answer to back for verify the answer and done the card of the day
-class roomCard extends Component {
+
+function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, userId, description}) {
+
+        const [isDeployed, setIsDeployed] = React.useState(false);
 
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isDeployed: false,
-            imageUrl:this.props.imageUrl,
-            availability: this.props.availability,
-        };
-    }
-
-    render() {
         return (
-            this.state.isDeployed
+            isDeployed
                 ?
                             <Card style={{width: '18rem'}}>
-                                <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
+                                <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
                                 <CardBody>
-                                    <CardTitle>{this.props.title}</CardTitle>
-                                    <CardText>{this.props.category}</CardText>
-                                    <CardText> {this.props.price}€/jour</CardText>
-                                    <CardText> Adresse : {this.props.address}</CardText>
-                                    <p>Ville : {this.props.city} ({this.props.postalCode}) </p>
+                                    <CardTitle>{title}</CardTitle>
+                                    <CardText>{category}</CardText>
+                                    <CardText> {price}€/jour</CardText>
+                                    <CardText> Adresse : {address}</CardText>
+                                    <p>Ville : {city} ({postalCode}) </p>
 
                                     <AvailabilityModal
-                                        _id={this.props._id}
-                                        ownerId={this.props.userId}
-                                        availability={this.state.availability}
+                                        _id={_id}
+                                        ownerId={userId}
                                     />
 
 
                                     <Button
                                         className="btn-info"
                                         onClick={() => {
-                                            this.setState({isDeployed: false});
+                                            setIsDeployed(false);
                                         }}
                                         bssize="large"
                                     >
@@ -54,18 +45,18 @@ class roomCard extends Component {
                             </Card>
                 :
                         <Card style={{width: '18rem'}}>
-                            <CardImg top width="100%" src={this.state.imageUrl} alt="Card image cap" />
+                            <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
                             <CardBody>
-                                <CardTitle>{this.props.title}</CardTitle>
-                                <CardText>{this.props.category}</CardText>
-                                <CardText>{this.props.price}€/jour</CardText>
-                                <CardText>{this.props.description}</CardText>
+                                <CardTitle>{title}</CardTitle>
+                                <CardText>{category}</CardText>
+                                <CardText>{price}€/jour</CardText>
+                                <CardText>{description}</CardText>
                             </CardBody>
                             <CardBody>
                                 <Button
                                     className="btn-info"
                                     onClick={() => {
-                                        this.setState({isDeployed: true})
+                                        setIsDeployed(true);
                                     }}
                                     bssize="large"
                                 >
@@ -75,7 +66,6 @@ class roomCard extends Component {
                         </Card>
 
         )
-    }
 }
 
-export default roomCard;
+export default RoomCard;

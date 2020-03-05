@@ -17,80 +17,65 @@ import OpenedWeekDaysPicker from "../AvailabilityForm/Container/OpenedWeekDaysCo
 
 
 
+function AvailabilityModal({_id}) {
+    let now = new Date();
+
+    const [start] = React.useState( moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0)));
+    const [end] = React.useState(moment(start).add(1, "days").subtract(1, "seconds"));
+    const [modal, setModal] = React.useState(false);
+    const [userId] = React.useState(localStorage.getItem("userId"));
+    const [error,setError] = React.useState(false);
+    const [openedDates,setOpenedDates] = React.useState([]);
+    const [availability,setAvailability] = React.useState([]);
+    const [openedWeekDays,setOpenedWeekDays] = React.useState([]);
+    const [value,setValue] = React.useState(null);
+    const [startHours,setStartHours] = React.useState( [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))]);
+    const [endHours,setEndHours] = React.useState( [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))]);
+    const [day,setDay] = React.useState(0);
+    const [availabilityId,setAvailabilityId] = React.useState(null);
 
 
-class AvailabilityModal extends React.Component {
 
-    constructor(props) {
-        super(props);
-        let now = new Date();
-        let start = moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0));
-        let end = moment(start).add(1, "days").subtract(1, "seconds");
-        this.state = {
-            start : start,
-            end : end,
-            modal: false,
-            userId: localStorage.getItem("userId"),
-            error: false,
-            openedDates:[],
-            availability :[],
-            _id: this.props._id,
-            value : null,
-            day: 0,
-            openedWeekDays : [],
-            startHours :  [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))],
-            endHours :  [moment(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0,0))],
-
-            availabilityId : null,
-
-        };
-        this.send.bind(this);
-        this.sendOpenedWeek.bind(this);
-    };
-
-
-    sendOpenedWeek = (weekDays) => {
+    const sendOpenedWeek = (weekDays) => {
         console.log("openedWeekDays : ", weekDays);
-        api.createOpenedWeekDays(weekDays, this.state._id).then(res => {
+        api.createOpenedWeekDays(weekDays, _id).then(res => {
             console.log(res.data);
             console.log("openedWeekDays : ", weekDays);
             console.log('je suis dans créer room');
-            this.setState({availabilityId : res.data.availabilityId})
+            setAvailabilityId (res.data.availabilityId)
         }, error => {
             console.log(error.response.data.error);
-            this.setState({error:error.response.data.errors});
+            setError(error.response.data.errors);
         })
     };
 
 
-    send = event => {
-        if (this.state.start.length === 0) {
-            this.setState({error: "disponibilités vide"});
-        } else if (this.state.availabilityId !== null){
+    const send = event => {
+        if (start.length === 0) {
+            setError("disponibilités vide");
+        } else if (availabilityId !== null){
 
-                console.log('openedDays',this.state.openedDates);
-                api.addOpenedDates(this.state.openedDates, this.state.availabilityId).then(res => {
+                console.log('openedDays',openedDates);
+                api.addOpenedDates(openedDates, availabilityId).then(res => {
                     console.log(res.data);
                     console.log('je suis dans créer room');
                 }, error => {
                     console.log(error.response.data.error);
-                    this.setState({error:error.response.data.errors});
+                    setError(error.response.data.errors);
                 })
         } else {
 
-                console.log('openedDays',this.state.openedDates);
-                api.createOpenedDates(this.state.openedDates, this.state._id).then(res => {
+                console.log('openedDays',openedDates);
+                api.createOpenedDates(openedDates, _id).then(res => {
                     console.log(res.data);
                     console.log('je suis dans créer room');
                 }, error => {
                     console.log(error.response.data.error);
-                    this.setState({error:error.response.data.errors});
+                    setError(error.response.data.errors);
                 })
             }
     };
 
-
-    render() {
 
         return (
             <>
@@ -99,26 +84,26 @@ class AvailabilityModal extends React.Component {
                     className="btn-round"
                     color="success"
                     type="button"
-                    onClick={() => this.setState({modal: true})}
+                    onClick={() => setModal(true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
                     Ajouter des disponibilités
                 </Button>
 
 
-                <Modal size={"lg"} style={{maxWidth: '1600px', width: '80%'}} isOpen={this.state.modal} toggle={() => this.setState({modal: false})}>
+                <Modal size={"lg"} style={{maxWidth: '1600px', width: '80%'}} isOpen={modal} toggle={() => setModal(false)}>
                     <div className="modal-header justify-content-center">
                         <button
                             className="close"
                             type="button"
-                            onClick={() => this.setState({modal: false})}
+                            onClick={() =>setModal(false)}
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
                         <h4 className="title title-up">J'ajoute mes disponibilités</h4>
-                        {this.state.error ?
+                        {error ?
                             <Alert color="danger">
-                                {this.state.error}
+                                {error}
                             </Alert> : false
                         }
                     </div>
@@ -129,16 +114,16 @@ class AvailabilityModal extends React.Component {
                                 <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
 
                                 <OpenedWeekDaysPicker
-                                    roomId = {this.state._id}
+                                    roomId = {_id}
                                 />
 
                                 <i className="now-ui-icons location_bookmark"/> J'ajoute des disponibilités exeptionelles
                                 <OpenedDatesPickerContainer
-                                    roomId = {this.state._id}
+                                    roomId = {_id}
                                 />
                                 <i className="now-ui-icons location_bookmark"/> J'ajoute des fermetures exeptionelles
                                 <ClosedDatesPickerContainer
-                                    roomId = {this.state._id}
+                                    roomId = {_id}
                                 />
 
                             </FormGroup>
@@ -150,14 +135,14 @@ class AvailabilityModal extends React.Component {
                         <Button
                             color="danger"
                             type="button"
-                            onClick={() => this.setState({modal: false})}
+                            onClick={() => setModal(false)}
                         >
                             Annuler
                         </Button>
                         <Button
                             color="info"
                             type="button"
-                            onClick={this.send}
+                            onClick={send}
                         >
                             Valider
                         </Button>
@@ -166,6 +151,5 @@ class AvailabilityModal extends React.Component {
 
             </>
         );
-    }
 }
 export default AvailabilityModal;
