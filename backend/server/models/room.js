@@ -11,7 +11,11 @@ const roomSchema = mongoose.Schema({
     bail:{type:Number,  default:'100'},
     imageUrl:{type:String, default:'https://imageslocatme.s3.eu-west-3.amazonaws.com/room.jpg'},
     bookings: [{type:mongoose.Schema.Types.ObjectId, ref : 'Booking'}],
-    review:{type:Array, default:''},
+    availabilities: [{type:mongoose.Schema.Types.ObjectId, ref : 'Availability'}],
+    reviews:[{
+        stars: Number,
+        review: String,
+    }],
     userId:{type:mongoose.Schema.Types.ObjectId, ref : 'User', required:true},
     state:{type:String, default:"unpublish"}, //status false : not published
 });

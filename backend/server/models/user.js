@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
   password:{type:String, default:null},
   imageUrl:{type:String, default:'https://imageslocatme.s3.eu-west-3.amazonaws.com/user.png'},
   phoneNumber:{type:Number, required:true},
+  review:{type:Array, default:''},
 });
 
 userSchema.plugin(uniqueValidator);

@@ -98,6 +98,7 @@ function LandingPage() {
                                             state={room.state}
                                             description={room.description}
                                             userId={room.userId}
+                                            reviews={room.reviews}
                                         />
                                     </Col>
                                 ))}

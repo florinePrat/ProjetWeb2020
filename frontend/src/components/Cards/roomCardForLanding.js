@@ -9,9 +9,20 @@ import AvailabilityModal from "../../components/Modals/modalChooseAvailability";
 
 // this class send a answer to back for verify the answer and done the card of the day
 
-function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, userId, description}) {
+function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, userId, description, reviews}) {
 
         const [isDeployed, setIsDeployed] = React.useState(false);
+
+        if (isDeployed){
+            console.log("reviews : ", reviews);
+            let sum = 0;
+            for (let i = 0; i < reviews.length; i++){
+                sum += parseInt(reviews[i].stars,10);
+            }
+            var avgStars = sum/reviews.length;
+            console.log("moy : ",avgStars);
+
+        }
 
 
         return (
@@ -20,11 +31,19 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                             <Card style={{width: '18rem'}}>
                                 <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
                                 <CardBody>
-                                    <CardTitle>{title}</CardTitle>
+                                    <CardTitle>{title} {avgStars}/5 </CardTitle>
                                     <CardText>{category}</CardText>
                                     <CardText> {price}€/jour</CardText>
                                     <CardText> Adresse : {address}</CardText>
                                     <p>Ville : {city} ({postalCode}) </p>
+                                    Commentaires :
+                                    {reviews
+                                        ?reviews.map(review =>(
+                                            <div>{review.stars}/5 <br/> {review.review} <br/><br/></div>
+                                        ))
+                                    : null
+                                    }
+
 
                                     <AvailabilityModal
                                         _id={_id}

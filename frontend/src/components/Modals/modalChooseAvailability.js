@@ -57,14 +57,14 @@ function AvailabilityModal({_id, ownerId}) {
     };
 
 
-    console.log(availability[2].openedDates[0]);
+    //console.log(availability[2].openedDates[0]);
 
-    let availabilities = availability.map(avail => {
+   /* let availabilities = availability.map(avail => {
         let myAvail = {};
         myAvail[avail] = avail
     });
 
-    console.log(availabilities);
+    console.log(availabilities);*/
 
 
 
