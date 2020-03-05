@@ -3,7 +3,6 @@ import React, {useState} from "react";
 
 import {Table} from "react-bootstrap";
 import moment from 'moment';
-import 'react-daterange-picker/dist/css/react-calendar.css';
 
 const DayPicker = ({id, label, onStartTimeChange, onEndTimeChange}) => {
     const [timeRange, setTimeRange] = useState([{
