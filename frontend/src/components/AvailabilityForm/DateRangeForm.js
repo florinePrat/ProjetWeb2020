@@ -5,8 +5,6 @@ import {
 } from "reactstrap";
 
 import moment from 'moment';
-import 'react-daterange-picker/dist/css/react-calendar.css';
-import 'react-day-picker/lib/style.css';
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 
