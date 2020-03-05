@@ -10,7 +10,6 @@ import {
 import api from '../../utils/room';
 import {FormGroup, Form} from "react-bootstrap";
 import moment from 'moment';
-import 'react-daterange-picker/dist/css/react-calendar.css';
 import OpenedDatesPickerContainer from "../AvailabilityForm/Container/OpenedDatesPickerContainer";
 import ClosedDatesPickerContainer from "../AvailabilityForm/Container/ClosedDatesPickerContainer";
 import OpenedWeekDaysPicker from "../AvailabilityForm/Container/OpenedWeekDaysContainer";
