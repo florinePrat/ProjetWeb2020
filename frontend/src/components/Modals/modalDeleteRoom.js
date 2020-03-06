@@ -2,14 +2,15 @@ import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import React from "react";
 import api from "../../utils/room";
 
-function DeleteRoom({_id}) {
+function DeleteRoom({_id, onDeleted}) {
     const [modalDelete, setModalDelete] = React.useState(false);
     const [error] = React.useState(false);
 
     const deleteRoom = event => {
         api.deleteRoom(_id)
             .then(res => {
-                window.location = "/profile-page";
+                onDeleted();
+                setModalDelete(false);
                 console.log('objet supprimer !')
             })
     };

@@ -12,7 +12,7 @@ import {FormGroup,FormControl} from "react-bootstrap";
 
 // core components
 
-function CreateRoom() {
+function CreateRoom({onCreated}) {
     const [modal, setModal] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [title, setTitle] = React.useState("");
@@ -33,8 +33,9 @@ function CreateRoom() {
         } else {
             api.createOtherRoom(title,address,city,postalCode,userId).then(res => {
                 console.log(res.data);
+                setModal(false);
                 console.log('je suis dans créer room');
-                window.location = "./profile-page"
+                onCreated(res.data);
             }, error => {
                 console.log(error.response.data.error);
                 setError(error.response.data.errors);

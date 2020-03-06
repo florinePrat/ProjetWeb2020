@@ -14,7 +14,7 @@ const createRoom = async (roomObject) => {
 
 const modifyRoom = async (roomObject,_id) => {
     try{
-        return await RoomController.updateOne({_id: _id}, {...roomObject, _id: _id})
+        return await RoomController.findOneAndUpdate({_id: _id}, {...roomObject, _id: _id}, {new:true})
     }catch (error) {
         console.log(error.message);
         throw error

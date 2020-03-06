@@ -43,10 +43,10 @@ function ProfilePage() {
             document.body.classList.remove("profile-page");
             document.body.classList.remove("sidebar-collapse");
         };
-    });
+    },[]);
 
     useEffect(() => {
-        roomApi.getRoomByUser(userId)
+       roomApi.getRoomByUser(userId)
             .then(async rooms => {
                 setRooms(rooms);
                 console.log('room taille : ', rooms.length);
@@ -56,24 +56,24 @@ function ProfilePage() {
                 console.log('booking taille user : ', bookingUser.length);
 
 
-                const bookingOwner = await bookingApi.getByOwner(userId);
-                setBookingOwner(bookingOwner);
-                console.log('booking taille owner : ', bookingOwner.length);
+                const bookingOwnerz = await bookingApi.getByOwner(userId);
+                setBookingOwner(bookingOwnerz);
+                console.log('booking taille owner : ', bookingOwnerz.length);
 
 
-                setPills(bookingUser.length > 0 || bookingOwner.length > 0 && rooms.length === 0 ? "1" : "2");
+                setPills(bookingUser.length > 0 || bookingOwnerz.length > 0 && rooms.length === 0 ? "1" : "2");
 
                 if (bookingUser.length > 0) {
                     setBookingHidden(false)
                 }
 
 
-                if (bookingOwner.length > 0) {
+                if (bookingOwnerz.length > 0) {
                     setBookingOwnerHidden(false)
                 }
 
 
-                if (bookingUser.length === 0 && bookingOwner.length === 0) {
+                if (bookingUser.length === 0 && bookingOwnerz.length === 0) {
                     setBtnBooking(true)
                 }
 
@@ -102,7 +102,11 @@ function ProfilePage() {
                     <Container>
 
                         <div className="button-container">
-                            <CreateRoom/>
+                            <CreateRoom
+                                onCreated={(room)=>{
+                                    setRooms([...rooms, room])
+                                }}
+                            />
                             {/* Button to propose a room => pop a form modal : call a modalCreateOtherRoom*/}
                         </div>
 
@@ -158,7 +162,8 @@ function ProfilePage() {
                                         <h2>------ Mes réservations ------</h2>
                                         <Container>
                                             <Row>
-                                                {bookingUser.map(booking => (
+                                                {bookingUser?
+                                                    bookingUser.map(booking => (
                                                     <Col xs={4}>
                                                         <BookingCard
                                                             _id={booking._id}
@@ -167,52 +172,90 @@ function ProfilePage() {
                                                             ownerId={booking.ownerId}
                                                             customerId={booking.customerId}
                                                             roomId={booking.roomId}
+                                                            onDeleted={()=>{
+                                                                setBookingUser(bookingUser.filter(b =>{
+                                                                    return b._id !== booking._id
+                                                                }))
+                                                            }}
                                                         />
                                                     </Col>
-                                                ))}
+                                                ))
+                                                : null}
                                             </Row>
                                         </Container>
                                     </div>
-                                    <div hidden={bookingOwnerHidden}>
+                                    {bookingOwner.length ?
+                                        <div>
                                         <h2>------ Gestion de mes réservations ------</h2>
                                         <Container>
                                             <Row>
-                                                {bookingOwner.map(bookingOwner => (
+                                                {bookingOwner ?
+                                                    bookingOwner.map((b1) => (
                                                     <Col xs={4}>
                                                         <BookingOwnerCard
-                                                            _id={bookingOwner._id}
-                                                            date={bookingOwner.date}
-                                                            state={bookingOwner.state}
-                                                            roomId={bookingOwner.roomId}
-                                                            ownerId={bookingOwner.ownerId}
-                                                            customerId={bookingOwner.customerId}
+                                                            _id={b1._id}
+                                                            date={b1.date}
+                                                            state={b1.state}
+                                                            roomId={b1.roomId}
+                                                            ownerId={b1.ownerId}
+                                                            customerId={b1.customerId}
+                                                            onResponse={(response)=>{
+                                                                setBookingOwner(bookingOwner.filter(b =>{
+                                                                    return b._id !== b1._id
+                                                                }))
+                                                            }}
                                                         />
                                                     </Col>
-                                                ))}
+                                                ))
+                                                : null}
                                             </Row>
                                         </Container>
                                     </div>
+                                        :null}
                                 </TabPane>
                                 <TabPane tabId="pills2">
                                     <Container>
                                         <Row>
-                                            {rooms.map(rooms => (
+                                            {rooms ?
+                                                rooms.map(room => (
                                                 <Col xs={4}>
                                                     <RoomCard
-                                                        _id={rooms._id}
-                                                        title={rooms.title}
-                                                        price={rooms.price}
-                                                        city={rooms.city}
-                                                        postalCode={rooms.postalCode}
-                                                        address={rooms.address}
-                                                        category={rooms.category}
-                                                        bail={rooms.bail}
-                                                        description={rooms.description}
-                                                        imageUrl={rooms.imageUrl}
-                                                        state={rooms.state}
+                                                        _id={room._id}
+                                                        title={room.title}
+                                                        price={room.price}
+                                                        city={room.city}
+                                                        postalCode={room.postalCode}
+                                                        address={room.address}
+                                                        category={room.category}
+                                                        bail={room.bail}
+                                                        description={room.description}
+                                                        imageUrl={room.imageUrl}
+                                                        state={room.state}
+                                                        onPublishStateUpdate={(state)=>{
+                                                            setRooms(rooms.map(r =>
+                                                                r._id === room._id
+                                                                    ? {...r, state}
+                                                                    : r
+
+                                                            ))
+                                                        }}
+                                                        onUpdated={(res)=>{
+                                                            console.log(res);
+                                                            setRooms(rooms.map(r =>
+                                                                r._id === room._id
+                                                                    ? {...r, ...res}
+                                                                    : r
+                                                            ))
+                                                        }}
+                                                        onDeleted={()=>{
+                                                            setRooms(rooms.filter(r =>{
+                                                                return r._id !== room._id
+                                                            }))
+                                                        }}
                                                     />
                                                 </Col>
-                                            ))}
+                                            ))
+                                            : null}
                                         </Row>
                                     </Container>
                                 </TabPane>

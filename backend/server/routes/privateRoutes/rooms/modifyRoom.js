@@ -6,10 +6,8 @@ module.exports = async (req, res, next) => {
             {
                 ...JSON.parse(req.body.room),
             } : {...req.body};
-        await roomController.modifyRoom(roomObject,req.params.id);
-        return res.status(200).json({
-            message: 'Objet modifié !',
-        });
+        const room =await roomController.modifyRoom(roomObject,req.params.id);
+        return res.status(200).json(room);
     }catch{
         return res.status(500).json({
             error : "Impossible de modifier cette salle"

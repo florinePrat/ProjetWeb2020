@@ -17,9 +17,9 @@ export default {
         })
     },
 
-    requestBooking: function ({_id, state}) {
+    requestBooking: function ({_id, myState}) {
         return axios.put(burl + '/api/booking/' + _id, {
-            'state': state,
+            'state': myState,
         }, {
             headers: tokenHeaders
         })
@@ -36,11 +36,12 @@ export default {
             const res = await axios.get(burl + '/api/booking/byUser/' + userId, {
                 headers: tokenHeaders
             });
+            console.log('bbbbbbbbbbbbbbbb', res.data.booking);
             return res && res.data && res.data.booking
                 ? res.data.booking
                 : {error : 'erreur lors de la récupération des réservations'}
         } catch (error) {
-
+            return error
         }
     },
 

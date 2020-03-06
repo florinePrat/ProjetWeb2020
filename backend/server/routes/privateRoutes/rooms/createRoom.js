@@ -18,10 +18,9 @@ module.exports = async (req, res, next) => {
         };
         await sgMail.send(msg);
         console.log("envoi réussi");
-        return res.status(201).json({
-            message: 'Objet enregistré !',
-            roomId: room._id,
-        });
+        return res.status(201).json(
+            room
+        );
     }catch{
         return res.status(500).json({
             error : "Impossible de créer cette salle"

@@ -38,21 +38,25 @@ function SearchComponent({callbackFromParent, rooms}) {
 
 
 
-        console.log("affichage de rooms : ", rooms);
 
-        let optionsCategory = categories.map((data)=>
-            <option
-                key={data.name}>
-                {data.name}
-            </option>
-        );
+        if (categories){
+            var optionsCategory = categories.map((data)=>
+                <option
+                    key={data.name}>
+                    {data.name}
+                </option>
+            );
+        }
 
-        const uniqueTags = [];
-        rooms.map(data => {
-            if (uniqueTags.indexOf(data.city) === -1) {
-                uniqueTags.push(data.city)
-            }
-        });
+        if (rooms){
+            console.log("affichage de rooms : ", rooms);
+            var uniqueTags = [];
+            rooms.map(data => {
+                if (uniqueTags.indexOf(data.city) === -1) {
+                    uniqueTags.push(data.city)
+                }
+            });
+        }
 
         let optionsCities = uniqueTags.map((data)=>
             <option

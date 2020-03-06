@@ -14,40 +14,23 @@ import DeleteRoom from "../Modals/modalDeleteRoom";
 
 // this class send a answer to back for verify the answer and done the card of the day
 
-function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, bail, state, description}) {
+function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, bail, state, description, onPublishStateUpdate, onUpdated, onDeleted}) {
     const [isDeployed, setIsDeployed] = React.useState(false);
     const [setError] = React.useState(false);
     
 
-    const publish = event => {
+    const publish = state => {
         api.publishRoom({
-            state: "published",
+            state,
             _id: _id,
         }).then(res => {
-            window.location = "./profile-page";
-            {
-                alert('Votre salle à bien été publié ! :)')
-            }
+            onPublishStateUpdate(state);
         }, error => {
             console.log(error.response.data.error);
             setError(error.response.data.error);
         })
     };
 
-    const unPublish = event => {
-        api.unPublishRoom({
-            state: "publishable",
-            _id: _id,
-        }).then(res => {
-            window.location = "./profile-page";
-            {
-                alert('Votre salle à bien été dépublié ! :)')
-            }
-        }, error => {
-            console.log(error.response.data.error);
-            setError(error.response.data.error);
-        })
-    };
 
 
 
@@ -77,7 +60,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                             category = {category}
                             description = {description}
                             imageUrl = {imageUrl}
-
+                            onUpdated={onUpdated}
                         />
 
 
@@ -86,6 +69,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
 
                         <DeleteRoom
                             _id = {_id}
+                            onDeleted={onDeleted}
                         />
 
 
@@ -124,7 +108,8 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                     ? <Button
                                         className="btn-round"
                                         color="success"
-                                        onClick={publish}
+                                        onClick={()=>publish("published")
+                                        }
                                         bssize="large"
                                     >
                                         Publier
@@ -134,7 +119,8 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
 
                                         <Button
                                             className="btn-round"
-                                            onClick={unPublish}
+                                            onClick={()=>publish("publishable")
+                                            }
                                             bssize="large"
                                         >
                                             Unpublish

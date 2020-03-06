@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 // reactstrap components
 import {
     Button,
@@ -12,7 +12,6 @@ import room from '../../utils/room';
 import {FormControl, FormGroup, Form, Col} from "react-bootstrap"
 import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
 import moment from "moment";
-import RoomCard from "../Cards/roomCardForLanding";
 
 // core components
 
@@ -21,10 +20,14 @@ function AvailabilityModal({_id, ownerId}) {
 
     const [modal, setModal] = React.useState(false);
     const [userId] = React.useState(localStorage.getItem("userId"));
-    const [error,setError] = React.useState(false);
-    const [availability,setAvailability] = React.useState([]);
-    const [dispo,setDispo] = React.useState("");
-    const [state,setState] = React.useState('');
+    const [error, setError] = React.useState(false);
+    const [availability, setAvailability] = React.useState([]);
+    const [dispo ,setDispo] = React.useState("");
+    const [dates ,setDates] = useState({
+        start: false,
+        end: false
+    });
+    const [state, setState] = React.useState('');
     const [isAuth] = React.useState( auth.isAuth());
 
 
@@ -39,10 +42,32 @@ function AvailabilityModal({_id, ownerId}) {
         })
     },[]);
 
+    if (dispo !== ""){
+        var dispo1 = dispo.split(" : ");
+        var dispo2 = dispo1[1].split(" Fin");
+
+        console.log("dates", [{
+            start : moment(dispo2[0], moment.defaultFormat),
+            end : moment(dispo1[2], moment.defaultFormat)
+        }]);
+    }
+
+
+
+
+
 
     const send = event => {
+        setDates([{
+            start : moment(dispo2[0], moment.defaultFormat),
+            end : moment(dispo1[2], moment.defaultFormat)
+        }]);
+    };
+
+    useEffect(()=>{
         if (ownerId !== userId){
-            api.createBooking(dispo, state, ownerId, userId, _id).then(res => {
+            console.log('ma date de resa : ', dates);
+            api.createBooking(dates, state, ownerId, userId, _id).then(res => {
                 console.log(res.data);
                 console.log('je suis dans créer room');
                 window.location = "profile-page"
@@ -53,19 +78,7 @@ function AvailabilityModal({_id, ownerId}) {
         } else {
             setError("Désolé vous ne pouvez pas réserver votre propre salle... :)")
         }
-
-    };
-
-
-    //console.log(availability[2].openedDates[0]);
-
-   /* let availabilities = availability.map(avail => {
-        let myAvail = {};
-        myAvail[avail] = avail
-    });
-
-    console.log(availabilities);*/
-
+    },[dates]);
 
 
     return (
@@ -116,11 +129,21 @@ function AvailabilityModal({_id, ownerId}) {
                                 placeholder="Categorie *"
                                 as="select"
                                 value={dispo}
-                                onChange={e => setDispo(e.target.value)}
+                                onChange={e => setDispo(e.target.value)||console.log(e.target.value)}
                                 type="text"
                             >
                                 <option>Choisir une date</option>
-                                {/*options*/}
+                                {availability ?
+                                    availability.map(avail => (
+                                        avail.openedDates.length !== 0 ?
+                                            avail.openedDates.map(room => (
+                                                <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin
+                                                    : {moment(room.end).format("DD MM YYYY HH:mm")}</option>)
+                                            )
+                                            : null
+
+                                    ))
+                                    : null}
                             </FormControl>
 
                         </FormGroup>

@@ -11,19 +11,18 @@ import room from "../../utils/room";
 
 // this class send a answer to back for verify the answer and done the card of the day
 
-function BookingCard({ _id, date, roomId, ownerId, customerId, state}) {
+function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse}) {
     const [edit, setEdit] = React.useState(false);
     const [userId] = React.useState(localStorage.getItem("userId"));
     const [error, setError] = React.useState(false);
     const [rooms, setRooms] = React.useState([]);
     const [user, setUser] = React.useState([]);
-    const [myState, setMyState] = React.useState([state]);
 
 
     useEffect (() => {
         room.getOneRoom(roomId)
             .then(res => {
-                setRooms(res.data.room);
+                setRooms(res.data);
                 console.log(_id);
                 console.log('room', rooms)
             }, function (data) {
@@ -32,37 +31,26 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state}) {
     },[]);
 
     const requestBooking = status => {
+        console.log('statuuus  : ', status);
         api.requestBooking({
             _id: _id,
             myState: status,
         }).then(res => {
+            console.log('sttttatus',status, res.data);
 
-            {
-                alert('La requête à bien été prise en compte, nous en informons le client.')
+            if (status === "refused") {
+                /*room.updateRoomAvailabilities(
+                    rooms.availability.filter(dispo => dispo !== date),
+                    roomId
+                ).then(res => {
+
+                }, error => {
+                    console.log(error.response.data.error);
+                    setError(error.response.data.error);
+                });*/
             }
-            setMyState(status);
         })
     };
-
-    useEffect(()=>{
-        console.log('booking status ', myState);
-        if (state === "accepted"){
-            console.log("je suis dans le if", rooms.availability);
-            console.log("nouvelles dispo : ", rooms.availability.filter(dispo => dispo !== date));
-            room.updateRoomAvailabilities(
-                rooms.availability.filter(dispo => dispo !== date),
-                roomId
-            ).then(res =>{
-                window.location = "./profile-page";
-            }, error => {
-                console.log(error.response.data.error);
-                setError(error.response.data.error);
-            });
-
-        } else {
-            window.location = "./profile-page";
-        }
-    }, [myState]);
 
 
 
@@ -71,11 +59,14 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state}) {
                 <Card style={{width: '18rem'}} >
                     <CardBody>
                         <CardTitle>Réservation pour : {rooms.title}</CardTitle>
-                        <CardSubtitle>Pour le : {date} </CardSubtitle>
+                        <CardSubtitle>Pour le : {date.start} </CardSubtitle>
                             <Button
                                 color="danger"
                                 type="button"
-                                onClick={()=>requestBooking("refused")}
+                                onClick={async()=> {
+                                    await requestBooking("refused");
+                                    onResponse("refused")
+                                }}
                             >
                                 Refuser
                             </Button>
@@ -83,7 +74,10 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state}) {
                                 color="success"
                                 type="button"
                                 id="published"
-                                    onClick={()=>requestBooking("accepted")}
+                                    onClick={async()=> {
+                                        await requestBooking("accepted");
+                                        onResponse("accepted")
+                                    }}
                             >
                                 Accepter
                             </Button>

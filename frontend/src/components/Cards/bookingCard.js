@@ -1,4 +1,4 @@
-import {Component} from "react";
+import {Component, useEffect} from "react";
 import React from "react";
 import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
@@ -11,60 +11,50 @@ import {Button} from "reactstrap";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
-class bookingCard extends Component {
+function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}) {
+    const [edit, setEdit] = React.useState(false);
+    const [userId] = React.useState(localStorage.getItem("userId"));
+    const [error, setError] = React.useState(false);
+    const [rooms, setRooms] = React.useState([]);
+    const [user, setUser] = React.useState([]);
+    const [availability, setAvailability] = React.useState([]);
+    const [phoneNumber, setPhoneNumber] = React.useState('');
+    const [myState, setMyState] = React.useState([state]);
 
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            edit: false,
-            userId: localStorage.getItem("userId"),
-            date: this.props.date.substring(0, 10),
-            _id: this.props._id,
-            error: false,
-            rooms: [],
-            state: this.props.state,
-            customerId: this.props.customerId,
-            phoneNumber: '',
-            roomId: this.props.roomId,
-            availability:[],
-        };
-        this.deleteBooking = this.deleteBooking.bind(this);
-    }
+    useEffect(()=> {
+        if (myState === "accepted") {
 
-    componentDidMount() {
-        if (this.state.state === "accepted") {
-
-            auth.getUser(this.state.userId)
+            auth.getUser(userId)
                 .then(res => {
                     const user = res.data;
-                    this.setState({user: user});
+                    setUser(user);
                     console.log('my user :', user);
-                    this.setState({phoneNumber: user.phoneNumber});
-                    console.log('phoneNumber : ', this.state.phoneNumber);
+                    setPhoneNumber(user.phoneNumber);
+                    console.log('phoneNumber : ',phoneNumber);
                 }, function (data) {
                     console.log('je suis dans data erreur', data);
                 });
 
         }
-    }
+    },[]);
 
-    deleteBooking = event => {
-        if (this.state.state !== "refused") {
-            apiRoom.getOneRoom(this.state.roomId)
+    const deleteBooking = event => {
+        if (myState !== "refused") {
+            apiRoom.getOneRoom(roomId)
                 .then(res => {
                         const room = res.data.room;
-                        this.setState({availability: room.availability});
-                        console.log('availability', this.state.availability);
+                        setAvailability(room.availability);
+                        console.log('availability', availability);
 
-                        apiRoom.updateRoomAvailabilities(this.state.availability.concat([this.state.date.substring(0, 10)]), this.state.roomId)
+                        apiRoom.updateRoomAvailabilities(availability.concat([date]), roomId)
                             .then(res => {
-                                console.log('date a ajoter : ', this.state.date.substring(0, 10));
-                                console.log('new availability', this.state.availability.concat([this.state.date.substring(0, 10)]));
+                                console.log('date a ajoter : ', date);
+                                console.log('new availability', availability.concat([date]));
 
-                                api.deleteBooking(this.state._id)
+                                api.deleteBooking(_id)
                                     .then(res => {
-                                        window.location = "profile-page";
+                                        onDeleted();
                                         console.log('objet supprimer !')
                                     })
                             });
@@ -77,23 +67,20 @@ class bookingCard extends Component {
 
     };
 
-
-    render() {
-
         return (
 
                 <Card style={{width: '18rem'}} >
                     <CardBody>
-                        <CardTitle>Etat : {this.state.state}</CardTitle>
-                        <CardSubtitle>Date : {this.state.date.substring(0, 10)} </CardSubtitle>
+                        <CardTitle>Etat : {myState}</CardTitle>
+                        <CardSubtitle>Date : {date.start} </CardSubtitle>
                         <br/>
-                        {this.state.state === "accepted"
-                            ? <CardTitle>Contact propriétaire de la salle : 0{this.state.phoneNumber} </CardTitle>
+                        {myState === "accepted"
+                            ? <CardTitle>Contact propriétaire de la salle : 0{phoneNumber} </CardTitle>
                             : null
                         }
                         <Button
                             type="button"
-                            onClick={this.deleteBooking}
+                            onClick={deleteBooking}
                         >
                             Annuler réservation
                         </Button>
@@ -101,7 +88,6 @@ class bookingCard extends Component {
                 </Card>
         )
 
-    }
 }
 
-export default bookingCard;
+export default BookingCard;

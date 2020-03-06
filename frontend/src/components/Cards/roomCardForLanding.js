@@ -38,7 +38,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                     <p>Ville : {city} ({postalCode}) </p>
                                     Commentaires :
                                     {reviews
-                                        ?reviews.map(review =>(
+                                        ? reviews.map(review =>(
                                             <div>{review.stars}/5 <br/> {review.review} <br/><br/></div>
                                         ))
                                     : null

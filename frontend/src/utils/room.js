@@ -132,13 +132,6 @@ export default {
         })
     },
 
-    unPublishRoom: function ({state, _id}) {
-        return axios.put(burl + '/api/room/' + _id, {
-            'state': state,
-        }, {
-            headers: tokenHeaders
-        })
-    },
 
     getAllSearchRooms: function (category, city) {
         console.log(burl + '/api/publicRoom/' + category + '/' + city);

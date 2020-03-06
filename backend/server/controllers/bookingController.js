@@ -2,6 +2,7 @@ const BookingController = require('../models/booking');
 
 const createBooking = async (bookingObject) => {
     try{
+        console.log(bookingObject.date);
         const booking = new BookingController({
             ...bookingObject,
         });
@@ -15,7 +16,8 @@ const createBooking = async (bookingObject) => {
 
 const modifyBooking = async (bookingObject,_id) => {
     try{
-        return await BookingController.updateOne({_id: _id}, {...bookingObject, _id: _id})
+        console.log('ici : ', bookingObject);
+        return await BookingController.findOneAndUpdate({_id: _id}, {...bookingObject, _id: _id},{new:true})
     }catch (error) {
         console.log(error.message);
         throw error
@@ -45,7 +47,7 @@ let recentDate = new Date();
 
 const getBookingByUser = async (customerId) => {
     try{
-        return await BookingController.find({$and : [{customerId: customerId}, {date : {$gt: recentDate}}]})
+        return await BookingController.find({$and : [{customerId: customerId}, {"date.start" : {$gt: recentDate}}]})
     }catch (error) {
         console.log(error.message);
         throw error
@@ -54,7 +56,7 @@ const getBookingByUser = async (customerId) => {
 
 const getBookingByOwner = async (ownerId) => {
     try{
-        return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}, {date : {$gt: recentDate}}]})
+        return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}, {"date.start" : {$gt: recentDate}}]})
     }catch (error) {
         console.log(error.message);
         throw error

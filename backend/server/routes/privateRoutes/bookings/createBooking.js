@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
         const booking = await bookingController.createBooking(bookingObject);
         //const user = await userController.getUserById(booking.userId);
         //const owner = await userController.getUserById(booking.ownerId);
-        console.log('testgetmail', booking);
+        //console.log('testgetmail', booking);
         /*sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
             to: user.email.toString(),

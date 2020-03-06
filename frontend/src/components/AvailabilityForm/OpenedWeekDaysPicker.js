@@ -44,7 +44,8 @@ const OpenedWeekDayPicker = ({weekDays, setWeekDays}) => {
         </tr>
         </thead>
         <tbody>
-        {weekDays.map(day => <DayPicker
+        {weekDays ?
+            weekDays.map(day => <DayPicker
          id={day.id}
          label={day.label}
          onStartTimeChange={time => setWeekDays(weekDays.map(weekDay => weekDay.id === day.id
@@ -53,7 +54,7 @@ const OpenedWeekDayPicker = ({weekDays, setWeekDays}) => {
          onEndTimeChange={time => setWeekDays(weekDays.map(weekDay => weekDay.id === day.id
              ? {...weekDay, endTime: time}
              : weekDay))}
-        />)}
+        />) : null}
         </tbody>
     </Table>
 };

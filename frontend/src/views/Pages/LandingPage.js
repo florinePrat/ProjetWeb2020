@@ -84,24 +84,28 @@ function LandingPage() {
                         <br/>
                         <Container>
                             <Row>
-                                {rooms.map(room => (
-                                    <Col xs={4}>
-                                        <RoomCard
-                                            _id={room._id}
-                                            title={room.title}
-                                            price={room.price}
-                                            city={room.city}
-                                            address={room.address}
-                                            postalCode={room.postalCode}
-                                            imageUrl={room.imageUrl}
-                                            category={room.category}
-                                            state={room.state}
-                                            description={room.description}
-                                            userId={room.userId}
-                                            reviews={room.reviews}
-                                        />
-                                    </Col>
-                                ))}
+                                {rooms ?
+                                    rooms.map(room => (
+                                        <Col xs={4}>
+                                            <RoomCard
+                                                _id={room._id}
+                                                title={room.title}
+                                                price={room.price}
+                                                city={room.city}
+                                                address={room.address}
+                                                postalCode={room.postalCode}
+                                                imageUrl={room.imageUrl}
+                                                category={room.category}
+                                                state={room.state}
+                                                description={room.description}
+                                                userId={room.userId}
+                                                reviews={room.reviews}
+                                            />
+                                        </Col>
+
+                                    ))
+                                    : null
+                                }
                             </Row>
                         </Container>
                         <DefaultFooter/>
