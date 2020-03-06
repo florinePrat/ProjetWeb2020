@@ -22,6 +22,7 @@ function AvailabilityModal({_id, ownerId}) {
     const [userId] = React.useState(localStorage.getItem("userId"));
     const [error, setError] = React.useState(false);
     const [availability, setAvailability] = React.useState([]);
+    const [bookingDates, setBookingDates] = React.useState([]);
     const [dispo ,setDispo] = React.useState("");
     const [dates ,setDates] = useState({
         start: false,
@@ -39,22 +40,39 @@ function AvailabilityModal({_id, ownerId}) {
         }, error => {
             console.log(error);
             setError(error.response.error);
-        })
+        });
+        console.log('id:', _id);
+
+        api.getByRoom(_id).then(res=>{
+            console.log("booking for this room : ", res);
+            setBookingDates(res);
+        }, error => {
+            console.log(error);
+            setError(error.response.error);
+        });
     },[]);
+
+    var bookingDatesStart = [];
+    var bookingDatesEnd = [];
+    bookingDates.map(bookingDate =>{
+        bookingDate.date.map(date=>{
+            bookingDatesStart.push(date.start);
+            bookingDatesEnd.push(date.end)
+        })
+    });
+    console.log(bookingDatesStart, bookingDatesEnd);
 
     if (dispo !== ""){
         var dispo1 = dispo.split(" : ");
         var dispo2 = dispo1[1].split(" Fin");
 
+        console.log(dispo2[0], dispo1[2]);
+
         console.log("dates", [{
-            start : moment(dispo2[0], moment.defaultFormat),
-            end : moment(dispo1[2], moment.defaultFormat)
+            start : moment(dispo2[0]).format("YYYY-MM-DDTHH:mm"),
+            end : moment(dispo1[2]).format("YYYY-MM-DDTHH:mm")
         }]);
     }
-
-
-
-
 
 
     const send = event => {
@@ -136,7 +154,9 @@ function AvailabilityModal({_id, ownerId}) {
                                 {availability ?
                                     availability.map(avail => (
                                         avail.openedDates.length !== 0 ?
-                                            avail.openedDates.map(room => (
+                                            avail.openedDates.filter(date =>{
+                                                return date.start !== bookingDatesStart && date.end !== bookingDatesEnd
+                                            }).map(room => (
                                                 <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin
                                                     : {moment(room.end).format("DD MM YYYY HH:mm")}</option>)
                                             )

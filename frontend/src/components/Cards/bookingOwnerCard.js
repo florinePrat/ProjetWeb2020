@@ -7,6 +7,7 @@ import CardSubtitle from "reactstrap/es/CardSubtitle";
 import api from "../../utils/booking";
 import {Button} from "reactstrap";
 import room from "../../utils/room";
+import moment from "moment";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
@@ -29,6 +30,8 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
                 console.log(data);
             });
     },[]);
+
+    console.log('date booking', date[0].start);
 
     const requestBooking = status => {
         console.log('statuuus  : ', status);
@@ -59,7 +62,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
                 <Card style={{width: '18rem'}} >
                     <CardBody>
                         <CardTitle>Réservation pour : {rooms.title}</CardTitle>
-                        <CardSubtitle>Pour le : {date.start} </CardSubtitle>
+                        <CardSubtitle>Pour le : {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
                             <Button
                                 color="danger"
                                 type="button"

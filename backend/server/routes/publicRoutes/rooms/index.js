@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get('/', require('./getAllRooms'));
-router.get('/:category/:city', require('./getAllSearchRooms'));
+router.get('/search', require('./getAllSearchRooms'));
 router.get('/categories', require('./categories'));
 
 

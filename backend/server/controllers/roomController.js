@@ -50,7 +50,8 @@ const getAllRooms = async () => {
 
 const getAllSearchRooms = async (category, city) => {
     try{
-        if (category !== 'null' && city !== 'null') {
+        console.log(category)
+        if (category && city) {
             return await RoomController.find(
                 {
                     $and:

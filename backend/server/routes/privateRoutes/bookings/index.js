@@ -8,5 +8,6 @@ router.delete('/:id',  require('./deleteBooking'));
 router.get('/:id',  require('./getOneBooking'));
 router.get('/byUser/:id', require('./getBookingByUser'));
 router.get('/byOwner/:id',  require('./getBookingByOwner'));
+router.get('/byRoom/:id',  require('./getBookingByRoom'));
 
 module.exports = router;

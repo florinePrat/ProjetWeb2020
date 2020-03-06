@@ -28,12 +28,6 @@ function ProfilePageHeader() {
   },[]);
 
 
-  const logout = event => {
-    console.log("logout called");
-    auth.logout();
-    window.location= '/';
-  };
-
   const upload = () => {
     document.getElementById("selectImage").click();
   };
@@ -105,9 +99,6 @@ function ProfilePageHeader() {
 
             </div>
 
-            <div className="social-description">
-              <Nav.Link onClick={logout} >Logout</Nav.Link>
-            </div>
           </div>
         </Container>
       </div>

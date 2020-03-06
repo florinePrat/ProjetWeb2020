@@ -45,6 +45,20 @@ export default {
         }
     },
 
+    getByRoom: async function (roomId) {
+        try {
+            const res = await axios.get(burl + '/api/booking/byRoom/' + roomId, {
+                headers: tokenHeaders
+            });
+            console.log('bbbbbbbbbbbbbbbb', res.data.booking);
+            return res && res.data && res.data.booking
+                ? res.data.booking
+                : {error : 'erreur lors de la récupération des réservations'}
+        } catch (error) {
+            return error
+        }
+    },
+
     getByOwner : async function (ownerId){
         try {
             const res = await axios.get(burl + '/api/booking/byOwner/' + ownerId, {

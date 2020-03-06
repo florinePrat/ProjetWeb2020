@@ -89,7 +89,7 @@ function ProfilePage() {
 
 
     }, [userId]);
-
+    console.log(bookingUser);
 
     return (
 

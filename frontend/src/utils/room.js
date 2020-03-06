@@ -134,8 +134,8 @@ export default {
 
 
     getAllSearchRooms: function (category, city) {
-        console.log(burl + '/api/publicRoom/' + category + '/' + city);
-        return axios.get(burl + '/api/publicRoom/' + category + '/' + city, {
+        console.log(burl + `/api/publicRoom?${category ? "category=" + category + "&" : ""}${city ? "city=" + city : ""}`);
+        return axios.get(burl +  `/api/publicRoom/search?${category ? "category=" + category + "&" : ""}${city ? "city=" + city : ""}`, {
             headers: basicHeaders
         })
     },

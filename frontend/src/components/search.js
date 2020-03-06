@@ -8,8 +8,8 @@ import myCategories from "../utils/categories";
 // core components
 
 function SearchComponent({callbackFromParent, rooms}) {
-    const [category, setCategory] = React.useState('null');
-    const [city, setCity] = React.useState('null');
+    const [category, setCategory] = React.useState(null);
+    const [city, setCity] = React.useState(null);
     const [categories, setCategories] = React.useState([]);
     const [search, setSearch] = React.useState([category, city]);
 

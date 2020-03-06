@@ -3,8 +3,8 @@ const bookingController = require('../../../controllers/bookingController');
 module.exports = async (req, res, next) => {
 
     try{
-        const booking = await bookingController.getBookingByUser(req.params.id);
-        console.log('bbbbbbbbb: ', booking[0].date[0].start);
+        const booking = await bookingController.getBookingByRoom(req.params.id);
+        console.log('booooking: ', booking[0].date[0].start);
         return res.status(200).json({
             booking : booking
         });

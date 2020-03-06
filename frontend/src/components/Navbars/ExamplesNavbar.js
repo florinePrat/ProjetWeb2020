@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -11,12 +11,35 @@ import {
   Container,
   UncontrolledTooltip
 } from "reactstrap";
+import auth from "../../utils/auth";
+import user from "../../utils/users";
 
 
 
 function ExamplesNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
+  const [userId] = React.useState(localStorage.getItem('userId'));
+  const [imageUrl, setImageUrl] = React.useState(localStorage.getItem('userId'));
+
+  useEffect(() => {
+    user.getUser(userId)
+        .then(res =>{
+          const user = res.data;
+          console.log("my user ; ",user);
+          setImageUrl(user.imageUrl);
+          console.log('my user image :', imageUrl);
+        }, function (data) {
+          console.log('je suis dans data erreur', data);
+        });
+  },[]);
+
+  const logout = event => {
+    console.log("logout called");
+    auth.logout();
+    window.location= '/';
+  };
+
   React.useEffect(() => {
     const updateNavbarColor = () => {
       if (
@@ -51,6 +74,7 @@ function ExamplesNavbar() {
         <Container>
 
           <div className="navbar-translate">
+
             <NavbarBrand
               href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar"
               target="_blank"
@@ -84,36 +108,30 @@ function ExamplesNavbar() {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/profile-page">
-                  Profil
+                <NavLink to="/profile-page" tag={Link}>
+                  <img
+                      id="photo"
+                      alt="..."
+                      src={imageUrl}
+                      height={20}
+                  />
+                  {" \u00a0"}Profil
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="https://twitter.com/CreativeTim?ref=creativetim"
-                  target="_blank"
-                  id="twitter-tooltip"
+                    onClick={logout}
+                    target="_blank"
+                    id="logout"
                 >
-                  <i className="fab fa-twitter"/>
-                  <p className="d-lg-none d-xl-none">Mes salles</p>
+                  <i className="fas fa-power-off"/>
+                  <p className="d-lg-none d-xl-none"> {" \u00a0"} Déconnexion</p>
                 </NavLink>
-                <UncontrolledTooltip target="#twitter-tooltip">
-                  Gérer mes salles
+                <UncontrolledTooltip target="#logout">
+                  Me déconnecter
                 </UncontrolledTooltip>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  href="https://www.facebook.com/CreativeTim?ref=creativetim"
-                  target="_blank"
-                  id="facebook-tooltip"
-                >
-                  <i className="fab fa-facebook-square"/>
-                  <p className="d-lg-none d-xl-none">Mes reservations</p>
-                </NavLink>
-                <UncontrolledTooltip target="#facebook-tooltip">
-                  Gérer mes reservations
-                </UncontrolledTooltip>
-              </NavItem>
+
 
             </Nav>
           </Collapse>

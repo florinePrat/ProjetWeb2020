@@ -54,6 +54,15 @@ const getBookingByUser = async (customerId) => {
     }
 };
 
+const getBookingByRoom = async (roomId) => {
+    try{
+        return await BookingController.find({$and : [{roomId: roomId}, {"date.start" : {$gt: recentDate}}]})
+    }catch (error) {
+        console.log(error.message);
+        throw error
+    }
+};
+
 const getBookingByOwner = async (ownerId) => {
     try{
         return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}, {"date.start" : {$gt: recentDate}}]})
@@ -68,6 +77,7 @@ module.exports = {
     getOneBooking,
     getBookingByUser,
     getBookingByOwner,
+    getBookingByRoom,
     modifyBooking,
     createBooking
 };
