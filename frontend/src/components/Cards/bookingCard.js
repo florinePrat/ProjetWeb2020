@@ -5,6 +5,8 @@ import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import auth from "../../utils/auth";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
+import apiRoom from '../../utils/room';
+import api from '../../utils/booking';
 import {Button} from "reactstrap";
 import moment from "moment";
 
@@ -19,17 +21,18 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}
     const [availability, setAvailability] = React.useState([]);
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [myState, setMyState] = React.useState([state]);
+    const [review, setReview] = React.useState([]);
+    const now = moment();
 
 
     useEffect(()=> {
-        if (myState === "accepted") {
+        if (state === "accepted") {
 
             auth.getUser(userId)
                 .then(res => {
-                    const user = res.data;
-                    setUser(user);
+                    setUser(res.data);
                     console.log('my user :', user);
-                    setPhoneNumber(user.phoneNumber);
+                    setPhoneNumber(res.data.phoneNumber);
                     console.log('phoneNumber : ',phoneNumber);
                 }, function (data) {
                     console.log('je suis dans data erreur', data);
@@ -38,32 +41,30 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}
         }
     },[]);
 
+    const createReview = event => {
+        if (myState !== "accepted") {
+
+            apiRoom.createReview(review, _id)
+                .then(res => {
+                    console.log('')
+                }, function (data) {
+                    console.log('je suis dans data erreur', data);
+                });
+        }
+    };
+
+
     const deleteBooking = event => {
         if (myState !== "refused") {
-           /* apiRoom.getOneRoom(roomId)
+
+            api.deleteBooking(_id)
                 .then(res => {
-                        const room = res.data;
-                        setAvailability(room.availability);
-                        console.log('availability', availability);
-
-                        apiRoom.updateRoomAvailabilities(availability.concat([date]), roomId)
-                            .then(res => {
-                                console.log('date a ajouter : ', date);
-                                console.log('new availability', availability.concat([date]));
-
-                                api.deleteBooking(_id)
-                                    .then(res => {
-                                        onDeleted();
-                                        console.log('objet supprimer !')
-                                    })
-                            });
-
-                    }
-                    , function (data) {
-                        console.log('je suis dans data erreur', data);
-                    });*/
+                    onDeleted();
+                    console.log('objet supprimer !')
+                }, function (data) {
+                    console.log('je suis dans data erreur', data);
+                });
         }
-
     };
 
         return (
@@ -71,18 +72,28 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}
                 <Card style={{width: '18rem'}} >
                     <CardBody>
                         <CardTitle>Etat : {myState}</CardTitle>
-                        <CardSubtitle>Date :  {moment(date[0].start).format("DD MM YYYY HH:mm") && console.log(date[0].start)} </CardSubtitle>
+                        <CardSubtitle>Date :  {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
                         <br/>
-                        {myState === "accepted"
-                            ? <CardTitle>Contact propriétaire de la salle : 0{phoneNumber} </CardTitle>
+                        {state === "accepted"
+                            ? <CardTitle>Contact du propriétaire de la salle : 0{phoneNumber} </CardTitle>
                             : null
                         }
-                        <Button
-                            type="button"
-                            onClick={deleteBooking}
-                        >
-                            Annuler réservation
-                        </Button>
+                        {now > moment(date[0].start)
+                            ? <Button
+                                type="button"
+                                color="info"
+                                onClick={createReview}
+                            >
+                                Laisser un avis à la salle
+                            </Button>
+                        : <Button
+                                type="button"
+                                onClick={deleteBooking}
+                            >
+                                Annuler réservation
+                            </Button>
+                        }
+
                     </CardBody>
                 </Card>
         )

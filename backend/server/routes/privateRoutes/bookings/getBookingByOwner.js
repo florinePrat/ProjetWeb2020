@@ -4,6 +4,7 @@ module.exports = async (req, res, next) => {
 
     try{
         const booking = await bookingController.getBookingByOwner(req.params.id);
+        console.log('avoir',booking);
         return res.status(200).json({
             booking : booking
         });

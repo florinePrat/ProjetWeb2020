@@ -47,7 +47,8 @@ let recentDate = new Date();
 
 const getBookingByUser = async (customerId) => {
     try{
-        return await BookingController.find({$and : [{customerId: customerId}, {"date.start" : {$gt: recentDate}}]})
+        //return await BookingController.find({$and : [{customerId: customerId}, {"date.start": {$gt: recentDate}}]})
+        return await BookingController.find({customerId: customerId})
     }catch (error) {
         console.log(error.message);
         throw error
@@ -56,7 +57,8 @@ const getBookingByUser = async (customerId) => {
 
 const getBookingByRoom = async (roomId) => {
     try{
-        return await BookingController.find({$and : [{roomId: roomId}, {"date.start" : {$gt: recentDate}}]})
+        //return await BookingController.find({$and : [{roomId: roomId}, {"date.start" : {$gt: recentDate}}]})
+        return await BookingController.find({roomId: roomId})
     }catch (error) {
         console.log(error.message);
         throw error
@@ -65,7 +67,8 @@ const getBookingByRoom = async (roomId) => {
 
 const getBookingByOwner = async (ownerId) => {
     try{
-        return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}, {"date.start" : {$gt: recentDate}}]})
+        //return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}, {"date.start" : {$gt: recentDate}}]})
+        return await BookingController.find({$and : [{ownerId: ownerId}, {state: "awaitingValidation"}]})
     }catch (error) {
         console.log(error.message);
         throw error

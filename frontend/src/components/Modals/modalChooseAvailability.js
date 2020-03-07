@@ -8,10 +8,10 @@ import {
 
 import api from '../../utils/booking';
 import auth from '../../utils/auth';
-import room from '../../utils/room';
+import apiRoom from '../../utils/room';
 import {FormControl, FormGroup, Form, Col} from "react-bootstrap"
 import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
-import moment from "moment";
+import moment, {defaultFormat} from "moment";
 
 // core components
 
@@ -33,7 +33,7 @@ function AvailabilityModal({_id, ownerId}) {
 
 
     useEffect(()=>{
-        room.getOpenedDates(_id).then(res =>{
+        apiRoom.getOpenedDates(_id).then(res =>{
             console.log("availability for this room : ", res.data.availability);
             setAvailability (res.data.availability);
 
@@ -52,33 +52,24 @@ function AvailabilityModal({_id, ownerId}) {
         });
     },[]);
 
-    var bookingDatesStart = [];
-    var bookingDatesEnd = [];
-    bookingDates.map(bookingDate =>{
-        bookingDate.date.map(date=>{
-            bookingDatesStart.push(date.start);
-            bookingDatesEnd.push(date.end)
-        })
-    });
-    console.log(bookingDatesStart, bookingDatesEnd);
 
-    if (dispo !== ""){
+    if (dispo !== "" && dispo !== "Choisir une date"){
         var dispo1 = dispo.split(" : ");
         var dispo2 = dispo1[1].split(" Fin");
 
         console.log(dispo2[0], dispo1[2]);
 
         console.log("dates", [{
-            start : moment(dispo2[0]).format("YYYY-MM-DDTHH:mm"),
-            end : moment(dispo1[2]).format("YYYY-MM-DDTHH:mm")
+            start : moment(dispo2[0], 'DD MM YYYY HH:mm').toISOString(),
+            end : moment(dispo1[2],'DD MM YYYY HH:mm').toISOString(),
         }]);
     }
 
 
     const send = event => {
         setDates([{
-            start : moment(dispo2[0], moment.defaultFormat),
-            end : moment(dispo1[2], moment.defaultFormat)
+            start : moment(dispo2[0], 'DD MM YYYY HH:mm').toISOString(),
+            end :moment(dispo1[2],'DD MM YYYY HH:mm').toISOString(),
         }]);
     };
 
@@ -154,16 +145,21 @@ function AvailabilityModal({_id, ownerId}) {
                                 {availability ?
                                     availability.map(avail => (
                                         avail.openedDates.length !== 0 ?
-                                            avail.openedDates.filter(date =>{
-                                                return date.start !== bookingDatesStart && date.end !== bookingDatesEnd
-                                            }).map(room => (
-                                                <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin
-                                                    : {moment(room.end).format("DD MM YYYY HH:mm")}</option>)
-                                            )
+                                            bookingDates.map(bookingDate => {
+                                                bookingDate.date.map(bDate => {
+                                                    avail.openedDates.filter(date => {
+                                                        console.log(date.start, bDate.start, date.start !== bDate.start && date.end !== bDate.end);
+                                                        return date.start !== bDate.start && date.end !== bDate.end
+                                                    }).map(room => {
+                                                        return <option> test : {room.start}</option>
+                                                        // console.log(room.start)
+                                                    })
+                                                })
+                                            })
                                             : null
-
                                     ))
                                     : null}
+
                             </FormControl>
 
                         </FormGroup>

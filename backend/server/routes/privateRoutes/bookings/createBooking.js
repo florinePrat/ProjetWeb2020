@@ -34,10 +34,10 @@ module.exports = async (req, res, next) => {
         console.log("envoi owner réussi");*/
 
         return res.status(201).json({
-            message: 'Objet enregistré !',
-            bookingId: booking._id,
+            booking
         });
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.status(500).json({
             error : "Impossible de créer cette reservation"
         }) ;

@@ -60,6 +60,15 @@ export default {
         })
     },
 
+    createReview: function (reviews, _id) {
+        return axios.put(burl + '/api/room/' + _id, {
+            reviews
+        }, {
+            headers: tokenHeaders
+        })
+    },
+
+
     createOpenedDates: function (openedDates, roomId) {
         console.log("openedDates : ", openedDates ,' et room id : ', roomId);
         return axios.post(burl + '/api/availability/', {

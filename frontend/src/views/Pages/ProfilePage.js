@@ -162,7 +162,7 @@ function ProfilePage() {
                                         <h2>------ Mes réservations ------</h2>
                                         <Container>
                                             <Row>
-                                                {bookingUser?
+                                                {bookingUser.length?
                                                     bookingUser.map(booking => (
                                                     <Col xs={4}>
                                                         <BookingCard
