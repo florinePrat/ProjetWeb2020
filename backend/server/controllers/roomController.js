@@ -21,6 +21,16 @@ const modifyRoom = async (roomObject,_id) => {
     }
 };
 
+const addReview = async (roomObject,_id) => {
+    try{
+        return await RoomController.findOneAndUpdate({_id: _id}, {$push: {reviews : roomObject}}, {new:true})
+    }catch (error) {
+        console.log(error.message);
+        throw error
+    }
+};
+
+
 const deleteRoom = async (_id) => {
     try{
         return await RoomController.deleteOne({_id})
@@ -50,7 +60,7 @@ const getAllRooms = async () => {
 
 const getAllSearchRooms = async (category, city) => {
     try{
-        console.log(category)
+        console.log(category);
         if (category && city) {
             return await RoomController.find(
                 {
@@ -89,6 +99,7 @@ module.exports = {
     createRoom,
     modifyRoom,
     deleteRoom,
+    addReview,
     getOneRoom,
     getAllRooms,
     getAllSearchRooms,

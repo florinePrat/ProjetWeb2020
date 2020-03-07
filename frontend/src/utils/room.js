@@ -61,7 +61,7 @@ export default {
     },
 
     createReview: function (reviews, _id) {
-        return axios.put(burl + '/api/room/' + _id, {
+        return axios.put(burl + '/api/room/review/' + _id, {
             reviews
         }, {
             headers: tokenHeaders
