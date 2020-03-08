@@ -2,7 +2,7 @@ import {Alert, Button, Modal, ModalBody, UncontrolledTooltip} from "reactstrap";
 import React, {useEffect} from "react";
 import api from "../../utils/room";
 
-function CreateReviewRoom({_id}) {
+function CreateReviewRoom({roomId,_id, onAddReview}) {
     const [modalReview, setModalReview] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [reviews, setReviews] = React.useState([]);
@@ -12,22 +12,27 @@ function CreateReviewRoom({_id}) {
 
 
     const createReview = event => {
-        setReviews([{stars : Number(stars), review : review}]);
+        setReviews({stars : Number(stars), review : review});
     };
 
     useEffect(()=>{
         console.log('test reviews',reviews);
-        console.log(_id);
-        if (stars < 1 || stars > 5){
-            setError("Attention la valeur que vous voulez envoyer n'est pas correcte.")
-        }else{
-            setError(false);
-            api.createReview(reviews, _id)
-            .then(res => {
-                console.log(res.data);
-            }, function (data) {
-                console.log('je suis dans data erreur', data);
-            });
+        if(reviews){
+            console.log('test reviews',reviews);
+            console.log(_id);
+            if (stars < 1 || stars > 5){
+                setError("Attention la valeur que vous voulez envoyer n'est pas correcte.")
+            }else{
+                setError(false);
+                api.createReview(reviews, roomId, _id)
+                    .then(res => {
+                        console.log(res.data);
+                        setModalReview(false);
+                        onAddReview();
+                    }, function (data) {
+                        console.log('je suis dans data erreur', data);
+                    });
+            }
         }
     },[reviews]);
 

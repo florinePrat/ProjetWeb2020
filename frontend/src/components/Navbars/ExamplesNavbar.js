@@ -111,7 +111,7 @@ function ExamplesNavbar() {
                 <NavLink to="/profile-page" tag={Link}>
                   <img
                       id="photo"
-                      alt="..."
+                      alt="photo de profil"
                       src={imageUrl}
                       height={20}
                   />

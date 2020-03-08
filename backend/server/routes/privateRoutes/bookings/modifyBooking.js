@@ -8,9 +8,15 @@ module.exports = async (req, res, next) => {
             } : {...req.body};
         console.log('bbbboookingg , ', req.body);
         const book = await bookingController.modifyBooking(bookingObject,req.params.id);
-        console.log(book.state);
-        return res.status(200).json(book);
-    }catch{
+        if(!book){
+            //if data is empty we return 400 status
+            return res.status(400).json({error: "Aucune booking"});
+        }else{
+            console.log(book.state);
+            return res.status(200).json(book);
+        }
+    }catch(e){
+        console.log(e);
         return res.status(500).json({
             error : "Impossible de modifier cette reservation"
         }) ;

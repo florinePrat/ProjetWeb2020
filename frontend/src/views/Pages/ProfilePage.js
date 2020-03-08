@@ -180,6 +180,11 @@ function ProfilePage() {
                                                                     return b._id !== booking._id
                                                                 }))
                                                             }}
+                                                            onAddReview={()=>{
+                                                                setBookingUser(bookingUser.filter(b =>{
+                                                                    return b._id !== booking._id
+                                                                }))
+                                                            }}
                                                         />
                                                     </CardDeck>
                                                 ))

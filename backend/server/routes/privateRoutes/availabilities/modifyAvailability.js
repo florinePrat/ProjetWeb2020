@@ -10,7 +10,8 @@ module.exports = async (req, res, next) => {
         return res.status(200).json({
             message: 'Objet modifié !',
         });
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.status(500).json({
             error : "Impossible de modifier cette reservation"
         }) ;

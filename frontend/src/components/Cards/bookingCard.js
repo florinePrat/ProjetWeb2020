@@ -12,7 +12,7 @@ import moment from "moment";
 
 
 // this class send a answer to back for verify the answer and done the card of the day
-function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}) {
+function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,onAddReview}) {
     const [edit, setEdit] = React.useState(false);
     const [userId] = React.useState(localStorage.getItem("userId"));
     const [error, setError] = React.useState(false);
@@ -68,6 +68,8 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted}
                     {now > moment(date[0].start)
                         ? <CreateReviewRoom
                             _id = {_id}
+                            roomId = {roomId}
+                            onAddReview={onAddReview}
                         />
                     : <Button
                             type="button"

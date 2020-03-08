@@ -29,7 +29,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
             isDeployed
                 ?
                             <Card style={{width: '18rem'}}>
-                                <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
+                                <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
                                 <CardBody>
                                     <CardTitle>{title} {avgStars}/5 </CardTitle>
                                     <CardText>{category}</CardText>
@@ -64,7 +64,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                             </Card>
                 :
                         <Card style={{width: '18rem'}}>
-                            <CardImg top width="100%" src={imageUrl} alt="Card image cap" />
+                            <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
                             <CardBody>
                                 <CardTitle>{title}</CardTitle>
                                 <CardText>{category}</CardText>

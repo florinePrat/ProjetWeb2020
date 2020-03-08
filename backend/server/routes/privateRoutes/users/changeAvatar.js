@@ -1,6 +1,5 @@
 const userController = require('../../../controllers/userController');
 module.exports = async (req, res, next) => {
-
     try{
         const userObject = req.file ?
             {
@@ -11,7 +10,8 @@ module.exports = async (req, res, next) => {
         return res.status(200).json({
             message: 'User modifié !',
         });
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.status(500).json({
             error : "Impossible de modifier ce user"
         }) ;

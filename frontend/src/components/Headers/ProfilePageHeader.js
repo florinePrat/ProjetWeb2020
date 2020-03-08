@@ -22,8 +22,8 @@ function ProfilePageHeader() {
       console.log("my user ; ",user);
       setImageUrl(user.imageUrl);
       console.log('my user image :', imageUrl);
-    }, function (data) {
-      console.log('je suis dans data erreur', data);
+    }, error => {
+      console.log('je suis dans data erreur', error);
     });
   },[]);
 
@@ -75,7 +75,7 @@ function ProfilePageHeader() {
               <img
                   id="photoInitiale"
                   onClick={upload}
-                  alt="..."
+                  alt="photo de profil"
                   src={imageUrl}
               />
           </div>

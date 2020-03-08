@@ -48,7 +48,7 @@ let recentDate = new Date();
 const getBookingByUser = async (customerId) => {
     try{
         //return await BookingController.find({$and : [{customerId: customerId}, {"date.start": {$gt: recentDate}}]})
-        return await BookingController.find({customerId: customerId})
+        return await BookingController.find({$and : [{customerId: customerId}, {state:{$ne:"archived"} }]})
     }catch (error) {
         console.log(error.message);
         throw error

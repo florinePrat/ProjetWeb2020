@@ -142,20 +142,26 @@ function AvailabilityModal({_id, ownerId}) {
                                 type="text"
                             >
                                 <option>Choisir une date</option>
-                                {availability ?
+                                {availability.length ?
                                     availability.map(avail => (
                                         avail.openedDates.length !== 0 ?
-                                            bookingDates.map(bookingDate => {
-                                                bookingDate.date.map(bDate => {
-                                                    avail.openedDates.filter(date => {
-                                                        console.log(date.start, bDate.start, date.start !== bDate.start && date.end !== bDate.end);
-                                                        return date.start !== bDate.start && date.end !== bDate.end
-                                                    }).map(room => {
-                                                        return <option> test : {room.start}</option>
-                                                        // console.log(room.start)
+                                            bookingDates.length ?
+                                                bookingDates.map(bookingDate => {
+                                                    bookingDate.date.map(bDate => {
+                                                        console.log(bDate);
+                                                        avail.openedDates.filter(date => {
+                                                            console.log(date.start, bDate.start, date.start !== bDate.start && date.end !== bDate.end);
+                                                            return date.start !== bDate.start && date.end !== bDate.end
+                                                        }).map(room => (
+                                                            //<option> test : {room.start}</option>
+                                                            console.log(room)
+                                                        ))
                                                     })
                                                 })
-                                            })
+                                                : avail.openedDates.map(roomDate => (
+                                                    <option>Début : {moment(roomDate.start).format("DD MM YYYY HH:mm")} Fin : {moment(roomDate.end).format("DD MM YYYY HH:mm")}</option>)
+                                                )
+
                                             : null
                                     ))
                                     : null}

@@ -110,20 +110,20 @@ function AvailabilityModal({_id}) {
                         <Form>
                             <FormGroup controlId="dispo">
 
-                                <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
+                                {/*  <i className="now-ui-icons location_bookmark"/> Mes disponibilités sont réccurentes chaque semaine ?
 
-                                <OpenedWeekDaysPicker
+                               <OpenedWeekDaysPicker
                                     roomId = {_id}
-                                />
+                                />*/}
 
                                 <i className="now-ui-icons location_bookmark"/> J'ajoute des disponibilités exeptionelles
                                 <OpenedDatesPickerContainer
                                     roomId = {_id}
                                 />
-                                <i className="now-ui-icons location_bookmark"/> J'ajoute des fermetures exeptionelles
+                                {/*<i className="now-ui-icons location_bookmark"/> J'ajoute des fermetures exeptionelles
                                 <ClosedDatesPickerContainer
                                     roomId = {_id}
-                                />
+                                />*/}
 
                             </FormGroup>
 

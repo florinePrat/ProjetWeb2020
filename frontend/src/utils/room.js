@@ -60,9 +60,11 @@ export default {
         })
     },
 
-    createReview: function (reviews, _id) {
-        return axios.put(burl + '/api/room/review/' + _id, {
-            reviews
+    createReview: function (reviews, roomId, _id) {
+        console.log(_id);
+        return axios.put(burl + '/api/room/review/' + roomId, {
+            reviews,
+            _id
         }, {
             headers: tokenHeaders
         })

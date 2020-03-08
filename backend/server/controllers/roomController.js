@@ -21,9 +21,13 @@ const modifyRoom = async (roomObject,_id) => {
     }
 };
 
-const addReview = async (roomObject,_id) => {
+const addReview = async (review,_id) => {
     try{
-        return await RoomController.findOneAndUpdate({_id: _id}, {$push: {reviews : roomObject}}, {new:true})
+        console.log(review);
+        const room = await RoomController.findOneAndUpdate({_id: _id}, {$push: {"reviews" : review}}, {new:true});
+        console.log(room);
+        return room
+
     }catch (error) {
         console.log(error.message);
         throw error

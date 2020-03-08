@@ -2,10 +2,8 @@ import React, {useEffect} from "react";
 import {FormGroup, Button} from "reactstrap";
 import CustomInput from "reactstrap/es/CustomInput";
 import myCategories from "../utils/categories";
-// reactstrap components
 
 
-// core components
 
 function SearchComponent({callbackFromParent, rooms}) {
     const [category, setCategory] = React.useState(null);
@@ -120,5 +118,4 @@ function SearchComponent({callbackFromParent, rooms}) {
             </>
         );
 }
-
 export default SearchComponent;

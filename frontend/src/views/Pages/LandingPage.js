@@ -38,18 +38,16 @@ function LandingPage() {
 
 
     const myCallback = (search) => {
-        if (search[0] && search[1]){
-            room.getAllSearchRooms(search[0] !== "Categorie" ? search[0] : null, search[1] !== "Ville" ? search[1] : null).then(res => {
-                const myRooms = res.data.room;
-                console.log('je suis bien dans la requette send ! ');
-                console.log(search[0]);
-                console.log(search[1]);
-                console.log("room : ", myRooms);
-                setRooms(myRooms)
-            }, error => {
-                console.log(error)
-            })
-        }
+        room.getAllSearchRooms(search[0] !== "Categorie" ? search[0] : null, search[1] !== "Ville" ? search[1] : null).then(res => {
+            const myRooms = res.data.room;
+            console.log('je suis bien dans la requette send ! ');
+            console.log(search[0]);
+            console.log(search[1]);
+            console.log("room : ", myRooms);
+            setRooms(myRooms)
+        }, error => {
+            console.log(error)
+        })
     };
 
 

@@ -142,7 +142,7 @@ function Signup() {
                                         <CardHeader className="text-center">
                                             <div className="logo-container">
                                                 <img
-                                                    alt="..."
+                                                    alt="logo du site"
                                                     src={require("assets/img/eye.png")}
                                                 />
                                             </div>
@@ -251,7 +251,7 @@ function Signup() {
                                         <CardHeader className="text-center">
                                             <div className="logo-container">
                                                 <img
-                                                    alt="..."
+                                                    alt="logo du site"
                                                     src={require("assets/img/eye.png")}
                                                 />
                                             </div>
