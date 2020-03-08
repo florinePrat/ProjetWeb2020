@@ -22,6 +22,8 @@ import BookingCard from "../../components/Cards/bookingCard";
 import BookingOwnerCard from "../../components/Cards/bookingOwnerCard";
 import roomApi from "../../utils/room";
 import bookingApi from "../../utils/booking";
+import CardDeck from "react-bootstrap/CardDeck";
+import CardColumns from "react-bootstrap/CardColumns";
 
 
 function ProfilePage() {
@@ -159,12 +161,13 @@ function ProfilePage() {
                                 <TabPane tabId="pills1">
 
                                     <div hidden={bookingHidden}>
-                                        <h2>------ Mes réservations ------</h2>
+
+                                        <h2><img src={require("assets/img/month.png")} height={180}/> Mes réservations </h2>
                                         <Container>
                                             <Row>
                                                 {bookingUser.length?
                                                     bookingUser.map(booking => (
-                                                    <Col xs={4}>
+                                                    <CardDeck>
                                                         <BookingCard
                                                             _id={booking._id}
                                                             date={booking.date}
@@ -178,7 +181,7 @@ function ProfilePage() {
                                                                 }))
                                                             }}
                                                         />
-                                                    </Col>
+                                                    </CardDeck>
                                                 ))
                                                 : null}
                                             </Row>
@@ -186,12 +189,12 @@ function ProfilePage() {
                                     </div>
                                     {bookingOwner.length ?
                                         <div>
-                                        <h2>------ Gestion de mes réservations ------</h2>
+                                        <h2><img src={require("assets/img/booking.png")} height={180}/> Gestion de mes réservations </h2>
                                         <Container>
                                             <Row>
                                                 {bookingOwner ?
                                                     bookingOwner.map((b1) => (
-                                                    <Col xs={4}>
+                                                    <CardDeck>
                                                         <BookingOwnerCard
                                                             _id={b1._id}
                                                             date={b1.date}
@@ -205,7 +208,7 @@ function ProfilePage() {
                                                                 }))
                                                             }}
                                                         />
-                                                    </Col>
+                                                    </CardDeck>
                                                 ))
                                                 : null}
                                             </Row>
@@ -214,11 +217,13 @@ function ProfilePage() {
                                         :null}
                                 </TabPane>
                                 <TabPane tabId="pills2">
+                                    <div>
+                                    <h2><img src={require("assets/img/logout.png")} height={130}/> Mes salles </h2>
                                     <Container>
                                         <Row>
                                             {rooms ?
                                                 rooms.map(room => (
-                                                <Col xs={4}>
+                                                <CardDeck>
                                                     <RoomCard
                                                         _id={room._id}
                                                         title={room.title}
@@ -240,7 +245,6 @@ function ProfilePage() {
                                                             ))
                                                         }}
                                                         onUpdated={(res)=>{
-                                                            console.log(res);
                                                             setRooms(rooms.map(r =>
                                                                 r._id === room._id
                                                                     ? {...r, ...res}
@@ -253,11 +257,12 @@ function ProfilePage() {
                                                             }))
                                                         }}
                                                     />
-                                                </Col>
+                                                </CardDeck>
                                             ))
                                             : null}
                                         </Row>
                                     </Container>
+                                    </div>
                                 </TabPane>
 
                             </TabContent>

@@ -9,6 +9,7 @@ import room from "../../utils/room";
 import ExamplesNavbar from "../../components/Navbars/ExamplesNavbar";
 import AccueilNavbar from "../../components/Navbars/AccueilNavbar";
 import auth from "../../utils/auth";
+import CardDeck from "react-bootstrap/CardDeck";
 
 function LandingPage() {
     const [rooms, setRooms] = React.useState([]);
@@ -89,7 +90,7 @@ function LandingPage() {
                             <Row>
                                 {rooms ?
                                     rooms.map(room => (
-                                        <Col xs={4}>
+                                        <CardDeck>
                                             <RoomCard
                                                 _id={room._id}
                                                 title={room.title}
@@ -104,7 +105,7 @@ function LandingPage() {
                                                 userId={room.userId}
                                                 reviews={room.reviews}
                                             />
-                                        </Col>
+                                        </CardDeck>
 
                                     ))
                                     : null

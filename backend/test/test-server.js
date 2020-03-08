@@ -89,8 +89,6 @@ describe('Start Tests', function () {
                 "state": "published",
                 "bail": "100",
                 "imageUrl": "/user.png",
-                "availability": "{'2','3','4','5','6','7'}",
-                "review": "{'1', '2', '3', '4'}",
                 "userId": _userId
             };
             //send request to the app
@@ -98,13 +96,14 @@ describe('Start Tests', function () {
                 .set({'Authorization': 'Bearer ' + _token})
                 .send(new_room)
                 .then((res) => {
-                    _roomId = res.body.roomId;
+                    _roomId = res.data.roomId;
+                    console.log('test id : : : ',_roomId);
                     //assertions
                     expect(res).to.have.status(201);
-                    expect(res.body.message).to.be.equal("Objet enregistré !");
                     done();
                 }).catch(err => {
                 console.log('token mal forme : ', _token);
+                console.log('test id : : : ',_roomId);
                 console.log(err.message);
             })
         });
@@ -123,8 +122,6 @@ describe('Start Tests', function () {
                 "state": "published",
                 "bail": "100",
                 "imageUrl": "/user.png",
-                "availability": "{'2','3','4','5','6','7'}",
-                "review": "{'1', '2', '3', '4'}",
                 "userId": _userId
             };
             //send request to the app
@@ -134,7 +131,6 @@ describe('Start Tests', function () {
                 .then((res) => {
                     //assertions
                     expect(res).to.have.status(200);
-                    expect(res.body.message).to.be.equal("Objet modifié !");
                     done();
                 }).catch(err => {
                 console.log(err.message);
@@ -196,12 +192,13 @@ describe('Start Tests', function () {
                 console.log(err.message);
             })
         });
+
         describe('Booking', function () {
             let _bookingId;
             it('#Booking - Created OK', (done) => {
                 //mock valid user input
                 const new_booking = {
-                    "date": "2023-02-15T23:00:00.000+00:00",
+                    "date": "[{start : 1977-04-22T06:00:00Z,end : 1977-04-22T06:00:00Z}]",
                     "state": "awaitingValidation",
                     "roomId": _roomId,
                     "customerId": _user2Id,
@@ -215,7 +212,6 @@ describe('Start Tests', function () {
                         _bookingId = res.body.bookingId;
                         //assertions
                         expect(res).to.have.status(201);
-                        expect(res.body.message).to.be.equal("Objet enregistré !");
                         done();
                     }).catch(err => {
                     console.log(err.message);
@@ -226,7 +222,7 @@ describe('Start Tests', function () {
             it('#Booking - update OK', (done) => {
                 //mock valid user input
                 const booking = {
-                    "date": "2023-02-15T23:00:00.000+00:00",
+                    "date": "[{start : 1977-04-22T06:00:00Z,end : 1977-04-22T06:00:00Z}]",
                     "state": "valid",
                     "roomId": _roomId,
                     "ownerId": _userId,
@@ -239,7 +235,6 @@ describe('Start Tests', function () {
                     .then((res) => {
                         //assertions
                         expect(res).to.have.status(200);
-                        expect(res.body.message).to.be.equal("Objet modifié !");
                         done();
                     }).catch(err => {
                     console.log(err.message);
