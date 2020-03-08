@@ -27,7 +27,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
     useEffect(()=> {
         if (state === "accepted") {
 
-            auth.getUser(userId)
+            auth.getUser(ownerId)
                 .then(res => {
                     setUser(res.data);
                     console.log('my user :', user);

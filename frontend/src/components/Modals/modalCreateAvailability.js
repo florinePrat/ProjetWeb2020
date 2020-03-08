@@ -138,13 +138,6 @@ function AvailabilityModal({_id}) {
                         >
                             Annuler
                         </Button>
-                        <Button
-                            color="info"
-                            type="button"
-                            onClick={send}
-                        >
-                            Valider
-                        </Button>
                     </div>
                 </Modal>
 
