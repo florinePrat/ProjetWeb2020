@@ -8,7 +8,8 @@ const expect = chai.expect;
 let _token;
 let _userId;
 let _user2Id;
-
+let _roomId;
+let _bookingId;
 describe('Start Tests', function () {
     describe('User Initialisation', function () {
 
@@ -41,6 +42,7 @@ describe('Start Tests', function () {
                 .then((res) => {
                     _userId = res.body.userId;
                     _token = res.body.token;
+                    console.log(_userId);
                     //assertions
                     expect(res).to.have.status(200);
                     expect(res.body.success).to.be.equal(true);
@@ -74,7 +76,7 @@ describe('Start Tests', function () {
     });
 
     describe('Rooms', function () {
-        let _roomId;
+
         it('#Room - Created OK', (done) => {
             //mock valid user input
             const new_room = {
@@ -96,14 +98,11 @@ describe('Start Tests', function () {
                 .set({'Authorization': 'Bearer ' + _token})
                 .send(new_room)
                 .then((res) => {
-                    _roomId = res.data.roomId;
-                    console.log('test id : : : ',_roomId);
+                    _roomId = res.body._id;
                     //assertions
                     expect(res).to.have.status(201);
                     done();
                 }).catch(err => {
-                console.log('token mal forme : ', _token);
-                console.log('test id : : : ',_roomId);
                 console.log(err.message);
             })
         });
@@ -122,6 +121,9 @@ describe('Start Tests', function () {
                 "state": "published",
                 "bail": "100",
                 "imageUrl": "/user.png",
+                "bookings": [],
+                "availabilities": [],
+                "reviews": [],
                 "userId": _userId
             };
             //send request to the app
@@ -182,7 +184,7 @@ describe('Start Tests', function () {
         it('#Room - GetAllSearchRooms OK', (done) => {
             //mock valid user input
             //send request to the app
-            chai.request(server).get('/api/publicRoom/category/mycity/')
+            chai.request(server).get('/api/publicRoom/search?city=mycity')
                 .set({'Authorization': 'Bearer ' + _token})
                 .then((res) => {
                     //assertions
@@ -194,11 +196,10 @@ describe('Start Tests', function () {
         });
 
         describe('Booking', function () {
-            let _bookingId;
             it('#Booking - Created OK', (done) => {
                 //mock valid user input
                 const new_booking = {
-                    "date": "[{start : 1977-04-22T06:00:00Z,end : 1977-04-22T06:00:00Z}]",
+                    "date": [{"start" : "1977-04-22T06:00:00Z","end" : "1977-04-22T06:00:00Z"}],
                     "state": "awaitingValidation",
                     "roomId": _roomId,
                     "customerId": _user2Id,
@@ -209,7 +210,7 @@ describe('Start Tests', function () {
                     .set({'Authorization': 'Bearer ' + _token})
                     .send(new_booking)
                     .then((res) => {
-                        _bookingId = res.body.bookingId;
+                        _bookingId = res.body.booking._id;
                         //assertions
                         expect(res).to.have.status(201);
                         done();
@@ -222,7 +223,7 @@ describe('Start Tests', function () {
             it('#Booking - update OK', (done) => {
                 //mock valid user input
                 const booking = {
-                    "date": "[{start : 1977-04-22T06:00:00Z,end : 1977-04-22T06:00:00Z}]",
+                    "date":  [{"start" : "1977-04-22T06:00:00Z","end" : "1977-04-22T06:00:00Z"}],
                     "state": "valid",
                     "roomId": _roomId,
                     "ownerId": _userId,

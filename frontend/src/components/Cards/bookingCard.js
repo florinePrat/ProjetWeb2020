@@ -65,7 +65,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
                         ? <CardTitle>Contact du propriétaire de la salle : 0{phoneNumber} </CardTitle>
                         : null
                     }
-                    {now > moment(date[0].start)
+                    {now > moment(date[0].start && state === "accepted")
                         ? <CreateReviewRoom
                             _id = {_id}
                             roomId = {roomId}

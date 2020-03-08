@@ -42,15 +42,12 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
             console.log('sttttatus',status, res.data);
 
             if (status === "refused") {
-                /*room.updateRoomAvailabilities(
-                    rooms.availability.filter(dispo => dispo !== date),
-                    roomId
-                ).then(res => {
-
-                }, error => {
-                    console.log(error.response.data.error);
-                    setError(error.response.data.error);
-                });*/
+                api.deleteBooking(_id)
+                    .then(res => {
+                        console.log('objet supprimer !')
+                    }, function (data) {
+                        console.log('je suis dans data erreur', data);
+                    });
             }
         })
     };

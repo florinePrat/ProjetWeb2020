@@ -5,7 +5,7 @@ import api from "../../utils/room";
 function CreateReviewRoom({roomId,_id, onAddReview}) {
     const [modalReview, setModalReview] = React.useState(false);
     const [error, setError] = React.useState(false);
-    const [reviews, setReviews] = React.useState([]);
+    const [reviews, setReviews] = React.useState(false);
     const [review, setReview] = React.useState('');
     const [stars, setStars] = React.useState(1);
 

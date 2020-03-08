@@ -89,6 +89,15 @@ function AvailabilityModal({_id, ownerId}) {
         }
     },[dates]);
 
+    var bDateStart = [];
+    var bDateEnd = [];
+    bookingDates.map(bookingDate => {
+        bookingDate.date.map(bDate => {
+            bDateStart = bDate.start;
+            bDateEnd = bDate.end;
+        })
+    });
+
 
     return (
         <>
@@ -144,20 +153,15 @@ function AvailabilityModal({_id, ownerId}) {
                                 <option>Choisir une date</option>
                                 {availability.length ?
                                     availability.map(avail => (
-                                        avail.openedDates.length !== 0 ?
+                                        avail.openedDates.length ?
                                             bookingDates.length ?
-                                                bookingDates.map(bookingDate => {
-                                                    bookingDate.date.map(bDate => {
-                                                        console.log(bDate);
-                                                        avail.openedDates.filter(date => {
-                                                            console.log(date.start, bDate.start, date.start !== bDate.start && date.end !== bDate.end);
-                                                            return date.start !== bDate.start && date.end !== bDate.end
-                                                        }).map(room => (
-                                                            //<option> test : {room.start}</option>
-                                                            console.log(room)
-                                                        ))
-                                                    })
-                                                })
+                                                avail.openedDates.filter(date => {
+                                                    console.log(date.start, bDateStart, date.start !== bDateStart && date.end !== bDateEnd);
+                                                    return date.start !== bDateStart && date.end !== bDateEnd
+                                                }).map(room => (
+                                                    <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin : {moment(room.end).format("DD MM YYYY HH:mm")}</option>
+                                                    //console.log(room)
+                                                ))
                                                 : avail.openedDates.map(roomDate => (
                                                     <option>Début : {moment(roomDate.start).format("DD MM YYYY HH:mm")} Fin : {moment(roomDate.end).format("DD MM YYYY HH:mm")}</option>)
                                                 )
