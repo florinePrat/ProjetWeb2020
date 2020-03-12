@@ -28,61 +28,69 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
         return (
             isDeployed
                 ?
-                            <Card style={{width: '18rem'}}>
-                                <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
-                                <CardBody>
-                                    <CardTitle>{title} {avgStars}/5 </CardTitle>
+                    <Card style={{width: '18rem'}}>
+                        <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
+                        <CardBody>
+                            {reviews.length
+                                ? reviews.map(review =>(
+                                    <div>
+                                        <CardTitle>{title} {avgStars}/5 </CardTitle>
+                                        <CardText>{category}</CardText>
+                                        <CardText> {price}€/jour</CardText>
+                                        <CardText> Adresse : {address}</CardText>
+                                        <p>Ville : {city} ({postalCode}) </p>
+                                        <p>Commentaires : </p><br/>
+                                        {review.stars}/5 <br/> {review.review} <br/><br/>
+                                    </div>
+                                ))
+                            : <div>
+                                    <CardTitle>{title}</CardTitle>
                                     <CardText>{category}</CardText>
                                     <CardText> {price}€/jour</CardText>
                                     <CardText> Adresse : {address}</CardText>
                                     <p>Ville : {city} ({postalCode}) </p>
-                                    Commentaires :
-                                    {reviews
-                                        ? reviews.map(review =>(
-                                            <div>{review.stars}/5 <br/> {review.review} <br/><br/></div>
-                                        ))
-                                    : null
-                                    }
+                                </div>
+                            }
 
 
-                                    <AvailabilityModal
-                                        _id={_id}
-                                        ownerId={userId}
-                                    />
+                            <AvailabilityModal
+                                _id={_id}
+                                ownerId={userId}
+                            />
 
 
-                                    <Button
-                                        className="btn-info"
-                                        onClick={() => {
-                                            setIsDeployed(false);
-                                        }}
-                                        bssize="large"
-                                    >
-                                        Retour
-                                    </Button>
-                                </CardBody>
-                            </Card>
+                            <Button
+                                className="btn-info"
+                                onClick={() => {
+                                    setIsDeployed(false);
+                                }}
+                                bssize="large"
+                            >
+                                Retour
+                            </Button>
+                        </CardBody>
+                    </Card>
                 :
-                        <Card style={{width: '18rem'}}>
-                            <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
-                            <CardBody>
-                                <CardTitle>{title}</CardTitle>
-                                <CardText>{category}</CardText>
-                                <CardText>{price}€/jour</CardText>
-                                <CardText>{description}</CardText>
-                            </CardBody>
-                            <CardBody>
-                                <Button
-                                    className="btn-info"
-                                    onClick={() => {
-                                        setIsDeployed(true);
-                                    }}
-                                    bssize="large"
-                                >
-                                    Voir
-                                </Button>
-                            </CardBody>
-                        </Card>
+                    <Card style={{width: '18rem'}}>
+                        <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
+                        <CardBody>
+                            <CardTitle>{title}</CardTitle>
+                            <CardText>{category}</CardText>
+                            <CardText>{price}€/jour</CardText>
+                            <CardText>{description}</CardText>
+                        </CardBody>
+                        <CardBody>
+                            <Button
+                                className="btn-info"
+                                onClick={() => {
+                                    setIsDeployed(true);
+                                }}
+                                bssize="large"
+                            >
+                                Voir
+                            </Button>
+                        </CardBody>
+                    </Card>
 
         )
 }
