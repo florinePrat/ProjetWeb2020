@@ -74,6 +74,8 @@ const getAllSearchRooms = async (category, city) => {
                             {state: "published"}
                         ]
                 })
+        }else if(!category && !city){
+            return await RoomController.find({state:"published"});
         }else{
             return await RoomController.find(
                 {
