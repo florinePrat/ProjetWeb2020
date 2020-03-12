@@ -11,7 +11,7 @@ import auth from '../../utils/auth';
 import apiRoom from '../../utils/room';
 import {FormControl, FormGroup, Form, Col} from "react-bootstrap"
 import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
-import moment, {defaultFormat} from "moment";
+import moment, {defaultFormat, now} from "moment";
 
 // core components
 
@@ -30,7 +30,7 @@ function AvailabilityModal({_id, ownerId}) {
     });
     const [state, setState] = React.useState('');
     const [isAuth] = React.useState( auth.isAuth());
-
+    //const now = moment();
 
     useEffect(()=>{
         apiRoom.getOpenedDates(_id).then(res =>{
@@ -75,15 +75,18 @@ function AvailabilityModal({_id, ownerId}) {
 
     useEffect(()=>{
         if (ownerId !== userId){
-            console.log('ma date de resa : ', dates);
-            api.createBooking(dates, state, ownerId, userId, _id).then(res => {
-                console.log(res.data);
-                console.log('je suis dans créer room');
-                window.location = "profile-page"
-            }, error => {
-                console.log(error);
-                setError(error.response.error);
-            });
+            if (dates.start && dates.end){
+                console.log('ma date de resa : ', dates);
+                api.createBooking(dates, state, ownerId, userId, _id).then(res => {
+                    console.log(res.data);
+                    console.log('je suis dans créer room');
+                    window.location = "profile-page"
+                }, error => {
+                    console.log(error);
+                    setError(error.response.error);
+                });
+            }
+
         } else {
             setError("Désolé vous ne pouvez pas réserver votre propre salle... :)")
         }
@@ -156,7 +159,7 @@ function AvailabilityModal({_id, ownerId}) {
                                         avail.openedDates.length ?
                                             bookingDates.length ?
                                                 avail.openedDates.filter(date => {
-                                                    console.log(date.start, bDateStart, date.start !== bDateStart && date.end !== bDateEnd);
+                                                    console.log(date.start, bDateStart, date.start !== bDateStart && date.end !== bDateEnd /*&& date.start < now()*/);
                                                     return date.start !== bDateStart && date.end !== bDateEnd
                                                 }).map(room => (
                                                     <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin : {moment(room.end).format("DD MM YYYY HH:mm")}</option>

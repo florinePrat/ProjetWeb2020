@@ -35,7 +35,7 @@ const deleteAvailability = async (_id) => {
 
 const getAvailability = async (roomId) => {
     try{
-        return await AvailabilityController.find({roomId: roomId})
+        return await AvailabilityController.find({$and : [{roomId: roomId}, {"openedDates.start" : {$gt: recentDate}}]})
     }catch (error) {
         console.log(error.message);
         throw error
