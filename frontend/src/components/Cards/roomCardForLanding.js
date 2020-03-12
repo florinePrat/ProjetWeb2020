@@ -21,7 +21,6 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
             }
             var avgStars = sum/reviews.length;
             console.log("moy : ",avgStars);
-
         }
 
 
@@ -34,13 +33,13 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                             {reviews.length
                                 ? reviews.map(review =>(
                                     <div>
-                                        <CardTitle>{title} {avgStars}/5 </CardTitle>
+                                        <CardTitle>{title} {avgStars}/5 <i className="fas fa-star"/></CardTitle>
                                         <CardText>{category}</CardText>
                                         <CardText> {price}€/jour</CardText>
                                         <CardText> Adresse : {address}</CardText>
                                         <p>Ville : {city} ({postalCode}) </p>
                                         <p>Commentaires : </p><br/>
-                                        {review.stars}/5 <br/> {review.review} <br/><br/>
+                                        {review.stars}/5 <i className="fas fa-star"/><br/> {review.review} <br/><br/>
                                     </div>
                                 ))
                             : <div>
