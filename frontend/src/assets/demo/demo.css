@@ -2,6 +2,10 @@
   margin-bottom: 20px;
 }
 
+.fa-star {
+  color: #f0ec01 !important;
+}
+
 .tim-white-buttons {
   background-color: #777777;
 }

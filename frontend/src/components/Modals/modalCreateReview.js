@@ -8,11 +8,12 @@ function CreateReviewRoom({roomId,_id, onAddReview}) {
     const [reviews, setReviews] = React.useState(false);
     const [review, setReview] = React.useState('');
     const [stars, setStars] = React.useState(1);
+    const [authorName] = React.useState(localStorage.getItem("firstName"));
 
 
 
     const createReview = event => {
-        setReviews({stars : Number(stars), review : review});
+        setReviews({stars : Number(stars), review : review, author : authorName});
     };
 
     useEffect(()=>{

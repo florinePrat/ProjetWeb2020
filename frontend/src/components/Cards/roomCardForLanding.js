@@ -13,15 +13,13 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
 
         const [isDeployed, setIsDeployed] = React.useState(false);
 
-        if (isDeployed){
-            console.log("reviews : ", reviews);
-            let sum = 0;
-            for (let i = 0; i < reviews.length; i++){
-                sum += parseInt(reviews[i].stars,10);
-            }
-            var avgStars = sum/reviews.length;
-            console.log("moy : ",avgStars);
+        //console.log("reviews : ", reviews);
+        let sum = 0;
+        for (let i = 0; i < reviews.length; i++){
+            sum += parseInt(reviews[i].stars,10);
         }
+        var avgStars = sum/reviews.length;
+        //console.log("moy : ",avgStars);
 
 
         return (
@@ -31,19 +29,22 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                         <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
                         <CardBody>
                             {reviews.length
-                                ? reviews.map(review =>(
-                                    <div>
-                                        <CardTitle>{title} {avgStars}/5 <i className="fas fa-star"/></CardTitle>
-                                        <CardText>{category}</CardText>
-                                        <CardText> {price}€/jour</CardText>
-                                        <CardText> Adresse : {address}</CardText>
-                                        <p>Ville : {city} ({postalCode}) </p>
-                                        <p>Commentaires : </p><br/>
-                                        {review.stars}/5 <i className="fas fa-star"/><br/> {review.review} <br/><br/>
-                                    </div>
-                                ))
+
+                                ?<div>
+                                    <CardTitle>{title} : {avgStars.toFixed(1)}/5 <i className="fas fa-star"/></CardTitle>
+                                    <CardText>{category}</CardText>
+                                    <CardText> {price}€/jour</CardText>
+                                    <CardText> Adresse : {address}</CardText>
+                                    <p>Ville : {city} ({postalCode}) </p>
+                                    Commentaires : <br/>
+                                    {reviews.map(review =>(
+                                        <div>
+                                            {review.stars}/5 <i className="fas fa-star"/><br/> "{review.review}" <br/> <center>par : {review.author}</center> <br/>
+                                        </div>
+                                    ))}
+                                </div>
                             : <div>
-                                    <CardTitle>{title}</CardTitle>
+                                    <CardTitle>{title} </CardTitle>
                                     <CardText>{category}</CardText>
                                     <CardText> {price}€/jour</CardText>
                                     <CardText> Adresse : {address}</CardText>
@@ -73,10 +74,20 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                     <Card style={{width: '18rem'}}>
                         <CardImg top width="100%" src={imageUrl} alt="Photo de la salle" />
                         <CardBody>
-                            <CardTitle>{title}</CardTitle>
-                            <CardText>{category}</CardText>
-                            <CardText>{price}€/jour</CardText>
-                            <CardText>{description}</CardText>
+                            {reviews.length
+                                ?<div>
+                                    <CardTitle>{title} : {avgStars.toFixed(1)}/5 <i className="fas fa-star"/></CardTitle>
+                                    <CardText>{category}</CardText>
+                                    <CardText> {price}€/jour</CardText>
+                                    <CardText>{description}</CardText>
+                                </div>
+                            : <div>
+                                    <CardTitle>{title}</CardTitle>
+                                    <CardText>{category}</CardText>
+                                    <CardText>{price}€/jour</CardText>
+                                    <CardText>{description}</CardText>
+                                </div>
+                            }
                         </CardBody>
                         <CardBody>
                             <Button

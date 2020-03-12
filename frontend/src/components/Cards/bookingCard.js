@@ -4,6 +4,7 @@ import CardBody from "reactstrap/es/CardBody";
 import CardTitle from "reactstrap/es/CardTitle";
 import Card from "react-bootstrap/Card";
 import auth from "../../utils/auth";
+import room from "../../utils/room";
 import CardSubtitle from "reactstrap/es/CardSubtitle";
 import CreateReviewRoom from '../Modals/modalCreateReview';
 import api from '../../utils/booking';
@@ -13,20 +14,22 @@ import moment from "moment";
 
 // this class send a answer to back for verify the answer and done the card of the day
 function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,onAddReview}) {
-    const [edit, setEdit] = React.useState(false);
-    const [userId] = React.useState(localStorage.getItem("userId"));
-    const [error, setError] = React.useState(false);
-    const [rooms, setRooms] = React.useState([]);
     const [user, setUser] = React.useState([]);
-    const [availability, setAvailability] = React.useState([]);
+    const [rooms, setRooms] = React.useState([]);
     const [phoneNumber, setPhoneNumber] = React.useState('');
-    const [myState, setMyState] = React.useState([state]);
+    const [myState] = React.useState([state]);
     const now = moment();
 
 
     useEffect(()=> {
-        if (state === "accepted") {
+        room.getOneRoom(roomId).then(res=>{
+            setRooms(res.data);
+            console.log("rooms : ",res.data)
+        }, function (data) {
+            console.log('je suis dans data erreur', data);
+        });
 
+        if (state === "accepted") {
             auth.getUser(ownerId)
                 .then(res => {
                     setUser(res.data);
@@ -36,7 +39,6 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
                 }, function (data) {
                     console.log('je suis dans data erreur', data);
                 });
-
         }
     },[]);
 
@@ -59,6 +61,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
             <Card style={{width: '18rem'}} >
                 <CardBody>
                     <CardTitle>Etat : {myState}</CardTitle>
+                    <CardSubtitle>Salle : {rooms.title} </CardSubtitle>
                     <CardSubtitle>Date :  {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
                     <br/>
                     {state === "accepted"

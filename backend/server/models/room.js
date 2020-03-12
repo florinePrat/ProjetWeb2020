@@ -15,6 +15,7 @@ const roomSchema = mongoose.Schema({
     reviews:[{
         stars: Number,
         review: String,
+        author: String,
     }],
     userId:{type:mongoose.Schema.Types.ObjectId, ref : 'User', required:true},
     state:{type:String, default:"unpublish"}, //status false : not published
