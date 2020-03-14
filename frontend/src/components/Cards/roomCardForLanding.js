@@ -6,12 +6,14 @@ import {Card} from "react-bootstrap";
 import CardText from "reactstrap/es/CardText";
 import CardImg from "react-bootstrap/CardImg";
 import AvailabilityModal from "../../components/Modals/modalChooseAvailability";
+import auth from "../../utils/auth";
 
 // this class send a answer to back for verify the answer and done the card of the day
 
 function RoomCard({imageUrl, title, category, price, address, city, postalCode, _id, userId, description, reviews}) {
 
         const [isDeployed, setIsDeployed] = React.useState(false);
+        const [isAuth] = React.useState(auth.isAuth());
 
         //console.log("reviews : ", reviews);
         let sum = 0;
@@ -92,8 +94,9 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                         <CardBody>
                             <Button
                                 className="btn-info"
-                                onClick={() => {
-                                    setIsDeployed(true);
+                                onClick={() => { isAuth
+                                    ? setIsDeployed(true)
+                                    : window.location = "login-page"
                                 }}
                                 bssize="large"
                             >
