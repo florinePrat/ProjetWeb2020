@@ -235,7 +235,7 @@ function Signup() {
     function UserGreeting() {
         return (
             <>
-                <ExamplesNavbar/>
+                <AccueilNavbar/>
                 <div className="page-header clear-filter" filter-color="blue">
                     <div
                         className="page-header-image"
