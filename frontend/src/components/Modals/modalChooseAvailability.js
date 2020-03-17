@@ -75,7 +75,7 @@ function AvailabilityModal({_id, ownerId}) {
 
     useEffect(()=>{
         if (ownerId !== userId){
-            if (dates.start && dates.end){
+            if (dates){
                 console.log('ma date de resa : ', dates);
                 api.createBooking(dates, state, ownerId, userId, _id).then(res => {
                     console.log(res.data);
