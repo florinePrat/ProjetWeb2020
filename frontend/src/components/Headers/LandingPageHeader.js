@@ -32,8 +32,8 @@ function LandingPageHeader({update, rooms}) {
 
                         <div id="home-page" className="home-bg-wrapper">
                             <div className="form-and-title" id="home-search-wrapper">
-                                <h1>Trouvez la salle idéale pour votre <br className="d-block d-md-none"/><span
-                                    id="homeTyped">événement</span></h1>
+                                <h1>Find the ideal room for your <br className="d-block d-md-none"/><span
+                                    id="homeTyped">event</span></h1>
                             </div>
                         </div>
 

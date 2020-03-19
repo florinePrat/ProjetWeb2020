@@ -70,7 +70,7 @@ function ProfilePageHeader() {
                 placement="bottom"
                 target="photoInitiale"
             >
-              Clic ici pour changer ta photo
+              Click here to change your avatar
             </UncontrolledTooltip>
               <img
                   id="photoInitiale"

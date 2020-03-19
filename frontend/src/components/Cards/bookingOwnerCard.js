@@ -58,8 +58,8 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
 
                 <Card style={{width: '18rem'}} >
                     <CardBody>
-                        <CardTitle>Réservation pour : {rooms.title}</CardTitle>
-                        <CardSubtitle>Pour le : {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
+                        <CardTitle>Booking for : {rooms.title}</CardTitle>
+                        <CardSubtitle>Date : {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
                             <Button
                                 color="danger"
                                 type="button"
@@ -68,7 +68,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
                                     onResponse("refused")
                                 }}
                             >
-                                Refuser
+                                Decline
                             </Button>
                             <Button
                                 color="success"
@@ -79,7 +79,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onResponse
                                         onResponse("accepted")
                                     }}
                             >
-                                Accepter
+                                Accept
                             </Button>
                     </CardBody>
                 </Card>

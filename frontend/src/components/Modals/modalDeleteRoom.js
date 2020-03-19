@@ -24,7 +24,7 @@ function DeleteRoom({_id, onDeleted}) {
                     onClick={() => setModalDelete( true)}
                     bssize="large"
                 >
-                    supprimer
+                    delete
                 </Button>
 
                 <Modal isOpen={modalDelete} toggle={() => setModalDelete( false)}>
@@ -36,7 +36,7 @@ function DeleteRoom({_id, onDeleted}) {
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
-                        <h4 className="title title-up">Je supprime ma salle</h4>
+                        <h4 className="title title-up">I delete my room</h4>
                         {error ?
                             <Alert color="danger">
                                 {error}
@@ -44,7 +44,7 @@ function DeleteRoom({_id, onDeleted}) {
                         }
                     </div>
                     <ModalBody>
-                        <p>Etes-vous sûr de vouloir supprimer votre salle ?</p>
+                        <p>Are you sure you want to delete your room?</p>
                     </ModalBody>
                     <div className="modal-footer">
 
@@ -54,14 +54,14 @@ function DeleteRoom({_id, onDeleted}) {
                             type="button"
                             onClick={() => setModalDelete( false)}
                         >
-                            Non
+                            No
                         </Button>
                         <UncontrolledTooltip
                             delay={0}
                             placement="bottom"
                             target="delete"
                         >
-                            Supprime définitivement votre annonce
+                            Permanently delete your ad
                         </UncontrolledTooltip>
                         <Button
                             color="info"
@@ -69,7 +69,7 @@ function DeleteRoom({_id, onDeleted}) {
                             id="delete"
                             onClick={deleteRoom}
                         >
-                            Oui
+                            Yes
                         </Button>
                     </div>
                 </Modal>

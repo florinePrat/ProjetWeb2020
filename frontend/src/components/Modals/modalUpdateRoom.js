@@ -112,7 +112,7 @@ function UpdateRoom(props) {
                 onClick={() => setModalUpdate( true)}
             >
                 <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                Modifier salle
+                Update room
             </Button>
 
 
@@ -125,7 +125,7 @@ function UpdateRoom(props) {
                     >
                         <i className="now-ui-icons ui-1_simple-remove"/>
                     </button>
-                    <h4 className="title title-up">Je modifie ma salle</h4>
+                    <h4 className="title title-up">I update my room</h4>
 
                 </div>
                 {error ?
@@ -138,7 +138,7 @@ function UpdateRoom(props) {
                         <div className="form-row">
                             <div className="col">
                                 <FormGroup controlId="title">
-                                    <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
+                                    <i className="now-ui-icons shopping_tag-content"/> Name :
                                     <FormControl
                                         placeholder="Nom du lieu *"
                                         value={data.title}
@@ -151,7 +151,7 @@ function UpdateRoom(props) {
                         </div>
                         <div className="form-group">
                             <FormGroup controlId="address">
-                                <i className="now-ui-icons location_pin"/> Adresse :
+                                <i className="now-ui-icons location_pin"/> Address :
                                 <FormControl
                                     placeholder="Adresse *"
                                     value={data.address}
@@ -164,7 +164,7 @@ function UpdateRoom(props) {
                         <div className="form-row">
                             <div className="form-group col-md-6">
                                 <FormGroup controlId="city">
-                                    <i className="now-ui-icons location_map-big"/> Ville :
+                                    <i className="now-ui-icons location_map-big"/> City :
                                     <FormControl
                                         placeholder="ville *"
                                         value={data.city}
@@ -191,7 +191,7 @@ function UpdateRoom(props) {
                         <div className="form-group">
                             <div className="form-row">
                                 <FormGroup controlId="price">
-                                    <i className="now-ui-icons location_bookmark"/> Prix à la journée :
+                                    <i className="now-ui-icons location_bookmark"/> Price for a day :
                                     <FormControl
                                         placeholder="Prix *"
                                         value={data.price}
@@ -201,8 +201,7 @@ function UpdateRoom(props) {
                                     </FormControl>
                                 </FormGroup>
                                 <FormGroup controlId="bail">
-                                    <i className="now-ui-icons location_bookmark"/> Montant de la caution à
-                                    la journée :
+                                    <i className="now-ui-icons location_bookmark"/> Bail for a day :
                                     <FormControl
                                         placeholder="Caution *"
                                         value={data.bail}
@@ -213,7 +212,7 @@ function UpdateRoom(props) {
                                 </FormGroup>
                             </div>
                             <FormGroup controlId="category">
-                                <i className="now-ui-icons location_bookmark"/> Catégorie :
+                                <i className="now-ui-icons location_bookmark"/> Category :
                                 <FormControl
                                     placeholder="Categorie *"
                                     as="select"
@@ -221,7 +220,7 @@ function UpdateRoom(props) {
                                     onChange={e=> setData({...data, category : e.target.value})}
                                     type="text"
                                 >
-                                    <option>Choisir une catégorie</option>
+                                    <option>Choose a category</option>
                                     {options}
                                 </FormControl>
                             </FormGroup>
@@ -250,7 +249,7 @@ function UpdateRoom(props) {
                                 onClick={upload}
                             >
                                 <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                                Ajouter une image
+                                Add a picture
                             </Button>
                         </div>
                     </form>
@@ -263,14 +262,14 @@ function UpdateRoom(props) {
                         type="button"
                         onClick={() => setModalUpdate( false)}
                     >
-                        Annuler
+                        Cancel
                     </Button>
                     <UncontrolledTooltip
                         delay={0}
                         placement="bottom"
                         target="published"
                     >
-                        Ceci ne publie pas l'annonce
+                        That doesn't publish the ad
                     </UncontrolledTooltip>
                     <Button
                         color="info"
@@ -278,7 +277,7 @@ function UpdateRoom(props) {
                         id="published"
                         onClick={update}
                     >
-                        Enregistrer
+                        Save
                     </Button>
                 </div>
             </Modal>

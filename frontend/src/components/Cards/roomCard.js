@@ -39,10 +39,10 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                 <CardImg top width="100%" src={imageUrl} alt="Photo de la salle"/>
                 <CardBody>
                     <CardTitle>{title}</CardTitle>
-                    <CardText>Catégorie : {category}</CardText>
-                    <CardText> Prix : {price} / jours</CardText>
-                    <CardText> Adresse : {address}</CardText>
-                    <p>Ville : {city} ({postalCode}) </p>
+                    <CardText>Category : {category}</CardText>
+                    <CardText> Price : {price} / jours</CardText>
+                    <CardText> Address : {address}</CardText>
+                    <p>City : {city} ({postalCode}) </p>
 
                     {/* ------------------------------------------------------------------------------------ modalUpdate*/}
 
@@ -78,7 +78,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                         }}
                         bssize="large"
                     >
-                        retour
+                        return
                     </Button>
                 </CardBody>
             </Card>
@@ -87,7 +87,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                 <CardImg top width="100%" src={imageUrl} alt="Photo de la salle"/>
                 <CardBody>
                     <CardTitle>{title}</CardTitle>
-                    <CardSubtitle>Prix : {price} €/jour </CardSubtitle>
+                    <CardSubtitle>Price : {price} €/day </CardSubtitle>
                 </CardBody>
                 <CardBody>
                     <Button
@@ -98,7 +98,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                         }}
                         bssize="large"
                     >
-                        Voir
+                        View
                     </Button>
                     {state === "publishable"
                         ? <Button
@@ -108,7 +108,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                             }
                             bssize="large"
                         >
-                            Publier
+                            Publish
                         </Button>
 
                         : state === "published" ?

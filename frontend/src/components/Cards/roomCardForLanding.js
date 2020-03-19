@@ -35,10 +35,10 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                 ?<div>
                                     <CardTitle>{title} : {avgStars.toFixed(1)}/5 <i className="fas fa-star"/></CardTitle>
                                     <CardText>{category}</CardText>
-                                    <CardText> {price}€/jour</CardText>
-                                    <CardText> Adresse : {address}</CardText>
-                                    <p>Ville : {city} ({postalCode}) </p>
-                                    Commentaires : <br/>
+                                    <CardText> {price}€/day</CardText>
+                                    <CardText> Adsress : {address}</CardText>
+                                    <p>City : {city} ({postalCode}) </p>
+                                    Comments : <br/>
                                     {reviews.map(review =>(
                                         <div>
                                             {review.stars}/5 <i className="fas fa-star"/><br/> "{review.review}" <br/> <center>par : {review.author}</center> <br/>
@@ -49,8 +49,8 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                     <CardTitle>{title} </CardTitle>
                                     <CardText>{category}</CardText>
                                     <CardText> {price}€/jour</CardText>
-                                    <CardText> Adresse : {address}</CardText>
-                                    <p>Ville : {city} ({postalCode}) </p>
+                                    <CardText> Address : {address}</CardText>
+                                    <p>City : {city} ({postalCode}) </p>
                                 </div>
                             }
 
@@ -68,7 +68,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                 }}
                                 bssize="large"
                             >
-                                Retour
+                                Return
                             </Button>
                         </CardBody>
                     </Card>
@@ -80,13 +80,13 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                 ?<div>
                                     <CardTitle>{title} : {avgStars.toFixed(1)}/5 <i className="fas fa-star"/></CardTitle>
                                     <CardText>{category}</CardText>
-                                    <CardText> {price}€/jour</CardText>
+                                    <CardText> {price}€/day</CardText>
                                     <CardText>{description}</CardText>
                                 </div>
                             : <div>
                                     <CardTitle>{title}</CardTitle>
                                     <CardText>{category}</CardText>
-                                    <CardText>{price}€/jour</CardText>
+                                    <CardText>{price}€/day</CardText>
                                     <CardText>{description}</CardText>
                                 </div>
                             }
@@ -100,7 +100,7 @@ function RoomCard({imageUrl, title, category, price, address, city, postalCode, 
                                 }}
                                 bssize="large"
                             >
-                                Voir
+                                View
                             </Button>
                         </CardBody>
                     </Card>

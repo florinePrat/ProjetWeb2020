@@ -18,7 +18,7 @@ function DefaultFooter() {
                     href="./landing-page"
                     target="_blank"
                 >
-                  Accueil
+                  Home
                 </a>
               </li>
 

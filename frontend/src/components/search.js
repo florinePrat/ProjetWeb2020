@@ -79,7 +79,7 @@ function SearchComponent({callbackFromParent, rooms}) {
                                     value={city}
                                     onChange={e => setCity(e.target.value)}
                                 >
-                                    <option>Ville</option>
+                                    <option>City</option>
                                     {optionsCities}
                                 </CustomInput>
                             </FormGroup>
@@ -94,7 +94,7 @@ function SearchComponent({callbackFromParent, rooms}) {
                                     value = {category}
                                     onChange={e => setCategory(e.target.value)}
                                 >
-                                    <option >Categorie</option>
+                                    <option>Category</option>
                                     {optionsCategory}
                                 </CustomInput>
 
@@ -108,7 +108,7 @@ function SearchComponent({callbackFromParent, rooms}) {
                                     className='btn-round'
                                     color='info'
                                     onClick={mySearch}
-                                >Rechercher
+                                >Search
                                 </Button>
                             </FormGroup>
                         </div>

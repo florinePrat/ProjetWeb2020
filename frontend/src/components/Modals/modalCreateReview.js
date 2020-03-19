@@ -46,7 +46,7 @@ function CreateReviewRoom({roomId,_id, onAddReview}) {
                 onClick={() => setModalReview( true)}
                 bssize="large"
             >
-                Laisser un avis à la salle
+                Let a review for this room
             </Button>
 
             <Modal isOpen={modalReview} toggle={() => setModalReview( false)}>
@@ -58,7 +58,7 @@ function CreateReviewRoom({roomId,_id, onAddReview}) {
                     >
                         <i className="now-ui-icons ui-1_simple-remove"/>
                     </button>
-                    <h4 className="title title-up">Je laisse un avis</h4>
+                    <h4 className="title title-up">Let a review</h4>
                 </div>
                 {error ?
                     <Alert color="danger">
@@ -67,11 +67,11 @@ function CreateReviewRoom({roomId,_id, onAddReview}) {
                 }
                 <ModalBody>
                     <div>
-                        <p>Laissez une note entre 1 et 5 : </p>
+                        <p>Let a note between 1 and 5 : </p>
                         <input type={'number'} value={stars} onChange={e => setStars(e.target.value)} min="1" max="5"/> <i className="fas fa-star"/>
 
 
-                        <p>Laissez un commentaire : </p>
+                        <p>Let a comment : </p>
                         <textarea value={review} onChange={e => setReview(e.target.value)}/>
                     </div>
 
@@ -81,7 +81,7 @@ function CreateReviewRoom({roomId,_id, onAddReview}) {
                         onClick={createReview}
                         bssize="large"
                     >
-                        Valider mon avis
+                        Validate my review
                     </Button>
                 </ModalBody>
 

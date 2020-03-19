@@ -76,12 +76,12 @@ function AccueilNavbar() {
                         <Nav navbar>
                             <NavItem>
                                 <NavLink to="/" tag={Link}>
-                                    Accueil
+                                    Home
                                 </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/login-page">
-                                    Se connecter
+                                    Log in
                                 </NavLink>
                             </NavItem>
 

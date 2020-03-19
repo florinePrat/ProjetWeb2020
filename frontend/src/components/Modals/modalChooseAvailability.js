@@ -112,7 +112,7 @@ function AvailabilityModal({_id, ownerId}) {
                     onClick={() => setModal(true)}
                 >
                     <i className="now-ui-icons shopping_cart-simple"/>
-                    Réserver cette salle
+                    Book the room
                 </Button>
                 : <Button
                     className="btn-round"
@@ -121,7 +121,7 @@ function AvailabilityModal({_id, ownerId}) {
                     href="login-page"
                 >
                     <i className="now-ui-icons shopping_cart-simple"/>
-                    Identifiez-vous pour réserver cette salle
+                    Please log in for book this room
                 </Button>
             }
 
@@ -135,7 +135,7 @@ function AvailabilityModal({_id, ownerId}) {
                     >
                         <i className="now-ui-icons ui-1_simple-remove"/>
                     </button>
-                    <h4 className="title title-up">Je choisi une date pour la réservation</h4>
+                    <h4 className="title title-up">Choose a date for booking</h4>
                     {error ?
                         <UncontrolledAlert color="danger">
                             {error}
@@ -145,7 +145,7 @@ function AvailabilityModal({_id, ownerId}) {
                 <ModalBody>
                     <Form>
                         <FormGroup controlId="dispo">
-                            <i className="now-ui-icons location_bookmark"/> disponibilités :
+                            <i className="now-ui-icons location_bookmark"/> availabilities :
                             <FormControl
                                 placeholder="Categorie *"
                                 as="select"
@@ -153,7 +153,7 @@ function AvailabilityModal({_id, ownerId}) {
                                 onChange={e => setDispo(e.target.value)||console.log(e.target.value)}
                                 type="text"
                             >
-                                <option>Choisir une date</option>
+                                <option>Choose a date</option>
                                 {availability.length ?
                                     availability.map(avail => (
                                         avail.openedDates.length ?
@@ -162,11 +162,11 @@ function AvailabilityModal({_id, ownerId}) {
                                                     console.log(date.start, bDateStart, date.start !== bDateStart && date.end !== bDateEnd /*&& date.start < now()*/);
                                                     return date.start !== bDateStart && date.end !== bDateEnd
                                                 }).map(room => (
-                                                    <option>Début : {moment(room.start).format("DD MM YYYY HH:mm")} Fin : {moment(room.end).format("DD MM YYYY HH:mm")}</option>
+                                                    <option>Start : {moment(room.start).format("DD MM YYYY HH:mm")} End : {moment(room.end).format("DD MM YYYY HH:mm")}</option>
                                                     //console.log(room)
                                                 ))
                                                 : avail.openedDates.map(roomDate => (
-                                                    <option>Début : {moment(roomDate.start).format("DD MM YYYY HH:mm")} Fin : {moment(roomDate.end).format("DD MM YYYY HH:mm")}</option>)
+                                                    <option>Start : {moment(roomDate.start).format("DD MM YYYY HH:mm")} End : {moment(roomDate.end).format("DD MM YYYY HH:mm")}</option>)
                                                 )
 
                                             : null
@@ -187,14 +187,14 @@ function AvailabilityModal({_id, ownerId}) {
                         type="button"
                         onClick={() => setModal(false)}
                     >
-                        Annuler
+                        Cancel
                     </Button>
                     <Button
                         color="info"
                         type="button"
                         onClick={send}
                     >
-                        Je reserve
+                        Book
                     </Button>
                 </div>
             </Modal>

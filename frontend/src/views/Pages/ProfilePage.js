@@ -133,7 +133,7 @@ function ProfilePage() {
                                                     }}
                                                 >
                                                     <i className="now-ui-icons education_paper"/>
-                                                    Mes réservations
+                                                    My bookings
                                                 </Button>
                                             </div>
                                         </NavItem>
@@ -149,7 +149,7 @@ function ProfilePage() {
                                                     }}
                                                 >
                                                     <i className="now-ui-icons shopping_shop"/>
-                                                    Mes salles
+                                                    My rooms
                                                 </Button>
                                             </div>
                                         </NavItem>
@@ -162,7 +162,7 @@ function ProfilePage() {
 
                                     <div hidden={bookingHidden}>
 
-                                        <h2><img src={require("assets/img/month.png")} height={180}/> Mes réservations </h2>
+                                        <h2><img src={require("assets/img/month.png")} height={180}/> My bookings </h2>
                                         <Container>
                                             <Row>
                                                 {bookingUser.length?
@@ -194,7 +194,7 @@ function ProfilePage() {
                                     </div>
                                     {bookingOwner.length ?
                                         <div>
-                                        <h2><img src={require("assets/img/booking.png")} height={180}/> Gestion de mes réservations </h2>
+                                        <h2><img src={require("assets/img/booking.png")} height={180}/> Management of my bookings </h2>
                                         <Container>
                                             <Row>
                                                 {bookingOwner ?
@@ -223,7 +223,7 @@ function ProfilePage() {
                                 </TabPane>
                                 <TabPane tabId="pills2">
                                     <div>
-                                    <h2><img src={require("assets/img/logout.png")} height={130}/> Mes salles </h2>
+                                    <h2><img src={require("assets/img/logout.png")} height={130}/> My rooms </h2>
                                     <Container>
                                         <Row>
                                             {rooms ?

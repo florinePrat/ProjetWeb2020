@@ -148,7 +148,7 @@ function Signup() {
                                             </div>
                                         </CardHeader>
                                         <CardBody>
-                                            <h2> Connexion </h2>
+                                            <h2> Log in </h2>
                                             {error ?
                                                 <Alert color="danger">
                                                     {error}
@@ -205,7 +205,7 @@ function Signup() {
                                                     onClick={sendEmail}
                                                     size="lg"
                                                 >
-                                                    Suivant
+                                                    Next
                                                 </Button>
                                             }
                                             <div className="pull-left">
@@ -214,7 +214,7 @@ function Signup() {
                                                         className={"btn-round"}
                                                         onClick={handleLoginClick}
                                                     >
-                                                        S'inscrire
+                                                        Sign up
                                                     </Button>
                                                 </h6>
                                             </div>
@@ -257,7 +257,7 @@ function Signup() {
                                             </div>
                                         </CardHeader>
                                         <CardBody>
-                                            <h2> Inscription </h2>
+                                            <h2> Sign up </h2>
                                             {error ?
                                                 <Alert color="danger">
                                                     {error}
@@ -315,7 +315,7 @@ function Signup() {
                                                         className={"btn-round"}
                                                         onClick={handleLogoutClick}
                                                     >
-                                                        Se connecter
+                                                        Log in
                                                     </Button>
                                                 </h6>
                                             </div>

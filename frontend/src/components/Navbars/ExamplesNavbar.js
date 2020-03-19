@@ -104,7 +104,7 @@ function ExamplesNavbar() {
             <Nav navbar>
               <NavItem>
                 <NavLink to="/landing-page" tag={Link}>
-                  Accueil
+                  Home
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -115,7 +115,7 @@ function ExamplesNavbar() {
                       src={imageUrl}
                       height={20}
                   />
-                  {" \u00a0"}Profil
+                  {" \u00a0"}Profile
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -125,10 +125,10 @@ function ExamplesNavbar() {
                     id="logout"
                 >
                   <i className="fas fa-power-off"/>
-                  <p className="d-lg-none d-xl-none"> {" \u00a0"} Déconnexion</p>
+                  <p className="d-lg-none d-xl-none"> {" \u00a0"} Log out</p>
                 </NavLink>
                 <UncontrolledTooltip target="#logout">
-                  Me déconnecter
+                  Log out
                 </UncontrolledTooltip>
               </NavItem>
 

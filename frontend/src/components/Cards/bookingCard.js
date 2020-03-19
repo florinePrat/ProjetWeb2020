@@ -60,12 +60,12 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
 
             <Card style={{width: '18rem'}} >
                 <CardBody>
-                    <CardTitle>Etat : {myState}</CardTitle>
-                    <CardSubtitle>Salle : {rooms.title} </CardSubtitle>
+                    <CardTitle>State : {myState}</CardTitle>
+                    <CardSubtitle>Room : {rooms.title} </CardSubtitle>
                     <CardSubtitle>Date :  {moment(date[0].start).format("DD MM YYYY HH:mm")} </CardSubtitle>
                     <br/>
                     {state === "accepted"
-                        ? <CardTitle>Contact du propriétaire de la salle : 0{phoneNumber} </CardTitle>
+                        ? <CardTitle>Owner contact : 0{phoneNumber} </CardTitle>
                         : null
                     }
                     {now > moment(date[0].start) && state === "accepted"
@@ -78,7 +78,7 @@ function BookingCard({ _id, date, roomId, ownerId, customerId, state, onDeleted,
                             type="button"
                             onClick={deleteBooking}
                         >
-                            Annuler réservation
+                            cancel booking
                         </Button>
                     }
 

@@ -54,7 +54,7 @@ function CreateRoom({onCreated}) {
                     onClick={() => setModal( true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                    Proposer une salle
+                    Offer a room
                 </Button>
 
 
@@ -67,7 +67,7 @@ function CreateRoom({onCreated}) {
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
-                        <h4 className="title title-up">Je loue une salle</h4>
+                        <h4 className="title title-up">I rent my room</h4>
                         {error ?
                             <Alert color="danger">
                                 {error}
@@ -79,7 +79,7 @@ function CreateRoom({onCreated}) {
                             <div className="form-row">
                                 <div className="col">
                                     <FormGroup controlId="title">
-                                        <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
+                                        <i className="now-ui-icons shopping_tag-content"/> Name :
                                         <FormControl
                                             placeholder= "Nom du lieu *"
                                             value={title}
@@ -92,7 +92,7 @@ function CreateRoom({onCreated}) {
                             </div>
                             <div className="form-group">
                                 <FormGroup controlId="address">
-                                    <i className="now-ui-icons location_pin"/> Adresse :
+                                    <i className="now-ui-icons location_pin"/> Address :
                                     <FormControl
                                         placeholder= "Adresse *"
                                         value={address}
@@ -105,7 +105,7 @@ function CreateRoom({onCreated}) {
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <FormGroup controlId="city">
-                                        <i className="now-ui-icons location_map-big"/> Ville :
+                                        <i className="now-ui-icons location_map-big"/> City :
                                         <FormControl
                                             placeholder= "ville *"
                                             value={city}
@@ -139,14 +139,14 @@ function CreateRoom({onCreated}) {
                             type="button"
                             onClick={() =>setModal( false)}
                         >
-                            Annuler
+                            Cancel
                         </Button>
                         <Button
                             color="info"
                             type="button"
                             onClick={send}
                         >
-                            Valider
+                            Validate
                         </Button>
                     </div>
                 </Modal>

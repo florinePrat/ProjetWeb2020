@@ -86,7 +86,7 @@ function AvailabilityModal({_id}) {
                     onClick={() => setModal(true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                    Ajouter des disponibilités
+                    Add availabilities
                 </Button>
 
 
@@ -99,7 +99,7 @@ function AvailabilityModal({_id}) {
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
-                        <h4 className="title title-up">J'ajoute mes disponibilités</h4>
+                        <h4 className="title title-up">Add my availabilities</h4>
                         {error ?
                             <Alert color="danger">
                                 {error}
@@ -116,7 +116,7 @@ function AvailabilityModal({_id}) {
                                     roomId = {_id}
                                 />*/}
 
-                                <i className="now-ui-icons location_bookmark"/> J'ajoute des disponibilités exeptionelles
+                                <i className="now-ui-icons location_bookmark"/> Add my availabilities
                                 <OpenedDatesPickerContainer
                                     roomId = {_id}
                                 />
@@ -136,7 +136,7 @@ function AvailabilityModal({_id}) {
                             type="button"
                             onClick={() => setModal(false)}
                         >
-                            Annuler
+                            Cancel
                         </Button>
                     </div>
                 </Modal>

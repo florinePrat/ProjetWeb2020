@@ -80,7 +80,7 @@ function CreateRoom() {
                     onClick={() =>setModal( true)}
                 >
                     <i className="now-ui-icons arrows-1_cloud-upload-94"/>
-                    Proposer une salle
+                    Offer a room
                 </Button>
 
 
@@ -93,7 +93,7 @@ function CreateRoom() {
                         >
                             <i className="now-ui-icons ui-1_simple-remove"/>
                         </button>
-                        <h4 className="title title-up">Je loue une salle</h4>
+                        <h4 className="title title-up">I rent my room</h4>
                         {error ?
                             <Alert color="danger">
                                 {error}
@@ -105,7 +105,7 @@ function CreateRoom() {
                             <div className="form-row">
                                 <div className="col">
                                     <FormGroup controlId="title">
-                                        <i className="now-ui-icons shopping_tag-content"/> Nom du lieu :
+                                        <i className="now-ui-icons shopping_tag-content"/> Name :
                                         <FormControl
                                             placeholder= "Nom du lieu *"
                                             value={title}
@@ -118,7 +118,7 @@ function CreateRoom() {
                             </div>
                             <div className="form-group">
                                 <FormGroup controlId="address">
-                                    <i className="now-ui-icons location_pin"/> Adresse :
+                                    <i className="now-ui-icons location_pin"/> Address :
                                     <FormControl
                                         placeholder= "Adresse *"
                                         value={address}
@@ -131,7 +131,7 @@ function CreateRoom() {
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <FormGroup controlId="city">
-                                        <i className="now-ui-icons location_map-big"/> Ville :
+                                        <i className="now-ui-icons location_map-big"/> City :
                                         <FormControl
                                             placeholder= "ville *"
                                             value={city}
@@ -170,7 +170,7 @@ function CreateRoom() {
                             <div className="form-row">
                                 <div className="col">
                                     <FormGroup controlId="firstName">
-                                        <i className="now-ui-icons users_single-02"/> Prénom :
+                                        <i className="now-ui-icons users_single-02"/> First name :
                                         <FormControl
                                             placeholder= "Prénom *"
                                             value={firstName}
@@ -182,7 +182,7 @@ function CreateRoom() {
                                 </div>
                                 <div className="col">
                                     <FormGroup controlId="phoneNumber">
-                                        <i className="now-ui-icons tech_mobile"/> Numéro de téléphone :
+                                        <i className="now-ui-icons tech_mobile"/> Phone number :
                                         <FormControl
                                             placeholder= "Poratble *"
                                             value={phoneNumber}
@@ -202,14 +202,14 @@ function CreateRoom() {
                             type="button"
                             onClick={() =>setModal( false)}
                         >
-                            Annuler
+                            Cancel
                         </Button>
                         <Button
                             color="info"
                             type="button"
                             onClick={send}
                         >
-                            Valider
+                            Validate
                         </Button>
                     </div>
                 </Modal>

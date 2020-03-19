@@ -38,7 +38,7 @@ function LandingPage() {
 
 
     const myCallback = (search) => {
-        room.getAllSearchRooms(search[0] !== "Categorie" ? search[0] : null, search[1] !== "Ville" ? search[1] : null).then(res => {
+        room.getAllSearchRooms(search[0] !== "Category" ? search[0] : null, search[1] !== "City" ? search[1] : null).then(res => {
             const myRooms = res.data.room;
             console.log('je suis bien dans la requette send ! ');
             console.log(search[0]);
@@ -62,8 +62,6 @@ function LandingPage() {
     };
 
 
-
-
         return (
             <>
                 {isAuth ? <ExamplesNavbar/> : <AccueilNavbar/>}
@@ -80,7 +78,7 @@ function LandingPage() {
                             className={"btn-round"}
                             onClick={reload}
                         >
-                            <i className="now-ui-icons arrows-1_refresh-69"/>  Réinitialiser la recherche
+                            <i className="now-ui-icons arrows-1_refresh-69"/>  Reset search
                         </button>
                         <br/>
                         <br/>
