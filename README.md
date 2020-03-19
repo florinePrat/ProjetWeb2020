@@ -59,6 +59,5 @@ This project is also available online at the address : https://louer-ma-salle.he
 
 Explainer video here : 
 
-```
-https://youtu.be/m1ZSfs16OwM
-```
+* [video](https://youtu.be/m1ZSfs16O)
+
