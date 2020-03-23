@@ -57,5 +57,5 @@ This project is also available online at the address : https://louer-ma-salle.he
 
 * **Florine PRATLONG ** - 3rd years student at Polytech Montpellier, France - Computer Science and Management
 
-Explainer video [here](https://youtu.be/m1ZSfs16OwM)
+Explainer video [here](https://youtu.be/bvZbOYPNQAA)
 
