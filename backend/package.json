@@ -34,7 +34,7 @@
     "bluebird": "^3.7.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "file-type": "^14.0.0",
+    "file-type": "^16.5.4",
     "multiparty": "^4.2.1"
   }
 }
