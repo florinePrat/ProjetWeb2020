@@ -23,7 +23,7 @@
     "react-multiple-datepicker": "^0.1.0",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-search-field": "^1.0.0",
     "react-ui-cards": "^2.0.0",
     "reactstrap": "8.0.1"
